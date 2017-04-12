@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="8"
+        android:weightSum="8"
+        android:background="#278e88"
+        android:orientation="vertical"
+        android:layout_height="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/backicon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="120dp"
+                android:gravity="center"
+                android:text="Welcome Back"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/h1" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+            <TextView
+                android:id="@+id/userdisplay"
+                android:layout_width="match_parent"
+                android:textStyle="bold"
+                android:textSize="@dimen/h3"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp">
+
+            <TextView
+                android:id="@+id/informativeText"
+                android:layout_width="match_parent"
+                android:textSize="@dimen/h3"
+                android:gravity="center"
+                android:text="What would you like to see today?"
+                android:textColor="#ffffff"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_weight="5"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_height="0dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:weightSum="5"
+                android:layout_weight="7"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/happiness"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.95"
+                    android:background="#a1e0a9"
+                    android:text="Happiness"
+                    android:textColor="#ffffff" />
+
+                <Button
+                    android:id="@+id/anger"
+                    android:background="#a1e0a9"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.95"
+                    android:text="Anger"
+                    android:textColor="#ffffff"
+                    android:layout_height="0dp" />
+
+                <Button
+                    android:id="@+id/fear"
+                    android:background="#a1e0a9"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.95"
+                    android:text="Fear"
+                    android:textColor="#ffffff"
+                    android:layout_height="0dp" />
+
+                <Button
+                    android:id="@+id/trust"
+                    android:background="#a1e0a9"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.95"
+                    android:text="Trust"
+                    android:textColor="#ffffff"
+                    android:layout_height="0dp" />
+
+                <Button
+                    android:id="@+id/disgust"
+                    android:background="#a1e0a9"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.95"
+                    android:text="Disgust"
+                    android:textColor="#ffffff"
+                    android:layout_height="0dp" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="2"
+        android:weightSum="3"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="#f5f5f5"
+        android:layout_height="0dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_weight="0.2"
+            android:layout_height="0dp"/>
+
+
+        <TextView
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:textColor="#278e88"
+            android:layout_weight="0.8"
+            android:gravity="center"
+            android:text="Would you like to login as a different user?"
+            android:textSize="@dimen/h4"
+            android:layout_height="0dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_weight="0.2"
+            android:layout_height="0dp"/>
+
+        <Button
+            android:id="@+id/logouttv"
+            android:layout_width="wrap_content"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:background="@drawable/roundedblue"
+            android:gravity="center"
+            android:text="Log Out"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="@dimen/p"
+            android:layout_height="0dp" />
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

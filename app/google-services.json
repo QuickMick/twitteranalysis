@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "697698245135",
+    "firebase_url": "https://twittersentimentalanalysis.firebaseio.com",
+    "project_id": "twittersentimentalanalysis",
+    "storage_bucket": "twittersentimentalanalysis.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697698245135:android:122719145781a924",
+        "android_client_info": {
+          "package_name": "com.example.paulc.twittersentimentalanalysis_groupproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "697698245135-fftgglqph1r1i6ej1slf9sunqtjs9ct1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTFQCWa-_6ZNaiGwVYuJunyhrToR4DPj8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697698245135:android:fb6bec0ee5a64191",
+        "android_client_info": {
+          "package_name": "com.example.paulc.twittersentimentanalysis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "697698245135-fftgglqph1r1i6ej1slf9sunqtjs9ct1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTFQCWa-_6ZNaiGwVYuJunyhrToR4DPj8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

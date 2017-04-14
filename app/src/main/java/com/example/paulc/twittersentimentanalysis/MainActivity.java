@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // declaration of views
     FontManager FM;
-    TextView userdisplay,logo,logout,informativeText,backicon;
-    Button logouttv;
+    TextView userdisplay,logout,informativeText,backicon;
+    Button logouttv,newAnalysis,oldAnalysis;
     ProgressDialog progressDialog;
 
     @Override
@@ -69,12 +69,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         userdisplay = (TextView)findViewById(R.id.userdisplay);
         logout = (TextView)findViewById(R.id.logout);
         logouttv = (Button)findViewById(R.id.logouttv);
+        newAnalysis = (Button)findViewById(R.id.newAnalysis);
+        oldAnalysis = (Button)findViewById(R.id.oldAnalysis);
         informativeText = (TextView) findViewById(R.id.informativeText);
 
         FM.setAppRegular(backicon);
         FM.setAppRegular(userdisplay);
         FM.setAppRegular(logout);
         FM.setAppMedium(logouttv);
+        FM.setAppMedium(newAnalysis);
+        FM.setAppMedium(oldAnalysis);
         FM.setAppRegular(informativeText);
 
     }
@@ -88,12 +92,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View view) {
-
-        // if he presses on Logout, call the user Logout function and redirects the user to the Login Page.
+    public void onClick (View view){
+        // if he presses on Register , call the register user function
         if (view == logouttv) {
             userLogout();
-//            startActivity(new Intent(MainActivity.this, LoginScreen5.class));
+        }
+
+        // if he presses on New Analysis, redirect him to the Import Tweets Page
+        if (view == newAnalysis){
+            finish();
+            startActivity(new Intent(MainActivity.this, InsertTweets.class));
+        }
+
+        // if he presses on P;d Analysis, redirect him to the Display Page
+        // TODO -- we need to create a new Class for displaying old results. So far it is only set as a dummy button.
+        if (view == oldAnalysis){
+            finish();
+            startActivity(new Intent(MainActivity.this, InsertTweets.class));
         }
 
     }

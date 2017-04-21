@@ -39,19 +39,26 @@ public class EmotionAnalizer {
 
 	private WordProcessor wordProcessor;
 
+	public static EmotionAnalizer INSTANCE = new EmotionAnalizer();
+
 	/**
 	 * test
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		String text = "walking walk added doing You don't loseing much, as asList() returns an ArrayList which has an array at its heart. The constructor will just change a reference so that's not much work to be done there. And contains()/indexOf() will iterate and use equals(). For primitives you should be better off coding it yourself, though. For Strings or other classes, the difference will not be noticeable.";
 		AnalizationResult r = new EmotionAnalizer().process(text);
 		r = new EmotionAnalizer().process("Compile it, import the Porter class into you program and create an instance. Then use the stripAffixes method of this method which takes a String as  input and returns the stem of this String again as a String.", r);
-		System.out.println(r);
-		System.out.println("fin");
+	    System.out.println(r);
+	    System.out.println("fin");
+	}*/
+
+	private EmotionAnalizer(){
+		//  this.init();
+		//this.wordProcessor = new WordProcessor();
 	}
 
-	public EmotionAnalizer(){
+	public void init(){
 		this.init();
 		this.wordProcessor = new WordProcessor();
 	}

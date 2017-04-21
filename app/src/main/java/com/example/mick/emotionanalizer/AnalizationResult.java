@@ -7,6 +7,24 @@ public class AnalizationResult{
 	public EmotionWeighting weigthing = new EmotionWeighting(0,0,0,0,0,0,0,0,0,0);
 
 	/**
+	 * the analitzaitonResult instance should be generated, when the analization starts,
+	 * so we initialize the start date with the current date
+	 */
+	public Date startDate = new Date();
+
+
+	public Date endDate = null;
+
+	/**
+	 * Use this when the analisation ends,
+	 * currently this will just set the endDate, but in futer development we may need
+	 * to finalize other stuff
+	 */
+	public void Finalize(){
+		this.endDate = new Date();
+	}
+
+	/**
 	 * count of all words
 	 */
 	public int wordCount=0;

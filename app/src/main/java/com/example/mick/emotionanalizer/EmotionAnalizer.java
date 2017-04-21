@@ -58,11 +58,6 @@ public class EmotionAnalizer {
 		//this.wordProcessor = new WordProcessor();
 	}
 
-	public void init(){
-		this.init();
-		this.wordProcessor = new WordProcessor();
-	}
-
 	// no need for this function anymore - the contractions will be removed anyway in the cleantokens section
 	private String exapndContractions(String s){
 
@@ -200,11 +195,12 @@ public class EmotionAnalizer {
 		return this.process(text,new AnalizationResult(/*new EmotionWeighting(new int[]{0,0,0,0,0,0,0,0,0,0}) ,new HashMap<String,Integer>(), 0, 0*/));
 	}
 
-
+	private boolean isInitialized = false;
 	/**
 	 * load dictionaries
 	 */
-	private void init(){
+	public void init(){
+		if(this.isInitialized) return;
 		// load contraction data/json
 		try {
 			Object obj = new JSONParser().parse(new FileReader("./bin/hhn/contractions.json"));
@@ -262,6 +258,8 @@ public class EmotionAnalizer {
 			e.printStackTrace();
 		}
 
+		this.wordProcessor = new WordProcessor();
+		this.isInitialized = true;
 	}
 
 }

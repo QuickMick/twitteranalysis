@@ -1,6 +1,7 @@
 package com.example.mick.emotionanalizer;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class AnalizationResult{
 
@@ -69,17 +70,30 @@ public class AnalizationResult{
 		this.mergeHashTables(this.wordStatistic_trust, ar.wordStatistic_trust);
 		this.mergeHashTables(this.wordStatistic_sentiment_negative, ar.wordStatistic_sentiment_negative);
 		this.mergeHashTables(this.wordStatistic_sentiment_positive, ar.wordStatistic_sentiment_positive);
-
 	}
 
-	private void mergeHashTables(HashMap<String,Integer> a, HashMap<String,Integer> b){
+	/*private void mergeHashTables(HashMap<String,Integer> a, HashMap<String,Integer> b){
 		Iterator it = b.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry pair = (Map.Entry)it.next();
 			if(a.contains(pair.getKey())){
 				a.put(pair.getKey(),a.get(pair.getKey()) + pair.getValue());
+
+				a.put(pair.getKey(),a.get(((int)pair.getKey())) + ((int)pair.getValue()));
 			}else{
 				a.put(pair.getKey(),pair.getValue());
+			}
+		}
+	}*/
+
+	private void  mergeHashTables(HashMap<String,Integer> a, HashMap<String,Integer> b){
+		for (Map.Entry<String, Integer> entry : b.entrySet()) {
+			String key = entry.getKey();
+			Integer value = entry.getValue();
+			if(a.containsKey(key)){
+				a.put(key,a.get(key) + value);
+			}else{
+				a.put(key,value);
 			}
 		}
 	}

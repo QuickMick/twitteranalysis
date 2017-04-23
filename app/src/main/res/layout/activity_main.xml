@@ -91,16 +91,26 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="0.95"
                     android:background="#a1e0a9"
-                    android:text="See a new Analysis?"
+                    android:text="New Analysis"
                     android:textColor="#ffffff" />
 
                 <Button
-                    android:id="@+id/oldAnalysis"
+                    android:id="@+id/history"
                     android:background="#a1e0a9"
                     android:layout_width="match_parent"
                     android:layout_marginTop="10dp"
                     android:layout_weight="0.95"
-                    android:text="See an older Analysis?"
+                    android:text="History"
+                    android:textColor="#ffffff"
+                    android:layout_height="0dp" />
+
+                <Button
+                    android:id="@+id/settings"
+                    android:background="#a1e0a9"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.95"
+                    android:text="Settings"
                     android:textColor="#ffffff"
                     android:layout_height="0dp" />
 

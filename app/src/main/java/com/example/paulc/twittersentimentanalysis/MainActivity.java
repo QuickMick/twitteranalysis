@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // declaration of views
     FontManager FM;
     TextView userdisplay,logout,informativeText,backicon;
-    Button logouttv,newAnalysis,oldAnalysis;
+    Button logouttv,newAnalysis,history,settings;
     ProgressDialog progressDialog;
 
     @Override
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String email = f_user.getEmail();
         userdisplay.setText(email);
 
+
         backicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,6 +61,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog = new ProgressDialog(this);
 
         logouttv.setOnClickListener(this);
+        settings.setOnClickListener(this);
+        history.setOnClickListener(this);
+        newAnalysis.setOnClickListener(this);
     }
 
 
@@ -70,7 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         logout = (TextView)findViewById(R.id.logout);
         logouttv = (Button)findViewById(R.id.logouttv);
         newAnalysis = (Button)findViewById(R.id.newAnalysis);
-        oldAnalysis = (Button)findViewById(R.id.oldAnalysis);
+        history = (Button)findViewById(R.id.history);
+        settings = (Button)findViewById(R.id.settings);
         informativeText = (TextView) findViewById(R.id.informativeText);
 
         FM.setAppRegular(backicon);
@@ -78,7 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FM.setAppRegular(logout);
         FM.setAppMedium(logouttv);
         FM.setAppMedium(newAnalysis);
-        FM.setAppMedium(oldAnalysis);
+        FM.setAppMedium(history);
+        FM.setAppMedium(settings);
         FM.setAppRegular(informativeText);
 
     }
@@ -98,18 +104,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             userLogout();
         }
 
-        // if he presses on New Analysis, redirect him to the Import Tweets Page
-        if (view == newAnalysis){
-            finish();
-            startActivity(new Intent(MainActivity.this, InsertTweets.class));
+        if (view == settings) {
+            startActivity(new Intent(MainActivity.this, Settings.class));
         }
 
-        // if he presses on P;d Analysis, redirect him to the Display Page
-        // TODO -- we need to create a new Class for displaying old results. So far it is only set as a dummy button.
-        if (view == oldAnalysis){
-            finish();
-            startActivity(new Intent(MainActivity.this, InsertTweets.class));
+        if (view == history) {
+            startActivity(new Intent(MainActivity.this, History.class));
         }
+
+        if (view == newAnalysis) {
+            startActivity(new Intent(MainActivity.this, NewAnalysis.class));
+        }
+
 
     }
 }

@@ -1,13 +1,21 @@
 package com.example.mick.emotionanalizer;
 
-import java.io.FileReader;
+import android.content.Context;
+
+
+import java.io.IOException;
+
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
+import java.util.Objects;
+/*
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.simple.JSONObject;*/
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 /**
@@ -44,7 +52,7 @@ public class WordProcessor {
 	private List<String[]> verbsTable = new LinkedList<String[]>();
 
 	public WordProcessor(){
-		this.init();
+		//this.init();
 	}
 
 
@@ -196,11 +204,29 @@ public class WordProcessor {
 	}
 
 
-	private void init(){
-		// load contraction data/json
+	public String loadJSONFromAsset(Context context, String name) {
+		String json = null;
 		try {
-			Object obj = new JSONParser().parse(new FileReader("./bin/hhn/verbs.json"));
-			JSONObject jsonObject = (JSONObject) obj;
+			InputStream is = context.getAssets().open(name);
+			int size = is.available();
+			byte[] buffer = new byte[size];
+			is.read(buffer);
+			is.close();
+			json = new String(buffer, "UTF-8");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+		return json;
+	}
+
+
+	public void init(Context context){
+		// load contraction data/json
+	/*	try {
+			//Object obj = new JSONParser().parse(new FileReader("./bin/hhn/verbs.json"));
+			//JSONObject jsonObject = (JSONObject) obj;
+			JSONObject jsonObject = new JSONObject(this.loadJSONFromAsset(context,"verbs.json"));
 			JSONArray verbForms = (JSONArray) jsonObject.get("verbforms");
 			JSONArray base = (JSONArray) jsonObject.get("base");
 
@@ -223,6 +249,49 @@ public class WordProcessor {
 
 			for(Object o :  base){
 				this.infinitives.add(o.toString());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
+
+		try {
+			//Object obj = new JSONParser().parse(new FileReader("./bin/hhn/verbs.json"));
+			//JSONObject jsonObject = (JSONObject) obj;
+			JSONObject jsonObject = new JSONObject(this.loadJSONFromAsset(context,"verbs.json"));
+			JSONArray verbForms = (JSONArray) jsonObject.get("verbforms");
+			JSONArray base = (JSONArray) jsonObject.get("base");
+
+
+			for(int i=0; i< verbForms.length();i++){
+				Object o = verbForms.get(i);
+			//for(Object o :  verbForms){
+				JSONArray x = (JSONArray)o;
+
+				LinkedList<String> cur = new LinkedList<String>();
+				/*Iterator it = x.iterator();
+				while (it.hasNext()) {
+					cur.add(it.next().toString());
+				}*/
+
+				for(int j=0; j<x.length();j++){
+					cur.add(x.get(j).toString());
+				}
+
+
+				this.verbsTable.add(cur.toArray(new String[]{}));
+
+				this.infinitives.add(x.get(0).toString());
+
+			}
+
+/*
+			for(Object o :  base){
+				this.infinitives.add(o.toString());
+			}*/
+
+			for(int j=0; j<base.length();j++){
+				this.infinitives.add(base.get(j).toString());
 			}
 
 		} catch (Exception e) {

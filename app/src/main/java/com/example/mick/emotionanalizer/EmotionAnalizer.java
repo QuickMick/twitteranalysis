@@ -3,16 +3,25 @@
  */
 package com.example.mick.emotionanalizer;
 
+import android.content.Context;
+import android.os.Environment;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
+/*
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.json.simple.JSONObject;*/
 import org.json.simple.parser.JSONParser;
 
 /**
@@ -41,10 +50,7 @@ public class EmotionAnalizer {
 
 	public static EmotionAnalizer INSTANCE = new EmotionAnalizer();
 
-	/**
-	 * test
-	 * @param args
-	 */
+
 	/*public static void main(String[] args) {
 		String text = "walking walk added doing You don't loseing much, as asList() returns an ArrayList which has an array at its heart. The constructor will just change a reference so that's not much work to be done there. And contains()/indexOf() will iterate and use equals(). For primitives you should be better off coding it yourself, though. For Strings or other classes, the difference will not be noticeable.";
 		AnalizationResult r = new EmotionAnalizer().process(text);
@@ -137,31 +143,31 @@ public class EmotionAnalizer {
 			if(resultSet[0] >0){
 				this.addWordToCounter(result.wordStatistic_anger,curWord);
 			}
-			if(resultSet[0] >0){
+			if(resultSet[1] >0){
 				this.addWordToCounter(result.wordStatistic_anticipation,curWord);
 			}
-			if(resultSet[0] >0){
+			if(resultSet[2] >0){
 				this.addWordToCounter(result.wordStatistic_disgust,curWord);
 			}
-			if(resultSet[0] >0){
+			if(resultSet[3] >0){
 				this.addWordToCounter(result.wordStatistic_fear,curWord);
 			}
-			if(resultSet[0] >0){
+			if(resultSet[4] >0){
 				this.addWordToCounter(result.wordStatistic_joy,curWord);
 			}
-			if(resultSet[0] >0){
+			if(resultSet[5] >0){
 				this.addWordToCounter(result.wordStatistic_sadness,curWord);
 			}
-			if(resultSet[0] >0){
+			if(resultSet[6] >0){
 				this.addWordToCounter(result.wordStatistic_surprise,curWord);
 			}
-			if(resultSet[0] >0){
+			if(resultSet[7] >0){
 				this.addWordToCounter(result.wordStatistic_trust,curWord);
 			}
-			if(resultSet[0] >0){
+			if(resultSet[8] >0){
 				this.addWordToCounter(result.wordStatistic_sentiment_negative,curWord);
 			}
-			if(resultSet[0] >0){
+			if(resultSet[9] >0){
 				this.addWordToCounter(result.wordStatistic_sentiment_positive,curWord);
 			}
 		}
@@ -195,21 +201,46 @@ public class EmotionAnalizer {
 		return this.process(text,new AnalizationResult(/*new EmotionWeighting(new int[]{0,0,0,0,0,0,0,0,0,0}) ,new HashMap<String,Integer>(), 0, 0*/));
 	}
 
+
+
+
+	public String loadJSONFromAsset(Context context,String name) {
+		String json = null;
+		try {
+			InputStream is = context.getAssets().open(name);
+			int size = is.available();
+			byte[] buffer = new byte[size];
+			is.read(buffer);
+			is.close();
+			json = new String(buffer, "UTF-8");
+		} catch (IOException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+		return json;
+	}
+
+
+
 	private boolean isInitialized = false;
 	/**
 	 * load dictionaries
 	 */
-	public void init(){
+	public void init(Context context){
 		if(this.isInitialized) return;
 		// load contraction data/json
 		try {
-			Object obj = new JSONParser().parse(new FileReader("./bin/hhn/contractions.json"));
-			JSONObject jsonObject = (JSONObject) obj;
-			Iterator it = jsonObject.entrySet().iterator();
+			//Object obj = );  //new FileReader("./bin/hhn/contractions.json"));
+			JSONObject jsonObject = new JSONObject(this.loadJSONFromAsset(context,"contractions.json")); //(JSONObject) new JSONParser().parse(this.loadJSONFromAsset(context,"contractions.json"));
+			//Iterator it = jsonObject.entrySet().iterator();
+
+			Iterator it = jsonObject.keys();
 			while (it.hasNext()) {
-				Map.Entry pair = (Map.Entry)it.next();
+				//Map.Entry pair = (Map.Entry)it.next();
+				String key = it.next().toString();
 				// System.out.println(pair.getKey() + " = " + ((JSONArray)pair.getValue()).get(0));
-				this.contractions.put(pair.getKey().toString() , ((JSONArray)pair.getValue()).get(0).toString());
+				//this.contractions.put(pair.getKey().toString() , ((JSONArray)pair.getValue()).get(0).toString());
+				this.contractions.put(key , jsonObject.getJSONArray(key).get(0).toString());
 			}
 
 		} catch (Exception e) {
@@ -219,12 +250,14 @@ public class EmotionAnalizer {
 
 		// load stoppwords
 		try {
-			Object obj = new JSONParser().parse(new FileReader("./bin/hhn/stopwords_en.json"));
-			JSONObject jsonObject = (JSONObject) obj;
-			Iterator it = jsonObject.entrySet().iterator();
+			//Object obj = new JSONParser().parse(new FileReader("./bin/hhn/stopwords_en.json"));
+			JSONObject jsonObject = new JSONObject(this.loadJSONFromAsset(context,"stopwords_en.json")); // (JSONObject) obj;
+			//Iterator it = jsonObject.entrySet().iterator();
+			Iterator it = jsonObject.keys();
 			while (it.hasNext()) {
-				Map.Entry pair = (Map.Entry)it.next();
-				this.stopwords.add(pair.getKey().toString());
+				//Map.Entry pair = (Map.Entry)it.next();
+			//	this.stopwords.add(pair.getKey().toString());
+				this.stopwords.add(it.next().toString());
 			}
 
 		} catch (Exception e) {
@@ -232,24 +265,29 @@ public class EmotionAnalizer {
 		}
 
 		try {
-			Object obj = new JSONParser().parse(new FileReader("./bin/hhn/emotions.json"));
+			//Object obj = new JSONParser().parse(new FileReader("./bin/hhn/emotions.json"));
 
-			JSONObject jsonObject = (JSONObject) obj;
-			Iterator it = jsonObject.entrySet().iterator();
+			//JSONObject jsonObject = (JSONObject) obj;
+
+			JSONObject jsonObject = new JSONObject(this.loadJSONFromAsset(context,"emotions.json"));
+			//Iterator it = jsonObject.entrySet().iterator();
+			Iterator it = jsonObject.keys();
 			while (it.hasNext()) {
-				Map.Entry pair = (Map.Entry)it.next();
-				this.emotionalLexicon.put(pair.getKey().toString(),
+			//	Map.Entry pair = (Map.Entry)it.next();
+				//this.emotionalLexicon.put(pair.getKey().toString(),
+				String key = it.next().toString();
+				this.emotionalLexicon.put(key,
 						new EmotionWeighting(
-								Integer.parseInt(((JSONObject)pair.getValue()).get("anger").toString()),
-								Integer.parseInt(((JSONObject)pair.getValue()).get("anticipation").toString()),
-								Integer.parseInt(((JSONObject)pair.getValue()).get("disgust").toString()),
-								Integer.parseInt(((JSONObject)pair.getValue()).get("fear").toString()),
-								Integer.parseInt(((JSONObject)pair.getValue()).get("joy").toString()),
-								Integer.parseInt(((JSONObject)pair.getValue()).get("sadness").toString()),
-								Integer.parseInt(((JSONObject)pair.getValue()).get("surprise").toString()),
-								Integer.parseInt(((JSONObject)pair.getValue()).get("trust").toString()),
-								Integer.parseInt(((JSONObject)pair.getValue()).get("negative").toString()),
-								Integer.parseInt(((JSONObject)pair.getValue()).get("positive").toString())
+								Integer.parseInt(jsonObject.getJSONObject(key).get("anger").toString()),
+								Integer.parseInt(jsonObject.getJSONObject(key).get("anticipation").toString()),
+								Integer.parseInt(jsonObject.getJSONObject(key).get("disgust").toString()),
+								Integer.parseInt(jsonObject.getJSONObject(key).get("fear").toString()),
+								Integer.parseInt(jsonObject.getJSONObject(key).get("joy").toString()),
+								Integer.parseInt(jsonObject.getJSONObject(key).get("sadness").toString()),
+								Integer.parseInt(jsonObject.getJSONObject(key).get("surprise").toString()),
+								Integer.parseInt(jsonObject.getJSONObject(key).get("trust").toString()),
+								Integer.parseInt(jsonObject.getJSONObject(key).get("negative").toString()),
+								Integer.parseInt(jsonObject.getJSONObject(key).get("positive").toString())
 						)
 				);
 			}
@@ -259,6 +297,7 @@ public class EmotionAnalizer {
 		}
 
 		this.wordProcessor = new WordProcessor();
+		this.wordProcessor.init(context);
 		this.isInitialized = true;
 	}
 

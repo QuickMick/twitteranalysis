@@ -20,6 +20,11 @@ public class EmotionWeighting{
 	public int sentiment_negative;
 	public int sentiment_positive;
 
+	@Override
+	public String toString(){
+		return "anger: "+anger+" | anticipation: "+anticipation+" | disgust: "+disgust+" | fear: "+fear+" | joy: "+joy+" | sadness: "+sadness+" | surprise: "+surprise+" | trust: "+trust +"||| Sentiment: positive: "+sentiment_positive+" | negative: "+sentiment_negative;
+	}
+
 	/**
 	 * create a new instance
 	 * @param anger

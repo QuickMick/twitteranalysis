@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -44,9 +45,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FM.setBackIcon(backicon);
 
         //Database Connection to display the username in the GUI
-        FirebaseAuth f_auth = FirebaseAuth.getInstance();
-        FirebaseUser f_user = f_auth.getCurrentUser();
-        String email = f_user.getEmail();
+      ///  FirebaseAuth f_auth = FirebaseAuth.getInstance();
+       /// FirebaseUser f_user = f_auth.getCurrentUser();
+       // String email = f_user.getEmail();
+        String email = "test@test.com";
+
+
         userdisplay.setText(email);
 
 
@@ -64,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         settings.setOnClickListener(this);
         history.setOnClickListener(this);
         newAnalysis.setOnClickListener(this);
+
+      //  AnalizationHelper.INSTANCE().init(this);
+
     }
 
 
@@ -89,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+
     //user Logout methode
     private void userLogout() {
         FirebaseAuth f_auth = FirebaseAuth.getInstance();
@@ -113,6 +122,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (view == newAnalysis) {
+
+            if(AnalizationHelper.INSTANCE().isRunning()){
+                Toast.makeText(this,"Analization already running. Pleas stop current analization first..",Toast.LENGTH_SHORT).show();
+                return;
+            }
             startActivity(new Intent(MainActivity.this, NewAnalysis.class));
         }
 

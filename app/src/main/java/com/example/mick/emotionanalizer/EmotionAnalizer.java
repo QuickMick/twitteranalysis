@@ -51,6 +51,11 @@ public class EmotionAnalizer {
 	public static EmotionAnalizer INSTANCE = new EmotionAnalizer();
 
 
+	public static void Recreate(){
+		INSTANCE = new EmotionAnalizer();
+	}
+
+
 	/*public static void main(String[] args) {
 		String text = "walking walk added doing You don't loseing much, as asList() returns an ArrayList which has an array at its heart. The constructor will just change a reference so that's not much work to be done there. And contains()/indexOf() will iterate and use equals(). For primitives you should be better off coding it yourself, though. For Strings or other classes, the difference will not be noticeable.";
 		AnalizationResult r = new EmotionAnalizer().process(text);
@@ -117,18 +122,13 @@ public class EmotionAnalizer {
 		for(int i = 0; i< tokens.length; i++){
 			String curWord = tokens[i];
 
-			// create wordcount
-          /*  if(!result.wordStatistic_all.containsKey(curWord)){
-            	result.wordStatistic_all.put(curWord, 0);
-            }
-
-            //update wordcount
-            result.wordStatistic_all.put(curWord, result.wordStatistic_all.get(curWord)+1);*/
 			this.addWordToCounter(result.wordStatistic_all,curWord);
 
 			if(!this.emotionalLexicon.containsKey(curWord)) continue;// skip if word is not in dictionary
 
 			EmotionWeighting emotionData = this.emotionalLexicon.get(curWord); // get emotiondata from dict
+
+			// get emotional data from the dictionary and add its values to the result set.
 			int[] arr = emotionData.asArray();
 			for(int j=0;j<resultSet.length;j++){
 				resultSet[j] = resultSet[j]+arr[j];
@@ -183,13 +183,16 @@ public class EmotionAnalizer {
 		if(!hm.containsKey(word)){
 			hm.put(word, 0);
 		}
-
 		//update wordcount
 		hm.put(word, hm.get(word)+1);
 	}
 
 	public AnalizationResult process(String text,AnalizationResult result){
 		String[] sentences = text.split("[\\.!\\?:]+"); // split text to sentences
+
+		result.tweetCount +=1;
+		result.sentenceCount +=sentences.length;
+
 		for(String sentence : sentences){
 			result = this.analyzeEmotions(this.cleanTokens(this.tokenize(this.prepareText(this.exapndContractions(sentence)))),result);
 		}
@@ -198,7 +201,7 @@ public class EmotionAnalizer {
 	}
 
 	public AnalizationResult process(String text){
-		return this.process(text,new AnalizationResult(/*new EmotionWeighting(new int[]{0,0,0,0,0,0,0,0,0,0}) ,new HashMap<String,Integer>(), 0, 0*/));
+		return this.process(text,new AnalizationResult());
 	}
 
 
@@ -230,16 +233,11 @@ public class EmotionAnalizer {
 		if(this.isInitialized) return;
 		// load contraction data/json
 		try {
-			//Object obj = );  //new FileReader("./bin/hhn/contractions.json"));
 			JSONObject jsonObject = new JSONObject(this.loadJSONFromAsset(context,"contractions.json")); //(JSONObject) new JSONParser().parse(this.loadJSONFromAsset(context,"contractions.json"));
-			//Iterator it = jsonObject.entrySet().iterator();
 
 			Iterator it = jsonObject.keys();
 			while (it.hasNext()) {
-				//Map.Entry pair = (Map.Entry)it.next();
 				String key = it.next().toString();
-				// System.out.println(pair.getKey() + " = " + ((JSONArray)pair.getValue()).get(0));
-				//this.contractions.put(pair.getKey().toString() , ((JSONArray)pair.getValue()).get(0).toString());
 				this.contractions.put(key , jsonObject.getJSONArray(key).get(0).toString());
 			}
 
@@ -250,13 +248,9 @@ public class EmotionAnalizer {
 
 		// load stoppwords
 		try {
-			//Object obj = new JSONParser().parse(new FileReader("./bin/hhn/stopwords_en.json"));
 			JSONObject jsonObject = new JSONObject(this.loadJSONFromAsset(context,"stopwords_en.json")); // (JSONObject) obj;
-			//Iterator it = jsonObject.entrySet().iterator();
 			Iterator it = jsonObject.keys();
 			while (it.hasNext()) {
-				//Map.Entry pair = (Map.Entry)it.next();
-			//	this.stopwords.add(pair.getKey().toString());
 				this.stopwords.add(it.next().toString());
 			}
 
@@ -265,16 +259,9 @@ public class EmotionAnalizer {
 		}
 
 		try {
-			//Object obj = new JSONParser().parse(new FileReader("./bin/hhn/emotions.json"));
-
-			//JSONObject jsonObject = (JSONObject) obj;
-
 			JSONObject jsonObject = new JSONObject(this.loadJSONFromAsset(context,"emotions.json"));
-			//Iterator it = jsonObject.entrySet().iterator();
 			Iterator it = jsonObject.keys();
 			while (it.hasNext()) {
-			//	Map.Entry pair = (Map.Entry)it.next();
-				//this.emotionalLexicon.put(pair.getKey().toString(),
 				String key = it.next().toString();
 				this.emotionalLexicon.put(key,
 						new EmotionWeighting(

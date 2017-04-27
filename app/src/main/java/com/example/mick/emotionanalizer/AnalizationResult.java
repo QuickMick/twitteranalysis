@@ -22,7 +22,7 @@ public class AnalizationResult{
 	 * currently this will just set the endDate, but in futer development we may need
 	 * to finalize other stuff
 	 */
-	public void Finalize(){
+	public void finalize(){
 		this.endDate = new Date();
 	}
 
@@ -31,10 +31,20 @@ public class AnalizationResult{
 	 */
 	public int wordCount=0;
 
+	public int tweetCount = 0;
+
+	public int sentenceCount = 0;
+
 	/**
 	 * count of all words which actually got analized
 	 */
 	public int wordCountAnalized=0;
+
+
+	public String toString(){
+		return "tweetCount: "+tweetCount+ " | wordCount: "+wordCount+" | wordcountAnalized: "+wordCountAnalized+" ||| Emotions: "+weigthing;
+	}
+
 
 	public HashMap<String,Integer> wordStatistic_all = new HashMap<String,Integer>();
 
@@ -59,6 +69,8 @@ public class AnalizationResult{
 		this.weigthing.add(ar.weigthing);
 		this.wordCount += ar.wordCount;
 		this.wordCountAnalized +=ar.wordCountAnalized;
+		this.tweetCount +=ar.tweetCount;
+		this.sentenceCount += ar.sentenceCount;
 
 		this.mergeHashTables(this.wordStatistic_all, ar.wordStatistic_all);
 		this.mergeHashTables(this.wordStatistic_anger, ar.wordStatistic_anger);
@@ -73,20 +85,6 @@ public class AnalizationResult{
 		this.mergeHashTables(this.wordStatistic_sentiment_positive, ar.wordStatistic_sentiment_positive);
 	}
 
-	/*private void mergeHashTables(HashMap<String,Integer> a, HashMap<String,Integer> b){
-		Iterator it = b.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry pair = (Map.Entry)it.next();
-			if(a.contains(pair.getKey())){
-				a.put(pair.getKey(),a.get(pair.getKey()) + pair.getValue());
-
-				a.put(pair.getKey(),a.get(((int)pair.getKey())) + ((int)pair.getValue()));
-			}else{
-				a.put(pair.getKey(),pair.getValue());
-			}
-		}
-	}*/
-
 	private void  mergeHashTables(HashMap<String,Integer> a, HashMap<String,Integer> b){
 		for (Map.Entry<String, Integer> entry : b.entrySet()) {
 			String key = entry.getKey();
@@ -98,13 +96,4 @@ public class AnalizationResult{
 			}
 		}
 	}
-
-	/*
-	public AnalizationResult(){
-	//public AnalizationResult(EmotionWeighting weigthing, HashMap<String,Integer> wordStatistic_all, int wordCount, int wordCountAnalized){
-		this.weigthing = weigthing;
-		this.wordStatistic_all = wordStatistic_all;
-		this.wordCount = wordCount;
-		this.wordCountAnalized = wordCountAnalized;
-	}*/
 }

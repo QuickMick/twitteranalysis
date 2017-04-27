@@ -3,6 +3,8 @@ package com.example.mick.emotionanalizer;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -11,9 +13,9 @@ import java.util.TimerTask;
  */
 public class AnalizationHelper {
 
-    private static AnalizationHelper instance;
+    private static AnalizationHelper instance = new AnalizationHelper();
 
-    static{
+    public static void recreate(){
         instance = new AnalizationHelper();
     }
 
@@ -23,31 +25,69 @@ public class AnalizationHelper {
         return AnalizationHelper.instance;
     }
 
+    private boolean isInitialized = false;
+
+    private Object lock = new Object();
+    private Object lock2 = new Object();
+    private volatile AnalizationResult finalResult = null;
+    private volatile LinkedList<AnalizationResult> result_steps = null;
+
+
+    public synchronized AnalizationResult getFinalResult() {
+        synchronized (lock) {
+            return finalResult;
+        }
+    }
+
+    public synchronized AnalizationResult[] getSteps(){
+        synchronized (lock2){
+            return this.result_steps.toArray(new AnalizationResult[this.result_steps.size()]);
+        }
+    }
+
+    public synchronized void addNextResultToFinalResult(AnalizationResult lastResult) {
+        synchronized (lock) {
+            this.finalResult.Add(lastResult);
+        }
+        synchronized (lock2){
+            lastResult.finalize();
+            this.result_steps.addLast(lastResult);
+        }
+    }
+
     public void init(Context context){
+        if(this.isInitialized) return;
+        this.isInitialized = true;
         Log.d("analizer","init analizer");
         EmotionAnalizer.INSTANCE.init(context);
         Log.d("analizer","init analizer successfull");
+
+        //TODO: @paul very importatn!! remove these keys and load them from the settings
+        this.consumerKey = "WTSdBrmGi9X3GlSW1OTMb0Xhj";
+        this.consumerSecret = "2xPN57eBDYeqWPKVpmG95XrwjX6fq79fUS2ilC7sYNWEc25xIL";
+        this.accessToken = "791421180129476609-Ld84Ity8cdq9i0a7GawzS1OxKzGYWtz";
+        this.AccessTokenSecret = "lOlxp3j603JJ4fZPJTl08PhEPnAZ30uJ6TmpYVwWCct1m";
     }
 
     private boolean isRunning = false;
 
-    //TODO: very importatn!! remove these keys
-    private String consumerKey = "WTSdBrmGi9X3GlSW1OTMb0Xhj";
-    private String consumerSecret = "2xPN57eBDYeqWPKVpmG95XrwjX6fq79fUS2ilC7sYNWEc25xIL";
-    private String accessToken = "791421180129476609-Ld84Ity8cdq9i0a7GawzS1OxKzGYWtz";
-    private String AccessTokenSecret = "lOlxp3j603JJ4fZPJTl08PhEPnAZ30uJ6TmpYVwWCct1m";
+
+    private String consumerKey = "";
+    private String consumerSecret = "";
+    private String accessToken = "";
+    private String AccessTokenSecret = "";
 
     private TwitterCrawler twitterCrawler = null;
+
+    public TwitterCrawler getTwitterCrawler(){
+        return this.twitterCrawler;
+    }
 
 
 
     public boolean isRunning() {
         return isRunning;
     }
-
-   /* public void setRunning(boolean running) {
-        isRunning = running;
-    }*/
 
     public String getConsumerKey() {
         return consumerKey;
@@ -84,15 +124,18 @@ public class AnalizationHelper {
     public void stopAnalization() {
 
         this.twitterCrawler.stop();
-
-       this.isRunning = false;
+        this.finalResult.finalize();
+        this.isRunning = false;
         this.twitterCrawler = null;
+        EmotionAnalizer.Recreate();
     }
 
     private AnalizationResult currentResult = null;
 
-    public  void startAnalization(String keywords){
+    public  void startAnalization(String keywords, Context c){
         Log.d("analizer","start analizer!");
+        this.finalResult = new AnalizationResult();
+        this.result_steps = new LinkedList<AnalizationResult>();
         this.twitterCrawler = new TwitterCrawler();
 
         this.isRunning = true;
@@ -108,6 +151,9 @@ public class AnalizationHelper {
        // timer.cancel();
     }
 
+    public boolean isInitialized() {
+        return isInitialized;
+    }
 }
 /*
 class SayHello extends TimerTask {

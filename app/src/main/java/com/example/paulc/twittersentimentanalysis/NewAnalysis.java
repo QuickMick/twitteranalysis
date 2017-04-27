@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mick.emotionanalizer.AnalizationHelper;
+import com.example.mick.service.Constants;
+import com.example.mick.service.ForegroundService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -71,6 +75,22 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
     public void onClick (View view){
         // if he presses on Register , call the register user function
         if (view == go) {
+
+            if(AnalizationHelper.INSTANCE().isRunning()){
+                Toast.makeText(this,"Analization already running. Pleas stop current analization first..",Toast.LENGTH_SHORT).show();
+                //TODO 7
+                // 7. Redirect him to the display activity.
+                return;
+            }
+
+            Log.d("AppD","start analization clicked");
+
+           // AnalizationHelper.INSTANCE().startAnalization("");
+
+            Intent startIntent = new Intent(NewAnalysis.this, ForegroundService.class);
+            startIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
+            startService(startIntent);
+
             // TODO 5
             // 5. If the Data from the Settings is correct, redirect him to the display activity.
 

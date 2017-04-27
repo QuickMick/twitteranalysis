@@ -223,56 +223,16 @@ public class WordProcessor {
 
 	public void init(Context context){
 		// load contraction data/json
-	/*	try {
-			//Object obj = new JSONParser().parse(new FileReader("./bin/hhn/verbs.json"));
-			//JSONObject jsonObject = (JSONObject) obj;
-			JSONObject jsonObject = new JSONObject(this.loadJSONFromAsset(context,"verbs.json"));
-			JSONArray verbForms = (JSONArray) jsonObject.get("verbforms");
-			JSONArray base = (JSONArray) jsonObject.get("base");
-
-
-			for(Object o :  verbForms){
-				JSONArray x = (JSONArray)o;
-
-				LinkedList<String> cur = new LinkedList<String>();
-				Iterator it = x.iterator();
-				while (it.hasNext()) {
-					cur.add(it.next().toString());
-				}
-
-				this.verbsTable.add(cur.toArray(new String[]{}));
-
-				this.infinitives.add(x.get(0).toString());
-
-			}
-
-
-			for(Object o :  base){
-				this.infinitives.add(o.toString());
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
-
 		try {
-			//Object obj = new JSONParser().parse(new FileReader("./bin/hhn/verbs.json"));
-			//JSONObject jsonObject = (JSONObject) obj;
 			JSONObject jsonObject = new JSONObject(this.loadJSONFromAsset(context,"verbs.json"));
 			JSONArray verbForms = (JSONArray) jsonObject.get("verbforms");
 			JSONArray base = (JSONArray) jsonObject.get("base");
-
 
 			for(int i=0; i< verbForms.length();i++){
 				Object o = verbForms.get(i);
-			//for(Object o :  verbForms){
 				JSONArray x = (JSONArray)o;
 
 				LinkedList<String> cur = new LinkedList<String>();
-				/*Iterator it = x.iterator();
-				while (it.hasNext()) {
-					cur.add(it.next().toString());
-				}*/
 
 				for(int j=0; j<x.length();j++){
 					cur.add(x.get(j).toString());
@@ -280,15 +240,9 @@ public class WordProcessor {
 
 
 				this.verbsTable.add(cur.toArray(new String[]{}));
-
 				this.infinitives.add(x.get(0).toString());
 
 			}
-
-/*
-			for(Object o :  base){
-				this.infinitives.add(o.toString());
-			}*/
 
 			for(int j=0; j<base.length();j++){
 				this.infinitives.add(base.get(j).toString());

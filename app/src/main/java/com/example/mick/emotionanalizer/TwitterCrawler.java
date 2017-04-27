@@ -3,6 +3,8 @@ package com.example.mick.emotionanalizer;
 /**
  * Created by Mick on 27.04.2017.
  */
+import android.util.Log;
+
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -16,30 +18,53 @@ public class TwitterCrawler {
 
     private boolean isRunning = false;
 
+    /**
+     * everytime this method gecalled, a new result will be generated in which the next results are merged.
+     * this is done so that you can use the returned value in the UI because the analization thread does not get interfered
+     *
+     * this method should be called each 10 seconds and the result should be merged to the overall result.
+     * additionally you can save this object to display a timeline graph
+     * @return
+     */
     public synchronized AnalizationResult getCurrentResult(){
-        synchronized (lock) {
-            return this.currentResult;
+        AnalizationResult old;
+        if(this.isRunning) {
+            synchronized (lock) {
+                old = this.currentResult;
+                this.currentResult = new AnalizationResult();
+            }
+        }else{
+            synchronized (lock) {
+                old = this.currentResult;
+                this.currentResult = null;
+            }
         }
+        return old;
     }
 
-    public void stop(){
-        this.stream.cleanUp();
-        this.stream.shutdown();
+    public synchronized void stop(){
+
+        try {
+            this.stream.shutdown();
+        }catch(Exception e){
+            Log.d("analizer", "i dont know why, but everytime you stop it crashes");
+        }
         this.stream = null;
         this.isRunning = false;
     }
 
-
-
     public void start(String keywords) throws InterruptedException {
 
-        this.currentResult = new AnalizationResult();
+        synchronized (lock) {
+            this.currentResult = new AnalizationResult();
+        }
 
         StatusListener listener = new StatusListener(){
             public void onStatus(Status status) {
             //    System.out.println("tweet");
 
                 String currentTweet = status.getText();
+                // merge hashtags to tweet
                 for(HashtagEntity s :status.getHashtagEntities()){
                     currentTweet = currentTweet+" #"+s.getText();
                 }
@@ -86,6 +111,8 @@ public class TwitterCrawler {
     }
 
     public boolean isRunning() {
-        return isRunning;
+       // synchronized (lock) {
+            return isRunning;
+       // }
     }
 }

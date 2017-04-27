@@ -82,6 +82,9 @@ public class AnalizationHelper {
     }
 
     public void stopAnalization() {
+
+        this.twitterCrawler.stop();
+
        this.isRunning = false;
         this.twitterCrawler = null;
     }
@@ -100,12 +103,13 @@ public class AnalizationHelper {
         }
 
         //TODO: remove following -> just test
-        Timer timer = new Timer();
-        timer.schedule(new SayHello(this.twitterCrawler), 0, 5000);
+      //  Timer timer = new Timer();
+    //    timer.schedule(new SayHello(this.twitterCrawler), 0, 5000);
        // timer.cancel();
     }
-}
 
+}
+/*
 class SayHello extends TimerTask {
 
     private TwitterCrawler crawler;
@@ -117,4 +121,23 @@ class SayHello extends TimerTask {
         Log.d("analizer","Current WORDCOUNT: "+crawler.getCurrentResult().wordCount);
         System.out.println(crawler.getCurrentResult().wordCount);
     }
-}
+}*/
+
+
+/**
+ * protected static void startTimer() {
+ isTimerRunning = true;
+ timer.scheduleAtFixedRate(new TimerTask() {
+ public void run() {
+ elapsedTime += 1; //increase every sec
+ mHandler.obtainMessage(1).sendToTarget();
+ }
+ }, 0, 1000);
+ }
+
+ public Handler mHandler = new Handler() {
+ public void handleMessage(Message msg) {
+ StopWatch.time.setText(formatIntoHHMMSS(elapsedTime)); //this is the textview
+ }
+ };
+ */

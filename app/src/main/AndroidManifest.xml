@@ -32,7 +32,7 @@
         <activity
             android:name="com.example.graphs.LineGraphActivity"
             android:screenOrientation="landscape" />
-        <activity android:name="com.example.graphs.BarChartActivity"></activity>
+        <activity android:name="com.example.graphs.BarChartActivity" android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

@@ -5,6 +5,7 @@ package com.example.mick.service;
  */
 public class Constants {
     public interface ACTION {
+        public static String ANALIZATION = "ANALIZATION";
        /* public static String MAIN_ACTION = "com.truiton.foregroundservice.action.main";
         public static String PREV_ACTION = "com.truiton.foregroundservice.action.prev";
         public static String PLAY_ACTION = "com.truiton.foregroundservice.action.play";
@@ -15,6 +16,7 @@ public class Constants {
 
     public interface ANALIZATION{
 
+        public static String BROADCAST_ANALIZATION_STOPPED = "BROADCAST_ANALIZATION_STOPPED";
         /**
          * Key for intend, when creating a new diagramm activity
          */

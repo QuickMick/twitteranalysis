@@ -75,13 +75,14 @@ public class ForegroundService extends Service {
 
         this.updateNotification("analized words: "+AnalizationHelper.INSTANCE().getFinalResult().wordCount);
     }
-/*
+
     private void sendMessageToActivity(String msg) {
         Intent intent = new Intent("TwitterAnalizationUpdate");
         // You can also include some extra data.
-     //   intent.putExtra(AnalizationResult.class.toString(),this.result);
+        intent.setAction(Constants.ACTION.ANALIZATION);
+        intent.putExtra("MSG",msg);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-    }*/
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -94,22 +95,39 @@ public class ForegroundService extends Service {
         } else if (intent.getAction().equals(ForegroundService.STOP_ANALYSIS_ACTION)) {
             Log.i(LOG_TAG, "Clicked stop analysis");
 
+
+
+            Toast.makeText(this,"Analization stopped",Toast.LENGTH_SHORT).show();
+
+            this.stopService();
+            this.sendMessageToActivity(Constants.ANALIZATION.BROADCAST_ANALIZATION_STOPPED);
+            //go tho the diagramm screen if it is not opend already
+            if(!BarChartActivity.isActive()) {
+                Intent notificationIntent = new Intent(this, BarChartActivity.class);
+                notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
+                notificationIntent.setAction(ForegroundService.GO_TO_GRAPH_ACTION);
+                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_ANALIZATION_STOPPED);
+                startActivity(notificationIntent);
+            }
+
+        } else if (intent.getAction().equals(ForegroundService.STOPFOREGROUND_ACTION)) {    //this comes from app
+            Log.i(LOG_TAG, "Received Stop Foreground Intent");
             this.stopService();
 
-            Toast.makeText(this,"Analization finished",Toast.LENGTH_SHORT).show();
+            this.sendMessageToActivity(Constants.ANALIZATION.BROADCAST_ANALIZATION_STOPPED);
+
+            Toast.makeText(this,"Analization stopped",Toast.LENGTH_SHORT).show();
 
             //go tho the diagramm screen
-            Intent notificationIntent = new Intent(this, BarChartActivity.class);
+           /* Intent notificationIntent = new Intent(this, BarChartActivity.class);
             notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE,Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
             notificationIntent.setAction(ForegroundService.GO_TO_GRAPH_ACTION);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                     | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE,Constants.ANALIZATION.MODE_ANALIZATION_STOPPED);
-            startActivity(notificationIntent);
-
-        } else if (intent.getAction().equals(ForegroundService.STOPFOREGROUND_ACTION)) {
-            Log.i(LOG_TAG, "Received Stop Foreground Intent");
-            this.stopService();
+            startActivity(notificationIntent);*/
         }
 
 

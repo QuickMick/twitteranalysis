@@ -1,16 +1,22 @@
 package com.example.graphs;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.emotionanalizer.EmotionWeighting;
 import com.example.mick.service.Constants;
+import com.example.mick.service.ForegroundService;
 import com.example.paulc.twittersentimentanalysis.R;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
@@ -32,7 +38,30 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
     private Button changeViewBtn;
 
+    private Button stopAnalysisBtn;
+
     private EmotionWeighting currentData = new EmotionWeighting();
+
+    /**
+     * needed for the foregroudnservice, to check if he should start this activity or not
+     */
+    private static boolean active = false;
+
+    public static boolean isActive(){
+        return active;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +70,9 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
         changeViewBtn = (Button) findViewById(R.id.changeviewbtn);
         changeViewBtn.setOnClickListener(this);
+
+        this.stopAnalysisBtn = (Button) findViewById(R.id.stopanalysisbtn);
+        this.stopAnalysisBtn.setOnClickListener(this);
 
         this.graph = (GraphView) findViewById(R.id.graph);
 
@@ -76,20 +108,43 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
 
 
-
+        this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
 
         // start the view
         Intent i =getIntent();
         switch(i.getStringExtra(Constants.ANALIZATION.DIAGRAM_MODE)){
             case Constants.ANALIZATION.MODE_ANALIZATION_RUNNING:
                 this.startRunningMode();
+                this.stopAnalysisBtn.setVisibility(Button.VISIBLE);
                 break;
             case Constants.ANALIZATION.MODE_ANALIZATION_STOPPED:
+                this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
+                this.updateGraphData();
                 break;
             case Constants.ANALIZATION.MODE_HISTORY:
                 String date = i.getStringExtra(Constants.ANALIZATION.MODE_HISTORY_DATE);
+
+                //TODO: load old data
                 break;
         }
+
+
+
+        // following code is required for receiving messages from the foregroudn service
+        // currently it is just used to remove the "stop analysis button"
+        LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Constants.ACTION.ANALIZATION);
+        bManager.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getStringExtra("MSG").equals(Constants.ANALIZATION.BROADCAST_ANALIZATION_STOPPED)){
+                    BarChartActivity.this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
+                }
+            }
+        }, intentFilter);
+
+
     }
 
     private void updateGraphData(){
@@ -168,6 +223,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 // stop refresehing, if analization has stopped.
                 if(!AnalizationHelper.INSTANCE().isRunning()){
                     BarChartActivity.this.refreshTimer.cancel();
+//                    BarChartActivity.this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
                 }
 
             }
@@ -183,6 +239,14 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             this.changeViewBtn.setText(this.showSentiment?"show emotions":"show sentiment");    //change button text
 
             this.updateGraphData(); //update graph based on the current mode
+        }else if( view == this.stopAnalysisBtn){
+            this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
+
+            Intent stopIntent = new Intent(BarChartActivity.this, ForegroundService.class);
+            stopIntent.setAction(ForegroundService.STOPFOREGROUND_ACTION);
+            startService(stopIntent);
+
+
         }
     }
 }

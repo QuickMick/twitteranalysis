@@ -25,6 +25,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
+/**
+ * TODO: @paul - look if old analization results are saved on the SD-Card, if no, hide the history button ?
+ * TODO: @paul remove logout button - i think our app really does not need a log in feature - that would just be one thing more we would need to maintain
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // declaration of views

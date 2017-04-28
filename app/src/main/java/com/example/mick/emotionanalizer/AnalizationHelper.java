@@ -4,9 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by Mick on 27.04.2017.

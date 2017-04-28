@@ -21,6 +21,7 @@ import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.emotionanalizer.AnalizationResult;
 import com.example.paulc.twittersentimentanalysis.NewAnalysis;
 import com.example.paulc.twittersentimentanalysis.R;
+import com.example.paulc.twittersentimentanalysis.Settings;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -90,27 +91,37 @@ public class ForegroundService extends Service {
             startForeground(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE,
                     notification);
         } else if (intent.getAction().equals(ForegroundService.STOP_ANALYSIS_ACTION)) {
-            Log.i(LOG_TAG, "Clicked Previous");
+            Log.i(LOG_TAG, "Clicked stop analysis");
 
-            this.updateDataTimer.cancel();
-            AnalizationHelper.INSTANCE().stopAnalization();
-          //  AnalizationHelper.INSTANCE().getFinalResult().finalize();
+            this.stopService();
 
             Toast.makeText(this,"Analization finished",Toast.LENGTH_SHORT).show();
 
-            stopForeground(true);
-            stopSelf();
+            //go tho the diagramm screen
+            Intent notificationIntent = new Intent(this, Settings.class);   // TODO: @paul pls change this to the diagram activity
+            notificationIntent.setAction(ForegroundService.GO_TO_GRAPH_ACTION);
+            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(notificationIntent);
 
-       /* } else if (intent.getAction().equals(Constants.ACTION.PLAY_ACTION)) {
-            Log.i(LOG_TAG, "Clicked Play");
-        } else if (intent.getAction().equals(Constants.ACTION.NEXT_ACTION)) {
-            Log.i(LOG_TAG, "Clicked Next");*/
         } else if (intent.getAction().equals(ForegroundService.STOPFOREGROUND_ACTION)) {
             Log.i(LOG_TAG, "Received Stop Foreground Intent");
-            stopForeground(true);
-            stopSelf();
+            this.stopService();
         }
+
+
         return START_STICKY;
+    }
+
+    /**
+     * Stops the analization and closes the notification
+     */
+    private void stopService(){
+        this.updateDataTimer.cancel();
+        AnalizationHelper.INSTANCE().stopAnalization();
+
+        stopForeground(true);
+        stopSelf();
     }
 
     private void updateNotification(String text){

@@ -1,10 +1,15 @@
 package com.example.graphs;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +19,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.mick.emotionanalizer.AnalizationHelper;
+import com.example.mick.emotionanalizer.AnalizationResult;
 import com.example.mick.emotionanalizer.EmotionWeighting;
 import com.example.mick.service.Constants;
 import com.example.mick.service.ForegroundService;
@@ -25,6 +31,11 @@ import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,6 +50,8 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
     private Button changeViewBtn;
 
     private Button stopAnalysisBtn;
+
+    private Button saveAnalysisBtn;
 
     private EmotionWeighting currentData = new EmotionWeighting();
 
@@ -73,6 +86,11 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
         this.stopAnalysisBtn = (Button) findViewById(R.id.stopanalysisbtn);
         this.stopAnalysisBtn.setOnClickListener(this);
+
+
+        this.saveAnalysisBtn = (Button) findViewById(R.id.saveanalysisbtn);
+        this.saveAnalysisBtn.setOnClickListener(this);
+
 
         this.graph = (GraphView) findViewById(R.id.graph);
 
@@ -109,7 +127,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
 
         this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
-
+        this.saveAnalysisBtn.setVisibility(Button.INVISIBLE);
         // start the view
         Intent i =getIntent();
         switch(i.getStringExtra(Constants.ANALIZATION.DIAGRAM_MODE)){
@@ -119,6 +137,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case Constants.ANALIZATION.MODE_ANALIZATION_STOPPED:
                 this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
+                this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
                 this.updateGraphData();
                 break;
             case Constants.ANALIZATION.MODE_HISTORY:
@@ -140,6 +159,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             public void onReceive(Context context, Intent intent) {
                 if(intent.getStringExtra("MSG").equals(Constants.ANALIZATION.BROADCAST_ANALIZATION_STOPPED)){
                     BarChartActivity.this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
+                    BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
                 }
             }
         }, intentFilter);
@@ -245,8 +265,174 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             Intent stopIntent = new Intent(BarChartActivity.this, ForegroundService.class);
             stopIntent.setAction(ForegroundService.STOPFOREGROUND_ACTION);
             startService(stopIntent);
+        }else if(view == this.saveAnalysisBtn){
+            this.saveCurrentAnalysis();
+        }
+    }
+
+    private void saveCurrentAnalysis() {
+
+        String state = Environment.getExternalStorageState();
+        if (!Environment.MEDIA_MOUNTED.equals(state)){
+            Toast.makeText(this, "Error: external storage is unavailable",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            Toast.makeText(this, "Error: external storage is read only.",Toast.LENGTH_SHORT).show();
+            return ;
+        }
+        Log.d("myAppName", "External storage is not read only or unavailable");
+
+        if (ContextCompat.checkSelfPermission(this, // request permission when it is not granted.
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "permission:WRITE_EXTERNAL_STORAGE: NOT granted!",Toast.LENGTH_SHORT).show();
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
 
 
+
+        AnalizationResult ar = AnalizationHelper.INSTANCE().getFinalResult();
+        String json = ar.toJSON();
+        //DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+
+        //return "{\"startDate\":\""+format.format(this.startDate)+"\", "	//TODO
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss_");
+        String fileName = "twitter_"+format.format(ar.startDate)+"-"+format.format(ar.endDate)+".json";
+        try {
+            File mydir = new File(Environment.getExternalStorageDirectory(),"twitter_results");
+            if(!mydir.exists()) {
+                mydir.mkdirs();
+            }
+
+            File myFile = new File(mydir, fileName);
+            Log.d("AppD","save file: "+myFile.getAbsolutePath());
+
+            myFile.createNewFile();
+            FileOutputStream fOut = new FileOutputStream(myFile);
+            OutputStreamWriter myOutWriter =new OutputStreamWriter(fOut);
+            myOutWriter.append(json);
+            myOutWriter.close();
+            fOut.close();
+            Toast.makeText(this,"Done writing data to SD Card", Toast.LENGTH_SHORT).show();
+
+
+            //sucessfully saved:
+            Toast.makeText(this,"saved ", Toast.LENGTH_SHORT).show();
+            this.saveAnalysisBtn.setVisibility(Button.INVISIBLE);
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, "Error while saving: "+e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    public int mkFolder(String folderName){ // make a folder under Environment.DIRECTORY_DCIM
+        String state = Environment.getExternalStorageState();
+        if (!Environment.MEDIA_MOUNTED.equals(state)){
+            Toast.makeText(this, "Error: external storage is unavailable",Toast.LENGTH_SHORT).show();
+            return 0;
+        }
+        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+            Log.d("myAppName", "Error: external storage is read only.");
+            return 0;
+        }
+        Log.d("myAppName", "External storage is not read only or unavailable");
+
+        if (ContextCompat.checkSelfPermission(this, // request permission when it is not granted.
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.d("myAppName", "permission:WRITE_EXTERNAL_STORAGE: NOT granted!");
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+
+
+        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),folderName);
+        int result = 0;
+        if (folder.exists()) {
+            Log.d("myAppName","folder exist:"+folder.toString());
+            result = 2; // folder exist
+        }else{
+            try {
+                if (folder.mkdir()) {
+                    Log.d("myAppName", "folder created:" + folder.toString());
+                    result = 1; // folder created
+                } else {
+                    Log.d("myAppName", "creat folder fails:" + folder.toString());
+                    result = 0; // creat folder fails
+                }
+            }catch (Exception ecp){
+                ecp.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+Log.d("test","perission granted");
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+Log.d("test","no permission");
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
         }
     }
 }

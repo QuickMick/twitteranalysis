@@ -1,10 +1,14 @@
 package com.example.mick.emotionanalizer;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AnalizationResult{
+
+	public static String DATE_FORMAT= "dd.MM.yyyy HH:mm";
 
 	public EmotionWeighting weigthing = new EmotionWeighting(0,0,0,0,0,0,0,0,0,0);
 
@@ -40,11 +44,37 @@ public class AnalizationResult{
 	 */
 	public int wordCountAnalized=0;
 
+	/*
+	String string = "January 2, 2010";
+DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+Date date = format.parse(string);
+System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
+	 */
 
-	public String toString(){
-		return "tweetCount: "+tweetCount+ " | wordCount: "+wordCount+" | wordcountAnalized: "+wordCountAnalized+" ||| Emotions: "+weigthing;
+	public String toJSON(){
+
+		DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+
+		return "{\"startDate\":\""+format.format(this.startDate)+"\", "	//TODO
+				+"\"endDate\":\""+format.format(this.endDate)+"\", "
+				+"\"wordCount\":"+this.wordCount+", "
+				+"\"tweetCount\":"+this.tweetCount+", "
+				+"\"sentenceCount\":"+this.sentenceCount+", "
+				+"\"wordCountAnalized\":"+this.wordCountAnalized+", "
+				+"\"emotionWeighting\":"+this.weigthing.toJSON()+", "
+
+				+"\"wordStatistic_all\":"+this.hashMapToJSON(this.wordStatistic_all)+", "
+				+"\"wordStatistic_anger\":"+this.hashMapToJSON(this.wordStatistic_anger)+", "
+				+"\"wordStatistic_anticipation\":"+this.hashMapToJSON(this.wordStatistic_anticipation)+", "
+				+"\"wordStatistic_disgust\":"+this.hashMapToJSON(this.wordStatistic_disgust)+", "
+				+"\"wordStatistic_fear\":"+this.hashMapToJSON(this.wordStatistic_fear)+", "
+				+"\"wordStatistic_joy\":"+this.hashMapToJSON(this.wordStatistic_joy)+", "
+				+"\"wordStatistic_sadness\":"+this.hashMapToJSON(this.wordStatistic_sadness)+", "
+				+"\"wordStatistic_surprise\":"+this.hashMapToJSON(this.wordStatistic_surprise)+", "
+				+"\"wordStatistic_trust\":"+this.hashMapToJSON(this.wordStatistic_trust)+", "
+				+"\"wordStatistic_sentiment_negative\":"+this.hashMapToJSON(this.wordStatistic_sentiment_negative)+", "
+				+"\"wordStatistic_sentiment_positive\":"+this.hashMapToJSON(this.wordStatistic_sentiment_positive)+"}";
 	}
-
 
 	public HashMap<String,Integer> wordStatistic_all = new HashMap<String,Integer>();
 
@@ -59,6 +89,27 @@ public class AnalizationResult{
 
 	public HashMap<String,Integer> wordStatistic_sentiment_negative = new HashMap<String,Integer>();
 	public HashMap<String,Integer> wordStatistic_sentiment_positive = new HashMap<String,Integer>();
+
+
+	public String toString(){
+		return "tweetCount: "+tweetCount+ " | wordCount: "+wordCount+" | wordcountAnalized: "+wordCountAnalized+" ||| Emotions: "+weigthing;
+	}
+
+	private String hashMapToJSON(HashMap<String, Integer> b){
+		String result="{";
+		for (Map.Entry<String, Integer> entry : b.entrySet()) {
+			String key = entry.getKey();
+			Integer value = entry.getValue();
+
+			result=result.concat("\""+key+"\":"+value+", ");
+		}
+		result = result.substring(0, result.length() - 2);
+		result=result.concat("}");
+
+		return result;
+	}
+
+
 
 
 	/**

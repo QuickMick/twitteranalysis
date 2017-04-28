@@ -123,6 +123,8 @@ public class AnalizationHelper {
         this.finalResult.finalize();
         this.isRunning = false;
         this.twitterCrawler = null;
+
+        Log.d("analize",this.getFinalResult().toJSON());
         EmotionAnalizer.Recreate();
     }
 

@@ -102,6 +102,7 @@ public class ForegroundService extends Service {
             notificationIntent.setAction(ForegroundService.GO_TO_GRAPH_ACTION);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                     | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE,Constants.ANALIZATION.MODE_ANALIZATION_STOPPED);
             startActivity(notificationIntent);
 
         } else if (intent.getAction().equals(ForegroundService.STOPFOREGROUND_ACTION)) {

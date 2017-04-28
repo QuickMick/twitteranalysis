@@ -59,7 +59,7 @@ public class AnalizationHelper {
         if(this.isInitialized) return;
         this.isInitialized = true;
         Log.d("analizer","init analizer");
-        EmotionAnalizer.INSTANCE.init(context);
+
         Log.d("analizer","init analizer successfull");
 
         //TODO: @paul very importatn!! remove these keys and load them from the settings
@@ -134,6 +134,9 @@ public class AnalizationHelper {
 
     public  void startAnalization(String keywords, Context c){
         Log.d("analizer","start analizer!");
+
+        EmotionAnalizer.INSTANCE.init(c);
+
         this.finalResult = new AnalizationResult();
         this.result_steps = new LinkedList<AnalizationResult>();
         this.twitterCrawler = new TwitterCrawler();

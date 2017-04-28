@@ -3,6 +3,7 @@ package com.example.paulc.twittersentimentanalysis;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
+
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.TwitterStream;
+import twitter4j.TwitterStreamFactory;
+import twitter4j.User;
+import twitter4j.conf.ConfigurationBuilder;
 
 
 /**
@@ -71,6 +80,36 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
     }
 
+    /**
+     * checks if the given credentials/tokens/keys are correct
+     * @return true, if correct, false if incorrect
+     */
+    private boolean vertifyTwitterCredentials(){
+        Log.d("AppD","check credentials");
+        AnalizationHelper.INSTANCE().init(this);
+
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+                .setOAuthConsumerKey(AnalizationHelper.INSTANCE().getConsumerKey())
+                .setOAuthConsumerSecret(AnalizationHelper.INSTANCE().getConsumerSecret())
+                .setOAuthAccessToken(AnalizationHelper.INSTANCE().getAccessToken())
+                .setOAuthAccessTokenSecret(AnalizationHelper.INSTANCE().getAccessTokenSecret());
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+
+      //  TwitterStream stream= new TwitterStreamFactory(cb.build()).getInstance();
+        try {
+            // following is really "best practice" :D
+            User user = twitter.verifyCredentials();
+            Log.d("AppD","credentials are ok");
+            return true;
+        } catch (Exception e) {
+            Log.d("AppD","credentials are incorrect");
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     @Override
     public void onClick (View view){
         // if he presses on Register , call the register user function
@@ -85,14 +124,46 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
             Log.d("AppD","start analization clicked");
 
-           // AnalizationHelper.INSTANCE().startAnalization("");
+            //TODO: @paul maybe show some "processing" or "waiting" bars or icons?
+            backicon.setEnabled(false);
+            go.setEnabled(false);
+            searchcriteria.setEnabled(false);
 
-            Intent startIntent = new Intent(NewAnalysis.this, ForegroundService.class);
-            startIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
-            startService(startIntent);
+            // you have to check the credentials in a thread, otherwise android will drop an exepction,
+            // because no network connections are allowed in the main-thread
 
-            // TODO 5
-            // 5. If the Data from the Settings is correct, redirect him to the display activity.
+            new AsyncTask<Void,Void,Boolean>() {
+                @Override
+                protected Boolean doInBackground(Void... params) {
+                    return NewAnalysis.this.vertifyTwitterCredentials();
+                }
+                protected void onPostExecute(Boolean result) {
+                    backicon.setEnabled(true);
+                    go.setEnabled(true);
+                    searchcriteria.setEnabled(true);
+
+                    if(result) {
+                        Intent startIntent = new Intent(NewAnalysis.this, ForegroundService.class);
+                        startIntent.setAction(ForegroundService.STARTFOREGROUND_ACTION);
+                        finish();   // i thought it would be a good idea to close the newAnalisis activity so,
+                        // if you hit back from the graph activity
+                        // you are not able to start a new analisis, if the other one is still running
+                        startService(startIntent);
+
+                        // TODO 5
+                        // 5. redirect him to the display activity.
+                    }else{
+                        Toast.makeText(NewAnalysis.this,"Twitter-tokens are incorrect, please check your settings.",Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }
+            }.execute();
+
+
+
+
+
 
             //TODO 6
             // 6. Redirect him to the display activity.

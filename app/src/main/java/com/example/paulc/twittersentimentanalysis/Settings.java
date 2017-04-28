@@ -3,10 +3,12 @@ package com.example.paulc.twittersentimentanalysis;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Handler;
 
+import com.example.mick.emotionanalizer.AnalizationHelper;
+import com.example.mick.service.ForegroundService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,6 +30,11 @@ import com.google.firebase.database.DatabaseError;
 
 import org.w3c.dom.Text;
 
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.User;
+import twitter4j.conf.ConfigurationBuilder;
+
 
 /**
  * Created by paulc on 21.04.2017.
@@ -36,7 +45,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     // declaration of views
     FontManager FM;
     TextView backicon;
-    Button consumerkeybtn,consumerkeybtnscrt,accesstokenbtn,accesstokenbtnscrt,savebtn;
+    Button consumerkeybtn,consumerkeybtnscrt,accesstokenbtn,accesstokenbtnscrt,savebtn,validatebtn;
     EditText consumerkeytxt,consumerkeytxtscrt,accesstokentxt,accesstokentxtscrt;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -54,6 +63,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         FM.setBackIcon(backicon);
 
         savebtn.setOnClickListener(this);
+        validatebtn.setOnClickListener(this);
         progressDialog = new ProgressDialog(this);
 
     }
@@ -68,6 +78,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         accesstokenbtn = (Button) findViewById(R.id.accesstokenbtn);
         accesstokenbtnscrt = (Button) findViewById(R.id.accesstokenbtnscrt);
         savebtn = (Button) findViewById(R.id.savebtn) ;
+        validatebtn = (Button) findViewById(R.id.validatebtn) ;
         //EditText
         consumerkeytxt = (EditText)findViewById(R.id.consumerkeytxt);
         consumerkeytxtscrt = (EditText)findViewById(R.id.consumerkeytxtscrt);
@@ -189,7 +200,74 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             }, 5000);
 
 
+        }else if( view == validatebtn){
+            //TODO: @paul maybe show some "processing" or "waiting" bars or icons?
+            backicon.setEnabled(false);
+            consumerkeybtn.setEnabled(false);
+            consumerkeybtnscrt.setEnabled(false);
+            accesstokenbtn.setEnabled(false);
+            accesstokenbtnscrt.setEnabled(false);
+            savebtn.setEnabled(false);
+            validatebtn.setEnabled(false);
+            //EditText
+            consumerkeytxt.setEnabled(false);
+            consumerkeytxtscrt.setEnabled(false);
+            accesstokentxt.setEnabled(false);
+            accesstokentxtscrt.setEnabled(false);
+            // you have to check the credentials in a thread, otherwise android will drop an exepction,
+            // because no network connections are allowed in the main-thread
+
+            new AsyncTask<Void,Void,Boolean>() {
+                @Override
+                protected Boolean doInBackground(Void... params) {
+                    return Settings.this.vertifyTwitterCredentials();
+                }
+                protected void onPostExecute(Boolean result) {
+                    backicon.setEnabled(true);
+                    consumerkeybtn.setEnabled(true);
+                    consumerkeybtnscrt.setEnabled(true);
+                    accesstokenbtn.setEnabled(true);
+                    accesstokenbtnscrt.setEnabled(true);
+                    savebtn.setEnabled(true);
+                    validatebtn.setEnabled(true);
+                    //EditText
+                    consumerkeytxt.setEnabled(true);
+                    consumerkeytxtscrt.setEnabled(true);
+                    accesstokentxt.setEnabled(true);
+                    accesstokentxtscrt.setEnabled(true);
+
+                    if(result) {
+                        Toast.makeText(Settings.this,"Validation successfull. Tokens are correct",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(Settings.this,"Tokens are incorrect",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }.execute();
         }
 
+    }
+
+    private boolean vertifyTwitterCredentials(){
+        Log.d("Settings","check credentials");
+        AnalizationHelper.INSTANCE().init(this);
+
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+                .setOAuthConsumerKey(consumerkeytxt.getText().toString().trim())
+                .setOAuthConsumerSecret(consumerkeytxtscrt.getText().toString().trim())
+                .setOAuthAccessToken(accesstokentxt.getText().toString().trim())
+                .setOAuthAccessTokenSecret(accesstokentxtscrt.getText().toString().trim());
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+        try {
+            // following is really "best practice" :D
+            User user = twitter.verifyCredentials();
+            Log.d("Settings","credentials are ok");
+            return true;
+        } catch (Exception e) {
+            Log.d("Settings","credentials are incorrect");
+            e.printStackTrace();
+            return false;
+        }
     }
 }

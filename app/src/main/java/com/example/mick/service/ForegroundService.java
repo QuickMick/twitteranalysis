@@ -28,6 +28,11 @@ import java.util.TimerTask;
 public class ForegroundService extends Service {
     private static final String LOG_TAG = "ForegroundService";
     private static final int NOTIF_ID=101;
+    public static String STARTFOREGROUND_ACTION = "FS_STARTFOREGROUND_ACTION";
+    public static String STOP_ANALYSIS_ACTION = "FS_STOP_ANALYSIS_ACTION";
+    public static String STOPFOREGROUND_ACTION = "FS_STOPFOREGROUND_ACTION";
+
+    public static String GO_TO_GRAPH_ACTION = "FS_GO_TO_GRAPH_ACTION";
 
     private Timer updateDataTimer;
 
@@ -78,13 +83,13 @@ public class ForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent.getAction().equals(Constants.ACTION.STARTFOREGROUND_ACTION)) {
+        if (intent.getAction().equals(ForegroundService.STARTFOREGROUND_ACTION)) {
             Log.d("AppD", "Received Start Foreground Intent ");
 
             Notification notification = this.createNotification("Analized words: 25345");
             startForeground(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE,
                     notification);
-        } else if (intent.getAction().equals(Constants.ACTION.PREV_ACTION)) {
+        } else if (intent.getAction().equals(ForegroundService.STOP_ANALYSIS_ACTION)) {
             Log.i(LOG_TAG, "Clicked Previous");
 
             this.updateDataTimer.cancel();
@@ -96,12 +101,11 @@ public class ForegroundService extends Service {
             stopForeground(true);
             stopSelf();
 
-        } else if (intent.getAction().equals(Constants.ACTION.PLAY_ACTION)) {
+       /* } else if (intent.getAction().equals(Constants.ACTION.PLAY_ACTION)) {
             Log.i(LOG_TAG, "Clicked Play");
         } else if (intent.getAction().equals(Constants.ACTION.NEXT_ACTION)) {
-            Log.i(LOG_TAG, "Clicked Next");
-        } else if (intent.getAction().equals(
-                Constants.ACTION.STOPFOREGROUND_ACTION)) {
+            Log.i(LOG_TAG, "Clicked Next");*/
+        } else if (intent.getAction().equals(ForegroundService.STOPFOREGROUND_ACTION)) {
             Log.i(LOG_TAG, "Received Stop Foreground Intent");
             stopForeground(true);
             stopSelf();
@@ -115,15 +119,17 @@ public class ForegroundService extends Service {
     }
 
     private Notification createNotification(String content){
+
         Intent notificationIntent = new Intent(this, NewAnalysis.class);    //TODO: @paul redirect to graph display activity, not new analysis
-        notificationIntent.setAction(Constants.ACTION.MAIN_ACTION);
+        notificationIntent.setAction(ForegroundService.GO_TO_GRAPH_ACTION);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 notificationIntent, 0);
 
         Intent stopIntent = new Intent(this, ForegroundService.class);
-        stopIntent.setAction(Constants.ACTION.PREV_ACTION);
+        stopIntent.setAction(ForegroundService.STOP_ANALYSIS_ACTION);
         PendingIntent pstopIntent = PendingIntent.getService(this, 0,
                 stopIntent, 0);
 

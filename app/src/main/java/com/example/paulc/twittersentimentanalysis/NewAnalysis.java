@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.graphs.BarChartActivity;
+import com.example.graphs.LineGraphActivity;
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.service.Constants;
 import com.example.mick.service.ForegroundService;
@@ -149,6 +151,12 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                         // if you hit back from the graph activity
                         // you are not able to start a new analisis, if the other one is still running
                         startService(startIntent);
+
+                        Intent ac = new Intent(NewAnalysis.this, BarChartActivity.class);
+                        ac.putExtra(Constants.ANALIZATION.DIAGRAM_MODE,Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
+                        startActivity(ac);
+
+
 
                         // TODO 5
                         // 5. redirect him to the display activity.

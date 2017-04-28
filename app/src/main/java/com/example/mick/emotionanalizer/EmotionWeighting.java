@@ -51,6 +51,20 @@ public class EmotionWeighting{
 		this.sentiment_positive = sentiment_positive;
 	}
 
+
+	public EmotionWeighting(){
+		this.anger =0;
+		this.anticipation = 0;
+		this.disgust = 0;
+		this.fear = 0;
+		this.joy = 0;
+		this.sadness = 0;
+		this.surprise = 0;
+		this.trust = 0;
+		this.sentiment_negative = 0;
+		this.sentiment_positive = 0;
+	}
+
 	/**
 	 * create a new instance
 	 * @param vals the order of the values are important

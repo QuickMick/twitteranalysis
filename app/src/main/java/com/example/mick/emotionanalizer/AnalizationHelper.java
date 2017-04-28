@@ -119,7 +119,6 @@ public class AnalizationHelper {
     }
 
     public void stopAnalization() {
-
         this.twitterCrawler.stop();
         this.finalResult.finalize();
         this.isRunning = false;

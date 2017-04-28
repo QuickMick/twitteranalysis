@@ -17,6 +17,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.graphs.BarChartActivity;
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.emotionanalizer.AnalizationResult;
 import com.example.paulc.twittersentimentanalysis.NewAnalysis;
@@ -98,7 +99,8 @@ public class ForegroundService extends Service {
             Toast.makeText(this,"Analization finished",Toast.LENGTH_SHORT).show();
 
             //go tho the diagramm screen
-            Intent notificationIntent = new Intent(this, Settings.class);   // TODO: @paul pls change this to the diagram activity
+            Intent notificationIntent = new Intent(this, BarChartActivity.class);
+            notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE,Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
             notificationIntent.setAction(ForegroundService.GO_TO_GRAPH_ACTION);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                     | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -132,8 +134,9 @@ public class ForegroundService extends Service {
 
     private Notification createNotification(String content){
 
-        Intent notificationIntent = new Intent(this, NewAnalysis.class);    //TODO: @paul redirect to graph display activity, not new analysis
+        Intent notificationIntent = new Intent(this, BarChartActivity.class);
         notificationIntent.setAction(ForegroundService.GO_TO_GRAPH_ACTION);
+        notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE,Constants.ANALIZATION.MODE_ANALIZATION_STOPPED);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 

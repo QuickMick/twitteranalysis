@@ -14,6 +14,22 @@ public class Constants {
         public static String STOPFOREGROUND_ACTION = "com.truiton.foregroundservice.action.stopforeground";*/
     }
 
+    public interface DETAIL_GRAPH{
+        public static String EMOTION_NAME ="EMOTION_NAME";
+
+        public static String EMOTION_NAME_ANGER ="EMOTION_NAME_ANGER";
+        public static String EMOTION_NAME_ANTICIPATION ="EMOTION_NAME_ANTICIPATION";
+        public static String EMOTION_NAME_DISGUST ="EMOTION_NAME_DISGUST";
+        public static String EMOTION_NAME_FEAR ="EMOTION_NAME_FEAR";
+        public static String EMOTION_NAME_JOY ="EMOTION_NAME_JOY";
+        public static String EMOTION_NAME_SADNESS ="EMOTION_NAME_SADNESS";
+        public static String EMOTION_NAME_SURPRISE ="EMOTION_NAME_SURPRISE";
+        public static String EMOTION_NAME_TRUST ="EMOTION_NAME_TRUST";
+        public static String EMOTION_NAME_POSITIVE ="EMOTION_NAME_POSITIVE";
+        public static String EMOTION_NAME_NEGATIVE ="EMOTION_NAME_NEGATIVE";
+
+    }
+
     public interface ANALIZATION{
 
         public static String BROADCAST_ANALIZATION_STOPPED = "BROADCAST_ANALIZATION_STOPPED";

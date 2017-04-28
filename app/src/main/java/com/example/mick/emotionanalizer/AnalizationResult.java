@@ -55,7 +55,7 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 
 		DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
-		return "{\"startDate\":\""+format.format(this.startDate)+"\", "	//TODO
+		return "{\"startDate\":\""+format.format(this.startDate)+"\", "
 				+"\"endDate\":\""+format.format(this.endDate)+"\", "
 				+"\"wordCount\":"+this.wordCount+", "
 				+"\"tweetCount\":"+this.tweetCount+", "

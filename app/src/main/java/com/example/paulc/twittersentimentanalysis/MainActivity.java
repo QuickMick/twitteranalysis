@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         settings = (Button)findViewById(R.id.settings);
         informativeText = (TextView) findViewById(R.id.informativeText);
 
+
+
         FM.setAppRegular(backicon);
         FM.setAppRegular(userdisplay);
         FM.setAppRegular(logout);

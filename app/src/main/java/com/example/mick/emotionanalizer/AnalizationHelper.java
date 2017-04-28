@@ -49,6 +49,11 @@ public class AnalizationHelper {
         synchronized (lock2){
             lastResult.finalize();
             this.result_steps.addLast(lastResult);
+
+            //TODO: shalle we save steps anyways?
+            if(this.result_steps.size() > 20){
+                this.result_steps.removeFirst();
+            }
         }
     }
 

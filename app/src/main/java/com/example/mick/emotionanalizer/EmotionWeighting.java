@@ -117,6 +117,14 @@ public class EmotionWeighting{
 		this.add(ew.asArray());
 	}
 
+	public int getTotalEmotion(){
+		return this.anger+this.anticipation+this.disgust+this.fear+this.joy+this.sadness+this.surprise+this.trust;
+	}
+
+	public int getTotalSentiment(){
+		return this.sentiment_negative+this.sentiment_positive;
+	}
+
 	/**
 	 * converts a emotionalweighting class to an array
 	 * @return

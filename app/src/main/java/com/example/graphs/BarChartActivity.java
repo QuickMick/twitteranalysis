@@ -24,6 +24,7 @@ import com.example.mick.emotionanalizer.EmotionWeighting;
 import com.example.mick.service.Constants;
 import com.example.mick.service.ForegroundService;
 import com.example.paulc.twittersentimentanalysis.R;
+import com.example.paulc.twittersentimentanalysis.Settings;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.ValueDependentColor;
@@ -52,6 +53,8 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
     private Button stopAnalysisBtn;
 
     private Button saveAnalysisBtn;
+
+    private Button showDetailsBtn;
 
     private EmotionWeighting currentData = new EmotionWeighting();
 
@@ -90,6 +93,9 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
         this.saveAnalysisBtn = (Button) findViewById(R.id.saveanalysisbtn);
         this.saveAnalysisBtn.setOnClickListener(this);
+
+        this.showDetailsBtn = (Button) findViewById(R.id.showdetailsbtn);
+        this.showDetailsBtn.setOnClickListener(this);
 
 
         this.graph = (GraphView) findViewById(R.id.graph);
@@ -267,6 +273,10 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             startService(stopIntent);
         }else if(view == this.saveAnalysisBtn){
             this.saveCurrentAnalysis();
+        }else if(view == this.showDetailsBtn){
+            Intent i = new Intent(BarChartActivity.this, DetailGraphActivity.class);
+            i.putExtra(Constants.DETAIL_GRAPH.EMOTION_NAME, Constants.DETAIL_GRAPH.EMOTION_NAME_ANGER); //TODO: add a selection popup here
+            startActivity(i);
         }
     }
 
@@ -353,65 +363,65 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
 
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-    public int mkFolder(String folderName){ // make a folder under Environment.DIRECTORY_DCIM
-        String state = Environment.getExternalStorageState();
-        if (!Environment.MEDIA_MOUNTED.equals(state)){
-            Toast.makeText(this, "Error: external storage is unavailable",Toast.LENGTH_SHORT).show();
-            return 0;
-        }
-        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            Log.d("myAppName", "Error: external storage is read only.");
-            return 0;
-        }
-        Log.d("myAppName", "External storage is not read only or unavailable");
+    /*  public int mkFolder(String folderName){ // make a folder under Environment.DIRECTORY_DCIM
+          String state = Environment.getExternalStorageState();
+          if (!Environment.MEDIA_MOUNTED.equals(state)){
+              Toast.makeText(this, "Error: external storage is unavailable",Toast.LENGTH_SHORT).show();
+              return 0;
+          }
+          if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+              Log.d("myAppName", "Error: external storage is read only.");
+              return 0;
+          }
+          Log.d("myAppName", "External storage is not read only or unavailable");
 
-        if (ContextCompat.checkSelfPermission(this, // request permission when it is not granted.
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            Log.d("myAppName", "permission:WRITE_EXTERNAL_STORAGE: NOT granted!");
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+          if (ContextCompat.checkSelfPermission(this, // request permission when it is not granted.
+                  Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                  != PackageManager.PERMISSION_GRANTED) {
+              Log.d("myAppName", "permission:WRITE_EXTERNAL_STORAGE: NOT granted!");
+              // Should we show an explanation?
+              if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                      Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
+                  // Show an expanation to the user *asynchronously* -- don't block
+                  // this thread waiting for the user's response! After the user
+                  // sees the explanation, try again to request the permission.
 
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+              } else {
+                  // No explanation needed, we can request the permission.
+                  ActivityCompat.requestPermissions(this,
+                          new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                          MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
 
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-        }
+                  // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                  // app-defined int constant. The callback method gets the
+                  // result of the request.
+              }
+          }
 
 
 
-        File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),folderName);
-        int result = 0;
-        if (folder.exists()) {
-            Log.d("myAppName","folder exist:"+folder.toString());
-            result = 2; // folder exist
-        }else{
-            try {
-                if (folder.mkdir()) {
-                    Log.d("myAppName", "folder created:" + folder.toString());
-                    result = 1; // folder created
-                } else {
-                    Log.d("myAppName", "creat folder fails:" + folder.toString());
-                    result = 0; // creat folder fails
-                }
-            }catch (Exception ecp){
-                ecp.printStackTrace();
-            }
-        }
-        return result;
-    }
-
+          File folder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),folderName);
+          int result = 0;
+          if (folder.exists()) {
+              Log.d("myAppName","folder exist:"+folder.toString());
+              result = 2; // folder exist
+          }else{
+              try {
+                  if (folder.mkdir()) {
+                      Log.d("myAppName", "folder created:" + folder.toString());
+                      result = 1; // folder created
+                  } else {
+                      Log.d("myAppName", "creat folder fails:" + folder.toString());
+                      result = 0; // creat folder fails
+                  }
+              }catch (Exception ecp){
+                  ecp.printStackTrace();
+              }
+          }
+          return result;
+      }
+  */
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {

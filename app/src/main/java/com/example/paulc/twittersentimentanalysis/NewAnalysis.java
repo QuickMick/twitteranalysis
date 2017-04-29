@@ -147,6 +147,9 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                     if(result) {
                         Intent startIntent = new Intent(NewAnalysis.this, ForegroundService.class);
                         startIntent.setAction(ForegroundService.STARTFOREGROUND_ACTION);
+                        String kw = searchcriteria.getText().toString();
+                        Log.d("AppD","Start analysis with kewords: "+kw);
+                        startIntent.putExtra(ForegroundService.SEARCH_CRITERIA,kw);
                         finish();   // i thought it would be a good idea to close the newAnalisis activity so,
                         // if you hit back from the graph activity
                         // you are not able to start a new analisis, if the other one is still running

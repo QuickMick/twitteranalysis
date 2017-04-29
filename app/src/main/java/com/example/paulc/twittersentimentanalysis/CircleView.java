@@ -5,14 +5,19 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
+import android.icu.text.NumberFormat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 public class CircleView extends View {
 
-    private int start=0;
-    private int end = 360;
+    private float start=0;
+    private float end = 360;
+    private float percent;
 
     public CircleView(Context context)
     {
@@ -49,8 +54,8 @@ public class CircleView extends View {
                 Path.Direction.CW);
 
         Paint paint = new Paint();
-        paint.setColor(Color.GREEN);    //TODO: @paul --> please change it to the color of the desing
-        paint.setStrokeWidth(80);
+
+        paint.setStrokeWidth(radius);
         paint.setStyle(Paint.Style.FILL);
 
         float center_x, center_y;
@@ -64,22 +69,59 @@ public class CircleView extends View {
                 center_y - radius,
                 center_x + radius,
                 center_y + radius);
+
+        paint.setColor(Color.rgb(161,224,169));
+        canvas.drawArc(oval, 0, 360, false, paint);
+        paint.setColor(Color.rgb(39,142,136));
+
+
         canvas.drawArc(oval, this.start, this.end, false, paint);
+
+
+            Paint paintText = new Paint();
+            paintText.setTypeface(Typeface.DEFAULT);// your preference here
+
+            paintText.setTextSize(radius);// have this the same as your text size
+
+
+          /*  NumberFormat defaultFormat = NumberFormat.getPercentInstance();
+            defaultFormat.setMinimumFractionDigits(1);
+            defaultFormat.setMaximumFractionDigits(1);
+            System.out.println("Percent format: " + defaultFormat.format(num));
+*/
+            String text = (((float)((int)(this.percent*10)))/10)+"%";
+
+            Rect bounds = new Rect();
+            paintText.getTextBounds(text, 0, text.length(),bounds);
+
+            canvas.drawText(text,center_x-bounds.width()/2,center_y+ bounds.height()/2,paintText);
     }
 
-    public int getStart() {
+    public float getStart() {
         return start;
     }
 
-    public void setStart(int start) {
+    public void setStart(float start) {
         this.start = start;
     }
 
-    public int getEnd() {
+    public float getEnd() {
         return end;
     }
 
-    public void setEnd(int end) {
+    public void setEnd(float end) {
         this.end = end;
+    }
+
+    public void setPercent(float percent) {
+        this.percent = percent;
+        this.start = 180;
+        this.end = ((percent/100f)*360);
+
+        this.invalidate();
+    }
+
+    public float getPercent() {
+        return percent;
     }
 }

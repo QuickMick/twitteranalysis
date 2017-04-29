@@ -96,7 +96,6 @@ public class TwitterCrawler {
         this.stream.addListener(listener);
         // sample() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
 
-        //TODO: keywords
 
         if(keywords != null && keywords.length() >0) {
             FilterQuery fq = new FilterQuery();

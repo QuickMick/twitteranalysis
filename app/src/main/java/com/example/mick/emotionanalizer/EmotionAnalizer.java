@@ -5,6 +5,7 @@ package com.example.mick.emotionanalizer;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -71,12 +72,12 @@ public class EmotionAnalizer {
 
 	// no need for this function anymore - the contractions will be removed anyway in the cleantokens section
 	private String exapndContractions(String s){
-
-
 		return s;
 	}
 
 	private String prepareText(String text){
+		Log.d("text",text);
+
 		text = text.toLowerCase();										// to lower
 		text = text.replaceAll("(\\r\\n|\\n|\\r)", " "); 				// remove new lines
 		text = text.replaceAll("&([^;]*);", ""); 						// remove HTML-entities
@@ -86,6 +87,10 @@ public class EmotionAnalizer {
 		text = text.replaceAll(" +", " ");								// remove multiple spaces
 		text = text.trim();												// remove leading and trailing spaces
 
+		/*if(text.contains("start") || text.contains("https"))
+		{
+			Log.d("text",text+" |||||||| "+orgi);
+		}*/
 		return text;
 	}
 

@@ -8,14 +8,17 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mick.emotionanalizer.AnalizationHelper;
@@ -58,6 +61,10 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
     private EmotionWeighting currentData = new EmotionWeighting();
 
+    private AnalizationResult ar = new AnalizationResult();
+
+    private TextView tweetCountLbl, wordCountLbl,sentenceCountLbl;
+
     /**
      * needed for the foregroudnservice, to check if he should start this activity or not
      */
@@ -89,6 +96,10 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
         this.stopAnalysisBtn = (Button) findViewById(R.id.stopanalysisbtn);
         this.stopAnalysisBtn.setOnClickListener(this);
+
+        this.tweetCountLbl = (TextView)findViewById(R.id.tweetcountlbl);
+        this.wordCountLbl = (TextView)findViewById(R.id.wordcountlbl);
+        this.sentenceCountLbl = (TextView)findViewById(R.id.sentencecountlbl);
 
 
         this.saveAnalysisBtn = (Button) findViewById(R.id.saveanalysisbtn);
@@ -143,6 +154,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case Constants.ANALIZATION.MODE_ANALIZATION_STOPPED:
                 this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
+                this.ar = AnalizationHelper.INSTANCE().getFinalResult();
                 this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
                 this.updateGraphData();
                 break;
@@ -229,6 +241,11 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 // draw values on top
         series.setDrawValuesOnTop(true);
         series.setValuesOnTopColor(Color.RED);
+
+
+        this.tweetCountLbl.setText(this.ar.tweetCount+"");
+        this.sentenceCountLbl.setText(this.ar.sentenceCount+"");
+        this.wordCountLbl.setText(this.ar.wordCount+"");
     }
 
     private Timer refreshTimer;
@@ -236,15 +253,26 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
         if(this.refreshTimer != null) refreshTimer.cancel();
         this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
+        this.ar = AnalizationHelper.INSTANCE().getFinalResult();
         this.updateGraphData();
 
+        final Handler mainHandler = new Handler(this.getMainLooper());
         this.refreshTimer = new Timer();
         this.refreshTimer.schedule(new TimerTask(){
 
             @Override
             public void run() {
                 BarChartActivity.this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
-                BarChartActivity.this.updateGraphData();
+                BarChartActivity.this.ar = AnalizationHelper.INSTANCE().getFinalResult();
+
+                //neeeded to update labels
+                mainHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        BarChartActivity.this.updateGraphData();
+                    }
+                });
+
 
                 // stop refresehing, if analization has stopped.
                 if(!AnalizationHelper.INSTANCE().isRunning()){
@@ -317,12 +345,12 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         }
 
 
-
+        //TODO: do the writing (following code) in an async task and show a "waiting" symbol - block everything else (also going back)
         AnalizationResult ar = AnalizationHelper.INSTANCE().getFinalResult();
         String json = ar.toJSON();
         //DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
-        //return "{\"startDate\":\""+format.format(this.startDate)+"\", "	//TODO
+        //return "{\"startDate\":\""+format.format(this.startDate)+"\", "	/
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss_");
         String fileName = "twitter_"+format.format(ar.startDate)+"-"+format.format(ar.endDate)+".json";
         try {

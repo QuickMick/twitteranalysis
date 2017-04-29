@@ -30,6 +30,7 @@ import java.util.TimerTask;
 public class ForegroundService extends Service {
     private static final String LOG_TAG = "ForegroundService";
     private static final int NOTIF_ID=101;
+    public static final String SEARCH_CRITERIA = "SEARCH_CRITERIA";
     public static String STARTFOREGROUND_ACTION = "FS_STARTFOREGROUND_ACTION";
     public static String STOP_ANALYSIS_ACTION = "FS_STOP_ANALYSIS_ACTION";
     public static String STOPFOREGROUND_ACTION = "FS_STOPFOREGROUND_ACTION";
@@ -47,24 +48,7 @@ public class ForegroundService extends Service {
      //   this.result = new AnalizationResult();
        // this.result_steps = new LinkedList<AnalizationResult>();
 
-        AnalizationHelper.INSTANCE().recreate();
-        AnalizationHelper.INSTANCE().init(this);
-        AnalizationHelper.INSTANCE().startAnalization("start",this);
 
-
-        this.updateDataTimer = new Timer();
-        this.updateDataTimer .schedule(
-        new TimerTask() {
-            public void run() {
-                ForegroundService.this.updateResult();
-
-                //TODO: send broadcast?
-               /* Log.d("analizer","Current WORDCOUNT: "+crawler.getCurrentResult().wordCount);
-                System.out.println(crawler..wordCount);*/
-            }
-        } , 0, 1000);
-
-        Toast.makeText(this,"Analization succesfully started.",Toast.LENGTH_SHORT).show();
     }
 
     private void updateResult(){
@@ -88,6 +72,28 @@ public class ForegroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent.getAction().equals(ForegroundService.STARTFOREGROUND_ACTION)) {
             Log.d("AppD", "Received Start Foreground Intent ");
+            AnalizationHelper.INSTANCE().recreate();
+            AnalizationHelper.INSTANCE().init(this);
+            String keywords = intent.getStringExtra(ForegroundService.SEARCH_CRITERIA);
+            AnalizationHelper.INSTANCE().startAnalization(keywords,this);
+
+
+            this.updateDataTimer = new Timer();
+            this.updateDataTimer .schedule(
+                    new TimerTask() {
+                        public void run() {
+                            ForegroundService.this.updateResult();
+
+                            //TODO: send broadcast?
+               /* Log.d("analizer","Current WORDCOUNT: "+crawler.getCurrentResult().wordCount);
+                System.out.println(crawler..wordCount);*/
+                        }
+                    } , 0, 1000);
+
+            Toast.makeText(this,"Analization succesfully started.",Toast.LENGTH_SHORT).show();
+
+
+
 
             Notification notification = this.createNotification("Analized words: 25345");
             startForeground(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE,
@@ -187,7 +193,7 @@ public class ForegroundService extends Service {
                 .setLargeIcon(Bitmap.createScaledBitmap(icon, 128, 128, false))
                 .setContentIntent(pendingIntent)
                 .setOngoing(true)
-                .addAction(android.R.drawable.ic_media_pause,
+                .addAction(android.R.drawable.ic_lock_power_off,
                         "Stop", pstopIntent)
                    /* .addAction(android.R.drawable.ic_media_play, "Play",
                             pplayIntent)

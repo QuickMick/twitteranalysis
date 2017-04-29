@@ -38,7 +38,8 @@
             android:launchMode="singleTask"
             android:screenOrientation="landscape" />
         <activity android:name="com.example.graphs.DetailGraphActivity" />
-        <activity android:name=".HistoryActivity"></activity>
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".ImprintActivity"></activity>
     </application>
 
 </manifest>

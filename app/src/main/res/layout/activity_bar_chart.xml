@@ -8,9 +8,39 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.graphs.BarChartActivity">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/titledate"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Analization Interval "
+            android:id="@+id/textViesw21"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.02" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/analizationintervallbl"
+            android:gravity="right"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
+
     <com.jjoe64.graphview.GraphView
         android:layout_width="match_parent"
         android:layout_height="200dip"
+        android:layout_below="@+id/titledate"
         android:id="@+id/graph" />
 
     <Button
@@ -86,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Used Keywords:"
+                android:text="Keywords: "
                 android:id="@+id/textView21"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="0.36" />

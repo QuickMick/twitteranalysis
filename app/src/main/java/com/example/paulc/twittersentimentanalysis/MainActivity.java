@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // declaration of views
     FontManager FM;
-    TextView userdisplay,logout,informativeText,backicon;
-    Button logouttv,newAnalysis,history,settings;
+    TextView userdisplay,informativeText,backicon;
+    Button newAnalysis,history,settings,imprintBtn;
     ProgressDialog progressDialog;
 
     @Override
@@ -69,10 +69,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         progressDialog = new ProgressDialog(this);
 
-        logouttv.setOnClickListener(this);
+     //   logouttv.setOnClickListener(this);
         settings.setOnClickListener(this);
         history.setOnClickListener(this);
         newAnalysis.setOnClickListener(this);
+        this.imprintBtn.setOnClickListener(this);
 
       //  AnalizationHelper.INSTANCE().init(this);
 
@@ -83,19 +84,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         backicon = (TextView)findViewById(R.id.backicon);
         userdisplay = (TextView)findViewById(R.id.userdisplay);
-        logout = (TextView)findViewById(R.id.logout);
-        logouttv = (Button)findViewById(R.id.logouttv);
+       // logout = (TextView)findViewById(R.id.logout);
+       // logouttv = (Button)findViewById(R.id.logouttv);
         newAnalysis = (Button)findViewById(R.id.newAnalysis);
         history = (Button)findViewById(R.id.history);
         settings = (Button)findViewById(R.id.settings);
         informativeText = (TextView) findViewById(R.id.informativeText);
-
+        this.imprintBtn = (Button)findViewById(R.id.imprintbnt);
 
 
         FM.setAppRegular(backicon);
         FM.setAppRegular(userdisplay);
-        FM.setAppRegular(logout);
-        FM.setAppMedium(logouttv);
+       // FM.setAppRegular(logout);
+     //   FM.setAppMedium(logouttv);
         FM.setAppMedium(newAnalysis);
         FM.setAppMedium(history);
         FM.setAppMedium(settings);
@@ -116,9 +117,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick (View view){
         // if he presses on Register , call the register user function
-        if (view == logouttv) {
+     /*   if (view == logouttv) {
             userLogout();
-        }
+        }*/
 
         if (view == settings) {
             startActivity(new Intent(MainActivity.this, Settings.class));
@@ -135,6 +136,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return;
             }
             startActivity(new Intent(MainActivity.this, NewAnalysis.class));
+        }
+
+        if(view == this.imprintBtn){
+            startActivity(new Intent(MainActivity.this, ImprintActivity.class));
         }
 
 

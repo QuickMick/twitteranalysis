@@ -23,7 +23,6 @@ import java.util.Set;
 /*
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;*/
-import org.json.simple.parser.JSONParser;
 
 /**
  * @author Mick

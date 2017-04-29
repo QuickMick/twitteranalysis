@@ -22,6 +22,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,7 +69,9 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
     private AnalizationResult ar = new AnalizationResult();
 
-    private TextView tweetCountLbl, wordCountLbl,sentenceCountLbl, usedKeywordsLbl;
+    private TextView tweetCountLbl, wordCountLbl,sentenceCountLbl, usedKeywordsLbl, analizationIntervalLbl;
+
+    private LinearLayout titledate;
 
     /**
      * needed for the foregroudnservice, to check if he should start this activity or not
@@ -106,7 +109,8 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         this.wordCountLbl = (TextView)findViewById(R.id.wordcountlbl);
         this.sentenceCountLbl = (TextView)findViewById(R.id.sentencecountlbl);
         this.usedKeywordsLbl = (TextView)findViewById(R.id.tweetkeywordslbl);
-
+        this.analizationIntervalLbl = (TextView)findViewById(R.id.analizationintervallbl);
+        this.titledate = (LinearLayout) findViewById(R.id.titledate);
 
         this.saveAnalysisBtn = (Button) findViewById(R.id.saveanalysisbtn);
         this.saveAnalysisBtn.setOnClickListener(this);
@@ -151,6 +155,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
         this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
         this.saveAnalysisBtn.setVisibility(Button.INVISIBLE);
+        this.titledate.setVisibility(LinearLayout.GONE);
         // start the view
         Intent i =getIntent();
         switch(i.getStringExtra(Constants.ANALIZATION.DIAGRAM_MODE)){
@@ -168,11 +173,17 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case Constants.ANALIZATION.MODE_HISTORY:
                 String date = i.getStringExtra(Constants.ANALIZATION.MODE_HISTORY_DATE);
-
+                //TODO: set date
                 this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
                 this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
                 this.ar = AnalizationHelper.INSTANCE().getFinalResult();
-                this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
+                this.titledate.setVisibility(LinearLayout.VISIBLE);
+
+
+                DateFormat format = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);
+
+                this.analizationIntervalLbl.setText("from "+format.format(ar.startDate)+ " to "+format.format(ar.endDate));
+
                 this.updateGraphData();
 
                 //TODO: addDAte

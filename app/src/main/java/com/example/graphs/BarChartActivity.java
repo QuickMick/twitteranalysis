@@ -1,8 +1,12 @@
 package com.example.graphs;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -288,7 +292,6 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         }, 0, BarChartActivity.REFRESH_INTERVALL_MS);
     }
 
-
     @Override
     public void onClick (View view) {
         // if he presses on Register , call the register user function
@@ -306,9 +309,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         }else if(view == this.saveAnalysisBtn){
             this.saveCurrentAnalysis();
         }else if(view == this.showDetailsBtn){
-            Intent i = new Intent(BarChartActivity.this, DetailGraphActivity.class);
-            i.putExtra(Constants.DETAIL_GRAPH.EMOTION_NAME, Constants.DETAIL_GRAPH.EMOTION_NAME_ANGER); //TODO: add a selection popup here
-            startActivity(i);
+            this.showSelectEmotionDetail();
         }
     }
 
@@ -472,5 +473,28 @@ Log.d("test","no permission");
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+
+    private void showSelectEmotionDetail(){
+        DialogFragment d= new DialogFragment() {
+            @Override
+            public Dialog onCreateDialog(Bundle savedInstanceState) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(BarChartActivity.this);
+                builder.setTitle("Select")
+                        .setItems(Constants.emotionCommandsAsArray(), new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // The 'which' argument contains the index position
+                                // of the selected item
+
+                                Intent i = new Intent(BarChartActivity.this, DetailGraphActivity.class);
+                                i.putExtra(Constants.DETAIL_GRAPH.EMOTION_NAME, Constants.emotionCommandsAsArray()[which]); //TODO: add a selection popup here
+                                startActivity(i);
+                            }
+                        });
+                return builder.create();
+            }
+        };
+
+        d.show(this.getFragmentManager(),"SELECT_EMOTION_DETAIL");
     }
 }

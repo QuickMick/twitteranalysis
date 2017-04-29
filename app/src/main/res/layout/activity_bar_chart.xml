@@ -139,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Analized Words:"
+                android:text="Analized Sentences:"
                 android:id="@+id/textView5"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="0.39" />

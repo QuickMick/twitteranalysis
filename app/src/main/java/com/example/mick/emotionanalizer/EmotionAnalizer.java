@@ -213,9 +213,6 @@ public class EmotionAnalizer {
 		return this.process(text,new AnalizationResult());
 	}
 
-
-
-
 	public String loadJSONFromAsset(Context context,String name) {
 		String json = null;
 		try {

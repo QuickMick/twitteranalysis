@@ -64,7 +64,6 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
         FM.setBackIcon(backicon);
 
         go.setOnClickListener(this);
-
     }
 
 

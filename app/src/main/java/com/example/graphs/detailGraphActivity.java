@@ -34,7 +34,7 @@ public class DetailGraphActivity extends AppCompatActivity {
     public static final int MAX_VISIBLE_WORDCOUNT = 30;
 
     private String currentEmotion="";
-
+    private HashMap<String,Integer> currentWordlist;
     private CircleView circleView;
 
     private TextView emotionTitleLbl;
@@ -58,67 +58,84 @@ public class DetailGraphActivity extends AppCompatActivity {
         Log.d("AppD","selected detail emotion: "+this.currentEmotion);
 
 
-        this.currentEmotion = Constants.DETAIL_GRAPH.EMOTION_NAME_ANTICIPATION;
+        //this.currentEmotion = Constants.DETAIL_GRAPH.EMOTION_NAME_ANTICIPATION;
 
-        this.initPercent(AnalizationHelper.INSTANCE().getFinalResult().weigthing);
-
-        this.initList();
+        this.init(AnalizationHelper.INSTANCE().getFinalResult());
 
     }
 
-    private void initPercent(EmotionWeighting ew) {
-        this.emotionTitleLbl.setText(this.currentEmotion);
+    private void init(AnalizationResult ar) {
+
+        EmotionWeighting ew = ar.weigthing;
+
+        String captionText = this.currentEmotion;
 
         float em=0;
         switch (this.currentEmotion){
             case Constants.DETAIL_GRAPH.EMOTION_NAME_ANGER:
                 em=ew.anger;
+                currentWordlist= ar.wordStatistic_anger;
                 break;
             case Constants.DETAIL_GRAPH.EMOTION_NAME_ANTICIPATION:
                 em=ew.anticipation;
+                currentWordlist= ar.wordStatistic_anticipation;
                 break;
             case Constants.DETAIL_GRAPH.EMOTION_NAME_DISGUST:
+                currentWordlist= ar.wordStatistic_disgust;
                 em=ew.disgust;
                 break;
             case Constants.DETAIL_GRAPH.EMOTION_NAME_FEAR:
+                currentWordlist= ar.wordStatistic_fear;
                 em=ew.fear;
                 break;
             case Constants.DETAIL_GRAPH.EMOTION_NAME_JOY:
+                currentWordlist= ar.wordStatistic_joy;
                 em=ew.joy;
                 break;
             case Constants.DETAIL_GRAPH.EMOTION_NAME_SADNESS:
+                currentWordlist= ar.wordStatistic_sadness;
                 em=ew.sadness;
                 break;
             case Constants.DETAIL_GRAPH.EMOTION_NAME_SURPRISE:
+                currentWordlist= ar.wordStatistic_surprise;
                 em=ew.surprise;
                 break;
             case Constants.DETAIL_GRAPH.EMOTION_NAME_TRUST:
+                currentWordlist= ar.wordStatistic_trust;
                 em=ew.trust;
                 break;
             case Constants.DETAIL_GRAPH.EMOTION_NAME_POSITIVE:
+                currentWordlist= ar.wordStatistic_sentiment_positive;
                 em=ew.sentiment_positive;
                 break;
             case Constants.DETAIL_GRAPH.EMOTION_NAME_NEGATIVE:
+                currentWordlist= ar.wordStatistic_sentiment_negative;
                 em=ew.sentiment_negative;
+            case Constants.DETAIL_GRAPH.ALL_WORDS:
+                currentWordlist= ar.wordStatistic_all;
+                em=ar.wordCountAnalized;
+                captionText+=" | Total words: "+ar.wordCount+" - Analized: "+ar.wordCountAnalized;
+
                 break;
         }
 
+        this.emotionTitleLbl.setText(captionText);
+
         float total =0;
 
-        if(this.currentEmotion == Constants.DETAIL_GRAPH.EMOTION_NAME_NEGATIVE || this.currentEmotion ==Constants.DETAIL_GRAPH.EMOTION_NAME_POSITIVE){
+        if(this.currentEmotion.equals(Constants.DETAIL_GRAPH.EMOTION_NAME_NEGATIVE) || this.currentEmotion.equals(Constants.DETAIL_GRAPH.EMOTION_NAME_POSITIVE)){
             total = ew.getTotalSentiment();
-        }else {
+        }else if(this.currentEmotion.equals(Constants.DETAIL_GRAPH.ALL_WORDS)) {
+            total = ar.wordCount;
+            Log.d("AppD","words: "+total+" analized: "+em);
+        }else{
             total = ew.getTotalEmotion();
         }
         circleView.setPercent((em/total)*100f);
-    }
 
-    private void initList(){
+        // init the wordlist with following section
 
-        HashMap<String,Integer> wl = AnalizationHelper.INSTANCE().getFinalResult().wordStatistic_anticipation;
-        List<Map.Entry<String,Integer>> entries = new ArrayList<Map.Entry<String,Integer>>( wl.entrySet());
-
-
+        List<Map.Entry<String,Integer>> entries = new ArrayList<Map.Entry<String,Integer>>( this.currentWordlist.entrySet());
 
         Collections.sort(
                 entries
@@ -133,21 +150,14 @@ public class DetailGraphActivity extends AppCompatActivity {
         );
 
         ArrayList<String> visibleItems = new ArrayList<String>();
-
-
-        ArrayList<String> keyWords = new ArrayList<String>(Arrays.asList(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
+        ArrayList<String> keyWords = new ArrayList<String>(Arrays.asList(ar.getKewords()));
 
         int i=0;
         for (Map.Entry<String,Integer> e : entries) {
-
-
             if(keyWords.contains(e.getKey())) continue; //filter the searched keywords --> becuase they are in every tweet
 
-            //visibleItems.add(e.getKey()+" : "+e.getValue());
             visibleItems.add(e.getKey()+" : "+e.getValue());    // TODO: @paul: i think it would look better if we would split the content to two text fields and align them
-
             i++;
-
             // showing all data would propably kill the list
             if(i > DetailGraphActivity.MAX_VISIBLE_WORDCOUNT){
                 break;
@@ -157,8 +167,6 @@ public class DetailGraphActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.list_view_emotions,visibleItems.toArray(new String[visibleItems.size()]));
         this.wordListLv.setAdapter(adapter);
     }
-
-    private float x= 0;
 }
 /*
 final Handler mainHandler = new Handler(this.getMainLooper());

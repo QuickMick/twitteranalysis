@@ -112,6 +112,12 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 				+"\"wordStatistic_sentiment_positive\":"+this.hashMapToJSON(this.wordStatistic_sentiment_positive)+"}";
 	}
 
+	public static AnalizationResult createFromJSON(String json){
+		//TODO:
+		AnalizationResult result = new AnalizationResult();
+		return result;
+	}
+
 	public HashMap<String,Integer> wordStatistic_all = new HashMap<String,Integer>();
 
 	public HashMap<String,Integer> wordStatistic_anger = new HashMap<String,Integer>();
@@ -146,9 +152,6 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 
 		return result;
 	}
-
-
-
 
 	/**
 	 * Adds another instance of analization Result to this one

@@ -28,6 +28,22 @@ public class Constants {
         public static String EMOTION_NAME_POSITIVE ="POSITIVE";
         public static String EMOTION_NAME_NEGATIVE ="NEGATIVE";
 
+        public static String ALL_WORDS = "All words";
+    }
+    public static String[] emotionCommandsAsArray(){
+        return new String[]{
+                DETAIL_GRAPH.ALL_WORDS,
+                DETAIL_GRAPH.EMOTION_NAME_ANGER,
+                DETAIL_GRAPH.EMOTION_NAME_ANTICIPATION,
+                DETAIL_GRAPH.EMOTION_NAME_DISGUST,
+                DETAIL_GRAPH.EMOTION_NAME_FEAR,
+                DETAIL_GRAPH.EMOTION_NAME_JOY,
+                DETAIL_GRAPH.EMOTION_NAME_SADNESS,
+                DETAIL_GRAPH.EMOTION_NAME_SURPRISE,
+                DETAIL_GRAPH.EMOTION_NAME_TRUST,
+                DETAIL_GRAPH.EMOTION_NAME_POSITIVE,
+                DETAIL_GRAPH.EMOTION_NAME_NEGATIVE
+        };
     }
 
     public interface ANALIZATION{

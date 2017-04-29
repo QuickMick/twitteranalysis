@@ -7,8 +7,15 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.service.carrier.CarrierMessagingService;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -27,13 +34,19 @@ import com.example.graphs.DetailGraphActivity;
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.emotionanalizer.AnalizationResult;
 import com.example.mick.service.Constants;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 
 import org.json.JSONException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -42,7 +55,7 @@ import java.util.List;
 /**
  * TODO: @paul use longclick on a entry/file, to delete the file and then reload
  */
-public class HistoryActivity extends AppCompatActivity implements View.OnClickListener {
+public class HistoryActivity extends AppCompatActivity implements View.OnClickListener{
 
 
     private ListView filesLv;
@@ -180,7 +193,7 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public Dialog onCreateDialog(Bundle savedInstanceState) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(HistoryActivity.this);
-                builder.setTitle("Select")
+                builder.setTitle("What do you want do?")
                         .setItems(options, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // The 'which' argument contains the index position
@@ -205,6 +218,40 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
                                         }
                                         break;
                                     case Constants.HISORY.DELETE:
+                                        // show "do you really want to delte " dialog
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                        builder.setTitle("Do you really want to delete "+file.getName());
+                                        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                //delete
+                                                file.delete();
+                                                Toast.makeText(HistoryActivity.this, "File"+file.getName()+" successfully deleted", Toast.LENGTH_SHORT).show();
+                                                HistoryActivity.this.listFiles();
+                                                dialog.dismiss();
+                                            }
+                                        });
+
+                                        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                //cancel
+                                                dialog.dismiss();
+                                            }
+                                        });
+                                        builder.create().show();
+                                        break;
+                                    case Constants.HISORY.SHARE:
+                                        Uri path = Uri.fromFile(file);
+                                        Intent sendFileIntent = new Intent(Intent.ACTION_SEND);
+
+                                        sendFileIntent.putExtra(Intent.EXTRA_STREAM, path);
+                                        //TODO: test with real apps -> should be able to send to dropbox or google drive or mail
+                                        sendFileIntent.setType("application/json"); //sendFileIntent.setType("text/plain");
+                                      /*  String to[] = {"asd@gmail.com"};
+                                        emailIntent .putExtra(Intent.EXTRA_EMAIL, to);
+                                        // the mail subject
+                                        emailIntent .putExtra(Intent.EXTRA_SUBJECT, "Subject");*/
+                                        startActivity(Intent.createChooser(sendFileIntent , "Send file..."));
+
                                         break;
                                 }
 
@@ -216,6 +263,8 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
 
         d.show(this.getFragmentManager(),"SELECT_HISTORY_OPTION");
     }
+
+
 }
 
 

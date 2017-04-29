@@ -21,7 +21,7 @@ public class Constants {
     }
 
     public static String[] historyCommandsAsArray(){
-        return new String[]{HISORY.OPEN,HISORY.DELETE};
+        return new String[]{HISORY.OPEN,HISORY.SHARE,HISORY.DELETE};
     }
 
     public interface DETAIL_GRAPH{

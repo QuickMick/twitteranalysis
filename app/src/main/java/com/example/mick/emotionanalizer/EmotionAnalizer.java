@@ -76,8 +76,6 @@ public class EmotionAnalizer {
 	}
 
 	private String prepareText(String text){
-		Log.d("text",text);
-
 		text = text.toLowerCase();										// to lower
 		text = text.replaceAll("(\\r\\n|\\n|\\r)", " "); 				// remove new lines
 		text = text.replaceAll("&([^;]*);", ""); 						// remove HTML-entities
@@ -193,13 +191,19 @@ public class EmotionAnalizer {
 	}
 
 	public AnalizationResult process(String text,AnalizationResult result){
-		String[] sentences = text.split("[\\.!\\?:]+"); // split text to sentences
+		text = text.replaceAll("&([^;]*);", ""); 						// remove HTML-entities
+		text = text.replaceAll("(?:https?|ftp):\\/\\/[\\n\\S]+", ""); 	// remove urls
+
+		Log.d("text",text);
+
+		String[] sentences = text.split("[\\.!\\?;]+"); // split text to sentences
 
 		result.tweetCount +=1;
 		result.sentenceCount +=sentences.length;
 
 		for(String sentence : sentences){
 			result = this.analyzeEmotions(this.cleanTokens(this.tokenize(this.prepareText(this.exapndContractions(sentence)))),result);
+			Log.d("text_sentence",this.prepareText(this.exapndContractions(sentence)));
 		}
 
 		return result;

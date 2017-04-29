@@ -62,6 +62,8 @@ public class TwitterCrawler {
         StatusListener listener = new StatusListener(){
             public void onStatus(Status status) {
             //    System.out.println("tweet");
+                //TODO: dont use retweets --> is this a good idea?
+                if(status.isRetweet())return;
 
                 String currentTweet = status.getText();
                 // merge hashtags to tweet

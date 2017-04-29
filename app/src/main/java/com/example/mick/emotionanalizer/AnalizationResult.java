@@ -92,7 +92,7 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 
 		return "{\"startDate\":\""+format.format(this.startDate)+"\", "
 				+"\"endDate\":\""+format.format(this.endDate)+"\", "
-				+"\nkeywords\":"+ this.keywordsToJSON()+", "
+				+"\"keywords\":"+ this.keywordsToJSON()+", "
 				+"\"wordCount\":"+this.wordCount+", "
 				+"\"tweetCount\":"+this.tweetCount+", "
 				+"\"sentenceCount\":"+this.sentenceCount+", "

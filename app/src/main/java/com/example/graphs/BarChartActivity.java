@@ -355,8 +355,8 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         //DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
         //return "{\"startDate\":\""+format.format(this.startDate)+"\", "	/
-        DateFormat format = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss_");
-        String fileName = "twitter_"+format.format(ar.startDate)+"-"+format.format(ar.endDate)+".json";
+        DateFormat format = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+        String fileName = "twitter_"+format.format(ar.startDate)+"_-_"+format.format(ar.endDate)+".json";
         try {
             File mydir = new File(Environment.getExternalStorageDirectory(),"twitter_results");
             if(!mydir.exists()) {

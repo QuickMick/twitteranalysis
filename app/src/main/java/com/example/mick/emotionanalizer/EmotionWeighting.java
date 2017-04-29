@@ -1,6 +1,9 @@
 package com.example.mick.emotionanalizer;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Represents the result of the emotional analisys
  * @author Mick
@@ -27,6 +30,25 @@ public class EmotionWeighting{
 
 	public String toJSON(){
 		return "{\"anger\":"+anger+", \"anticipation\":"+anticipation+", \"disgust\": "+disgust+", \"fear\":"+fear+", \"joy\":"+joy+", \"sadness\":"+sadness+", \"surprise\":"+surprise+", \"trust\":"+trust+", \"positive\":"+sentiment_positive+", \"negative\":"+sentiment_negative+"}";
+	}
+
+	public static EmotionWeighting fromJSON(String json) throws JSONException {
+		EmotionWeighting result = new EmotionWeighting();
+
+		JSONObject jsonObject = new JSONObject(json);
+
+		result.anger = jsonObject.getInt("anger");
+		result.anticipation = jsonObject.getInt("anticipation");
+		result.disgust = jsonObject.getInt("disgust");
+		result.fear = jsonObject.getInt("fear");
+		result.joy = jsonObject.getInt("joy");
+		result.sadness = jsonObject.getInt("sadness");
+		result.surprise = jsonObject.getInt("surprise");
+		result.trust = jsonObject.getInt("trust");
+		result.sentiment_negative = jsonObject.getInt("negative");
+		result.sentiment_positive = jsonObject.getInt("positive");
+
+		return result;
 	}
 
 	/**

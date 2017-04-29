@@ -169,7 +169,13 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             case Constants.ANALIZATION.MODE_HISTORY:
                 String date = i.getStringExtra(Constants.ANALIZATION.MODE_HISTORY_DATE);
 
-                //TODO: load old data
+                this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
+                this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
+                this.ar = AnalizationHelper.INSTANCE().getFinalResult();
+                this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
+                this.updateGraphData();
+
+                //TODO: addDAte
                 break;
         }
 
@@ -262,7 +268,10 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onPause() {
         super.onPause();
-        this.refreshTimer.cancel();
+
+        if(refreshTimer != null) {
+            this.refreshTimer.cancel();
+        }
     }
 
     protected void onResume() {
@@ -276,7 +285,6 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
 
     private void startRunningMode(){
-
         if(this.refreshTimer != null) refreshTimer.cancel();
         this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
         this.ar = AnalizationHelper.INSTANCE().getFinalResult();
@@ -331,8 +339,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void saveCurrentAnalysis() {
-
+    private void requistPermission(){
         String state = Environment.getExternalStorageState();
         if (!Environment.MEDIA_MOUNTED.equals(state)){
             Toast.makeText(this, "Error: external storage is unavailable",Toast.LENGTH_SHORT).show();
@@ -366,6 +373,11 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 // result of the request.
             }
         }
+    }
+
+    private void saveCurrentAnalysis() {
+
+       this.requistPermission();
 
 
         //TODO: do the writing (following code) in an async task and show a "waiting" symbol - block everything else (also going back)
@@ -377,12 +389,13 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         DateFormat format = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         String fileName = "twitter_"+format.format(ar.startDate)+"_-_"+format.format(ar.endDate)+".json";
         try {
-            File mydir = new File(Environment.getExternalStorageDirectory(),"twitter_results");
+            File mydir = new File(Environment.getExternalStorageDirectory(),AnalizationHelper.getAnalyzation_folder());
             if(!mydir.exists()) {
                 mydir.mkdirs();
             }
 
             File myFile = new File(mydir, fileName);
+
             Log.d("AppD","save file: "+myFile.getAbsolutePath());
 
             myFile.createNewFile();
@@ -498,7 +511,7 @@ Log.d("test","no permission");
             @Override
             public Dialog onCreateDialog(Bundle savedInstanceState) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(BarChartActivity.this);
-                builder.setTitle("Select")
+                builder.setTitle("Select Detail-View")
                         .setItems(Constants.emotionCommandsAsArray(), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // The 'which' argument contains the index position

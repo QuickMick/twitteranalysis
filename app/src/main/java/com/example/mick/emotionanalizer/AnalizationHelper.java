@@ -11,6 +11,12 @@ import java.util.LinkedList;
  */
 public class AnalizationHelper {
 
+    /**
+     * represents the folder name, e.g. "twitter_results", which is the folder, where all files for
+     * the history are saved to and loaded from.
+     */
+    private static String analyzation_folder= "twitter_results";
+
     private static AnalizationHelper instance = new AnalizationHelper();
 
     public static void recreate(){
@@ -30,10 +36,33 @@ public class AnalizationHelper {
     private volatile AnalizationResult finalResult = null;
     private volatile LinkedList<AnalizationResult> result_steps = null;
 
+    public static String getAnalyzation_folder() {
+        return analyzation_folder;
+    }
+
+    /**
+     * TODO: @paul pls add one option in the settings view, to specify the folder name for the analysis
+     * @param analyzation_folder
+     */
+    public static void setAnalyzation_folder(String analyzation_folder) {
+        AnalizationHelper.analyzation_folder = analyzation_folder;
+    }
+
 
     public synchronized AnalizationResult getFinalResult() {
         synchronized (lock) {
             return finalResult;
+        }
+    }
+
+    /**
+     * necessary for injecting history file
+     * @param ar
+     * @return
+     */
+    public synchronized AnalizationResult setFinalResult(AnalizationResult ar) {
+        synchronized (lock) {
+            return finalResult = ar;
         }
     }
 

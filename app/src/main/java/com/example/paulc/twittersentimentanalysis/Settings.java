@@ -41,6 +41,7 @@ import twitter4j.conf.ConfigurationBuilder;
  *
  * TODO: @paul add questionmark, which, when clicked, provides a short explanation (maybe toast) for how to get the twitter tokens?
  * TODO: @paul this view looks weird in landscape mode
+ * TODO: @paul pls add one option in the settings view, to specify the folder name for the analysis (see todo in AnalizationHelper)
  */
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 

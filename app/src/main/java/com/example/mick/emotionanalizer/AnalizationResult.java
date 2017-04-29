@@ -1,15 +1,22 @@
 package com.example.mick.emotionanalizer;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class AnalizationResult{
 
-	public static String DATE_FORMAT= "dd.MM.yyyy HH:mm";
+	public static String DATE_FORMAT= "dd.MM.yyyy HH:mm:ss";
 
 	public EmotionWeighting weigthing = new EmotionWeighting(0,0,0,0,0,0,0,0,0,0);
 
@@ -88,7 +95,7 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 
 	public String toJSON(){
 
-		DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+		DateFormat format = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);
 
 		return "{\"startDate\":\""+format.format(this.startDate)+"\", "
 				+"\"endDate\":\""+format.format(this.endDate)+"\", "
@@ -112,10 +119,72 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 				+"\"wordStatistic_sentiment_positive\":"+this.hashMapToJSON(this.wordStatistic_sentiment_positive)+"}";
 	}
 
-	public static AnalizationResult createFromJSON(String json){
-		//TODO:
-		AnalizationResult result = new AnalizationResult();
+	public static AnalizationResult createFromJSON(String json) throws JSONException {
+
+		JSONObject jsonObject = new JSONObject(json);
+		DateFormat format = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);
+
+		AnalizationResult result = new AnalizationResult(AnalizationResult.jsonArrayToStringArray(jsonObject.getJSONArray("keywords")));
+		result.weigthing = EmotionWeighting.fromJSON(jsonObject.getJSONObject("emotionWeighting").toString());
+		result.wordCount = jsonObject.getInt("wordCount");
+		result.tweetCount = jsonObject.getInt("tweetCount");
+		result.sentenceCount = jsonObject.getInt("sentenceCount");
+		result.wordCountAnalized = jsonObject.getInt("wordCountAnalized");
+		try {
+			result.startDate = format.parse(jsonObject.getString("startDate"));
+		} catch (ParseException e) {
+			result.startDate = null;
+		}
+		try {
+			result.endDate = format.parse(jsonObject.getString("endDate"));
+		} catch (ParseException e) {
+			result.endDate = null;
+		}
+
+		result.wordStatistic_all = AnalizationResult.jsonToHashMap(jsonObject.getJSONObject("wordStatistic_all"));
+		result.wordStatistic_anger = AnalizationResult.jsonToHashMap(jsonObject.getJSONObject("wordStatistic_anger"));
+		result.wordStatistic_anticipation = AnalizationResult.jsonToHashMap(jsonObject.getJSONObject("wordStatistic_anticipation"));
+		result.wordStatistic_disgust = AnalizationResult.jsonToHashMap(jsonObject.getJSONObject("wordStatistic_disgust"));
+		result.wordStatistic_fear = AnalizationResult.jsonToHashMap(jsonObject.getJSONObject("wordStatistic_fear"));
+		result.wordStatistic_joy = AnalizationResult.jsonToHashMap(jsonObject.getJSONObject("wordStatistic_joy"));
+		result.wordStatistic_sadness = AnalizationResult.jsonToHashMap(jsonObject.getJSONObject("wordStatistic_sadness"));
+		result.wordStatistic_surprise = AnalizationResult.jsonToHashMap(jsonObject.getJSONObject("wordStatistic_surprise"));
+		result.wordStatistic_trust = AnalizationResult.jsonToHashMap(jsonObject.getJSONObject("wordStatistic_trust"));
+		result.wordStatistic_sentiment_negative = AnalizationResult.jsonToHashMap(jsonObject.getJSONObject("wordStatistic_sentiment_negative"));
+		result.wordStatistic_sentiment_positive = AnalizationResult.jsonToHashMap(jsonObject.getJSONObject("wordStatistic_sentiment_positive"));
+
+/*
+		*/
+
+			return result;
+
+	}
+
+	private static HashMap<String,Integer> jsonToHashMap(JSONObject jsonObject) throws JSONException {
+		HashMap<String,Integer> result = new HashMap<String,Integer>();
+		Iterator it = jsonObject.keys();
+		while (it.hasNext()) {
+			String key = it.next().toString();
+			result.put(key,jsonObject.getInt(key));
+		}
+
 		return result;
+	}
+
+	private static String[] jsonArrayToStringArray(JSONArray jsonArray){
+		ArrayList<String> stringArray = new ArrayList<String>();
+		for(int i = 0, count = jsonArray.length(); i< count; i++)
+		{
+			try {
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				stringArray.add(jsonObject.toString());
+			}
+			catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return stringArray.toArray(new String[stringArray.size()]);
 	}
 
 	public HashMap<String,Integer> wordStatistic_all = new HashMap<String,Integer>();

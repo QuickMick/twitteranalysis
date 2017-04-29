@@ -14,6 +14,16 @@ public class Constants {
         public static String STOPFOREGROUND_ACTION = "com.truiton.foregroundservice.action.stopforeground";*/
     }
 
+    public interface HISORY{
+        public static String OPEN ="Open Archived Analysis";
+        public static String DELETE ="Delete File";
+        public static String SHARE = "Share File";
+    }
+
+    public static String[] historyCommandsAsArray(){
+        return new String[]{HISORY.OPEN,HISORY.DELETE};
+    }
+
     public interface DETAIL_GRAPH{
         public static String EMOTION_NAME ="EMOTION_NAME";
 

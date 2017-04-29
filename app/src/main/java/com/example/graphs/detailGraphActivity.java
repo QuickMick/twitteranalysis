@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ import java.util.TimerTask;
 /**
  * TODO: should this reload while analization is running?
  */
-public class DetailGraphActivity extends AppCompatActivity {
+public class DetailGraphActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final int MAX_VISIBLE_WORDCOUNT = 30;
 
@@ -43,6 +44,8 @@ public class DetailGraphActivity extends AppCompatActivity {
 
     private ListView wordListLv;
 
+    private Button reloadDetailsBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,17 +54,15 @@ public class DetailGraphActivity extends AppCompatActivity {
         this.circleView = (CircleView) findViewById(R.id.emotionpercent);
         this.emotionTitleLbl = (TextView)findViewById(R.id.emotiontitlelbl);
         this.wordListLv = (ListView)findViewById(R.id.wordlistlv);
+        this.reloadDetailsBtn = (Button)findViewById(R.id.reloaddetailsbtn);
+
+
+        this.reloadDetailsBtn.setOnClickListener(this);
 
         //circleView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
-
         this.currentEmotion = this.getIntent().getStringExtra(Constants.DETAIL_GRAPH.EMOTION_NAME);
-
         Log.d("AppD","selected detail emotion: "+this.currentEmotion);
-
-
-        //this.currentEmotion = Constants.DETAIL_GRAPH.EMOTION_NAME_ANTICIPATION;
-
         this.init(AnalizationHelper.INSTANCE().getFinalResult());
 
     }
@@ -205,6 +206,17 @@ public class DetailGraphActivity extends AppCompatActivity {
 
 
         this.wordListLv.setAdapter(adapter);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == this.reloadDetailsBtn){
+
+            this.currentEmotion = this.getIntent().getStringExtra(Constants.DETAIL_GRAPH.EMOTION_NAME);
+            Log.d("AppD","selected detail emotion: "+this.currentEmotion);
+            this.init(AnalizationHelper.INSTANCE().getFinalResult());
+
+        }
     }
 }
 class TwoLinedListItem{

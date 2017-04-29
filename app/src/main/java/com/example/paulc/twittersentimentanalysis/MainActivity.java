@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (view == history) {
-          //  startActivity(new Intent(MainActivity.this, History.class));
+            startActivity(new Intent(MainActivity.this, HistoryActivity.class));
         }
 
         if (view == newAnalysis) {

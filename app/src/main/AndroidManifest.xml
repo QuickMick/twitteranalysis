@@ -36,7 +36,8 @@
             android:name="com.example.graphs.BarChartActivity"
             android:launchMode="singleTask"
             android:screenOrientation="landscape" />
-        <activity android:name="com.example.graphs.DetailGraphActivity"></activity>
+        <activity android:name="com.example.graphs.DetailGraphActivity" />
+        <activity android:name=".HistoryActivity"></activity>
     </application>
 
 </manifest>

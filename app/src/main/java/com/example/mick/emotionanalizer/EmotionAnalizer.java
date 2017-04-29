@@ -194,7 +194,7 @@ public class EmotionAnalizer {
 		text = text.replaceAll("&([^;]*);", ""); 						// remove HTML-entities
 		text = text.replaceAll("(?:https?|ftp):\\/\\/[\\n\\S]+", ""); 	// remove urls
 
-		Log.d("text",text);
+		//Log.d("text",text);
 
 		String[] sentences = text.split("[\\.!\\?;]+"); // split text to sentences
 
@@ -203,7 +203,7 @@ public class EmotionAnalizer {
 
 		for(String sentence : sentences){
 			result = this.analyzeEmotions(this.cleanTokens(this.tokenize(this.prepareText(this.exapndContractions(sentence)))),result);
-			Log.d("text_sentence",this.prepareText(this.exapndContractions(sentence)));
+			//Log.d("text_sentence",this.prepareText(this.exapndContractions(sentence)));
 		}
 
 		return result;

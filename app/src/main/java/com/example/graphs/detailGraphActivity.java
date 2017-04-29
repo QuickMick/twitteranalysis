@@ -17,6 +17,7 @@ import com.example.paulc.twittersentimentanalysis.CircleView;
 import com.example.paulc.twittersentimentanalysis.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -117,6 +118,8 @@ public class DetailGraphActivity extends AppCompatActivity {
         HashMap<String,Integer> wl = AnalizationHelper.INSTANCE().getFinalResult().wordStatistic_anticipation;
         List<Map.Entry<String,Integer>> entries = new ArrayList<Map.Entry<String,Integer>>( wl.entrySet());
 
+
+
         Collections.sort(
                 entries
                 ,   new Comparator<Map.Entry<String,Integer>>() {
@@ -131,8 +134,15 @@ public class DetailGraphActivity extends AppCompatActivity {
 
         ArrayList<String> visibleItems = new ArrayList<String>();
 
+
+        ArrayList<String> keyWords = new ArrayList<String>(Arrays.asList(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
+
         int i=0;
         for (Map.Entry<String,Integer> e : entries) {
+
+
+            if(keyWords.contains(e.getKey())) continue; //filter the searched keywords --> becuase they are in every tweet
+
             //visibleItems.add(e.getKey()+" : "+e.getValue());
             visibleItems.add(e.getKey()+" : "+e.getValue());    // TODO: @paul: i think it would look better if we would split the content to two text fields and align them
 

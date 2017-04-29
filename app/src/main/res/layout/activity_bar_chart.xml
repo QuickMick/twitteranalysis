@@ -86,6 +86,33 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Used Keywords:"
+                android:id="@+id/textView21"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.36" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/tweetkeywordslbl"
+                android:gravity="right"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Analized Tweets:"
                 android:id="@+id/textView2"
                 android:layout_gravity="center_horizontal"

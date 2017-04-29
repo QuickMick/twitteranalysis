@@ -40,6 +40,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -63,7 +64,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
     private AnalizationResult ar = new AnalizationResult();
 
-    private TextView tweetCountLbl, wordCountLbl,sentenceCountLbl;
+    private TextView tweetCountLbl, wordCountLbl,sentenceCountLbl, usedKeywordsLbl;
 
     /**
      * needed for the foregroudnservice, to check if he should start this activity or not
@@ -100,6 +101,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         this.tweetCountLbl = (TextView)findViewById(R.id.tweetcountlbl);
         this.wordCountLbl = (TextView)findViewById(R.id.wordcountlbl);
         this.sentenceCountLbl = (TextView)findViewById(R.id.sentencecountlbl);
+        this.usedKeywordsLbl = (TextView)findViewById(R.id.tweetkeywordslbl);
 
 
         this.saveAnalysisBtn = (Button) findViewById(R.id.saveanalysisbtn);
@@ -149,10 +151,12 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         Intent i =getIntent();
         switch(i.getStringExtra(Constants.ANALIZATION.DIAGRAM_MODE)){
             case Constants.ANALIZATION.MODE_ANALIZATION_RUNNING:
+                this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
                 this.startRunningMode();
                 this.stopAnalysisBtn.setVisibility(Button.VISIBLE);
                 break;
             case Constants.ANALIZATION.MODE_ANALIZATION_STOPPED:
+                this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
                 this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
                 this.ar = AnalizationHelper.INSTANCE().getFinalResult();
                 this.saveAnalysisBtn.setVisibility(Button.VISIBLE);

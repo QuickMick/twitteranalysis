@@ -53,10 +53,10 @@ public class TwitterCrawler {
         this.isRunning = false;
     }
 
-    public void start(String keywords) throws InterruptedException {
+    public void start(String[] keywords) throws InterruptedException {
 
         synchronized (lock) {
-            this.currentResult = new AnalizationResult();
+            this.currentResult = new AnalizationResult(keywords);
         }
 
         StatusListener listener = new StatusListener(){
@@ -99,8 +99,12 @@ public class TwitterCrawler {
         // sample() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
 
 
-        if(keywords != null && keywords.length() >0) {
+        if(keywords != null && keywords.length >0) {
             FilterQuery fq = new FilterQuery();
+
+            //clean the keywords
+
+
             fq.track(keywords);
             fq.language("en");
             this.stream.filter(fq);

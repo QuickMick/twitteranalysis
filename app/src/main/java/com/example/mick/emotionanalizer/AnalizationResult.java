@@ -12,6 +12,8 @@ public class AnalizationResult{
 
 	public EmotionWeighting weigthing = new EmotionWeighting(0,0,0,0,0,0,0,0,0,0);
 
+	private String[] kewords = new String[0];
+
 	/**
 	 * the analitzaitonResult instance should be generated, when the analization starts,
 	 * so we initialize the start date with the current date
@@ -43,6 +45,23 @@ public class AnalizationResult{
 	 * count of all words which actually got analized
 	 */
 	public int wordCountAnalized=0;
+
+	public AnalizationResult(){
+
+	}
+
+	public AnalizationResult(String[] keywords){
+
+		this.kewords = keywords;
+
+		if(this.kewords == null) this.kewords= new String[0];
+
+		/*this.kewords = keywords.toLowerCase().split(",");
+
+		for(int i =0; i<this.kewords.length;i++){
+			this.kewords[i] = this.kewords[i].trim();
+		}*/
+	}
 
 	/*
 	String string = "January 2, 2010";
@@ -103,7 +122,9 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 
 			result=result.concat("\""+key+"\":"+value+", ");
 		}
-		result = result.substring(0, result.length() - 2);
+		if(b.entrySet().size() >0) {
+			result = result.substring(0, result.length() - 2);
+		}
 		result=result.concat("}");
 
 		return result;
@@ -146,5 +167,9 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 				a.put(key,value);
 			}
 		}
+	}
+
+	public String[] getKewords() {
+		return kewords;
 	}
 }

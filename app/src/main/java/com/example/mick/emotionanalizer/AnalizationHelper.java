@@ -3,6 +3,7 @@ package com.example.mick.emotionanalizer;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -140,13 +141,29 @@ public class AnalizationHelper {
 
         EmotionAnalizer.INSTANCE.init(c);
 
-        this.finalResult = new AnalizationResult();
+        //split keywords to tokens and clean
+        String[] kw = null;
+
+        if(keywords != null && keywords.length()>0) {
+            ArrayList<String> processKewords = new ArrayList<String>();
+            kw = keywords.toLowerCase().split(",");
+            for (int i = 0; i < kw.length; i++) {
+               // kw[i] = kw[i].trim();
+                String cur = kw[i].trim();
+                if(cur != null && cur.length() > 0) {
+                    processKewords.add(cur);
+                }
+            }
+            kw = processKewords.toArray(new String[processKewords.size()]);
+        }
+
+        this.finalResult = new AnalizationResult(kw);
         this.result_steps = new LinkedList<AnalizationResult>();
         this.twitterCrawler = new TwitterCrawler();
 
         this.isRunning = true;
         try {
-            this.twitterCrawler.start(keywords);
+            this.twitterCrawler.start(kw);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

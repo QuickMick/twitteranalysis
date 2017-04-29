@@ -257,6 +257,24 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private Timer refreshTimer;
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.refreshTimer.cancel();
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        if(AnalizationHelper.INSTANCE().isRunning()) {
+            this.startRunningMode();
+        }
+    }
+
+
+
     private void startRunningMode(){
 
         if(this.refreshTimer != null) refreshTimer.cancel();

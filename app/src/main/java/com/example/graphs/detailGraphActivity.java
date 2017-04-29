@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -111,11 +113,11 @@ public class DetailGraphActivity extends AppCompatActivity {
             case Constants.DETAIL_GRAPH.EMOTION_NAME_NEGATIVE:
                 currentWordlist= ar.wordStatistic_sentiment_negative;
                 em=ew.sentiment_negative;
+                break;
             case Constants.DETAIL_GRAPH.ALL_WORDS:
                 currentWordlist= ar.wordStatistic_all;
                 em=ar.wordCountAnalized;
                 captionText+=" | Total words: "+ar.wordCount+" - Analized: "+ar.wordCountAnalized;
-
                 break;
         }
 
@@ -149,14 +151,14 @@ public class DetailGraphActivity extends AppCompatActivity {
                 }
         );
 
-        ArrayList<String> visibleItems = new ArrayList<String>();
+     /*   ArrayList<String> visibleItems = new ArrayList<String>();
         ArrayList<String> keyWords = new ArrayList<String>(Arrays.asList(ar.getKewords()));
 
         int i=0;
         for (Map.Entry<String,Integer> e : entries) {
             if(keyWords.contains(e.getKey())) continue; //filter the searched keywords --> becuase they are in every tweet
 
-            visibleItems.add(e.getKey()+" : "+e.getValue());    // TODO: @paul: i think it would look better if we would split the content to two text fields and align them
+            visibleItems.add(e.getKey()+" : "+e.getValue());
             i++;
             // showing all data would propably kill the list
             if(i > DetailGraphActivity.MAX_VISIBLE_WORDCOUNT){
@@ -164,9 +166,50 @@ public class DetailGraphActivity extends AppCompatActivity {
             }
         }
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.list_view_emotions,visibleItems.toArray(new String[visibleItems.size()]));
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,R.layout.list_view_emotions,visibleItems.toArray(new String[visibleItems.size()]));*/
+
+
+
+
+        final ArrayList<TwoLinedListItem> visibleItems = new ArrayList<TwoLinedListItem>();
+        ArrayList<String> keyWords = new ArrayList<String>(Arrays.asList(ar.getKewords()));
+
+        int i=0;
+        for (Map.Entry<String,Integer> e : entries) {
+            if(keyWords.contains(e.getKey())) continue; //filter the searched keywords --> becuase they are in every tweet
+            TwoLinedListItem c = new TwoLinedListItem();
+                c.term = e.getKey();
+            c.occurency = e.getValue().toString();
+            visibleItems.add(c);
+            i++;
+            // showing all data would propably kill the list
+            if(i > DetailGraphActivity.MAX_VISIBLE_WORDCOUNT){
+                break;
+            }
+        }
+
+        final TwoLinedListItem[] items = visibleItems.toArray(new TwoLinedListItem[visibleItems.size()]);
+        ArrayAdapter adapter = new ArrayAdapter<TwoLinedListItem>(this, android.R.layout.simple_list_item_2, android.R.id.text1,items ) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+
+               text1.setText(items[position].term);
+               text2.setText("Occurence: "+items[position].occurency+" times");
+                return view;
+            }
+        };
+
+
+
         this.wordListLv.setAdapter(adapter);
     }
+}
+class TwoLinedListItem{
+    String term;
+    String occurency;
 }
 /*
 final Handler mainHandler = new Handler(this.getMainLooper());

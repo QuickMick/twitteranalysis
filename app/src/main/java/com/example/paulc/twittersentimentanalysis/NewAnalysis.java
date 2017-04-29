@@ -42,8 +42,9 @@ import twitter4j.conf.ConfigurationBuilder;
 
 /**
  * Created by paulc on 21.04.2017.
+ *
+ * TODO: @paul also this view looks weird in landscape mode
  */
-
 public class NewAnalysis extends AppCompatActivity implements View.OnClickListener {
 
     // declaration of views

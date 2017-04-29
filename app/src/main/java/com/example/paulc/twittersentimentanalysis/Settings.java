@@ -40,6 +40,7 @@ import twitter4j.conf.ConfigurationBuilder;
  * Created by paulc on 21.04.2017.
  *
  * TODO: @paul add questionmark, which, when clicked, provides a short explanation (maybe toast) for how to get the twitter tokens?
+ * TODO: @paul this view looks weird in landscape mode
  */
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 

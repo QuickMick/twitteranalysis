@@ -2,6 +2,7 @@ package com.example.mick.emotionanalizer;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -70,12 +71,28 @@ Date date = format.parse(string);
 System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 	 */
 
+	public String keywordsToJSON(){
+		String result = "[";
+		for(String e:this.kewords){
+			result = result.concat("\""+e+"\", ");
+		}
+
+		if(result.length() >1) {
+			result = result.substring(0, result.length() - 2);
+		}
+
+		result = result.concat("]");
+
+		return result;
+	}
+
 	public String toJSON(){
 
 		DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 		return "{\"startDate\":\""+format.format(this.startDate)+"\", "
 				+"\"endDate\":\""+format.format(this.endDate)+"\", "
+				+"\nkeywords\":"+ this.keywordsToJSON()+", "
 				+"\"wordCount\":"+this.wordCount+", "
 				+"\"tweetCount\":"+this.tweetCount+", "
 				+"\"sentenceCount\":"+this.sentenceCount+", "
@@ -122,7 +139,7 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 
 			result=result.concat("\""+key+"\":"+value+", ");
 		}
-		if(b.entrySet().size() >0) {
+		if(b.entrySet().size() >1) {
 			result = result.substring(0, result.length() - 2);
 		}
 		result=result.concat("}");

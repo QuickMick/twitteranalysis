@@ -373,10 +373,6 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             myOutWriter.close();
             fOut.close();
             Toast.makeText(this,"Done writing data to SD Card", Toast.LENGTH_SHORT).show();
-
-
-            //sucessfully saved:
-            Toast.makeText(this,"saved ", Toast.LENGTH_SHORT).show();
             this.saveAnalysisBtn.setVisibility(Button.INVISIBLE);
         }
         catch (Exception e)

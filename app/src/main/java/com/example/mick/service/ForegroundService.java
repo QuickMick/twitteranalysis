@@ -72,7 +72,7 @@ public class ForegroundService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
 
-        if(intent.getAction() == null){
+        if(intent == null || intent.getAction() == null){
             Toast.makeText(this,"Action unknown try again",Toast.LENGTH_SHORT).show();
         }
 

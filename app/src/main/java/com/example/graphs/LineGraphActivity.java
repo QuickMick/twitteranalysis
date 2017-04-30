@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.emotionanalizer.AnalizationResult;
@@ -23,11 +24,13 @@ import java.text.SimpleDateFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class LineGraphActivity extends AppCompatActivity {
+public class LineGraphActivity extends AppCompatActivity implements View.OnClickListener {
 
     private GraphView graph;
 
     public static final int REFRESH_TIME = 1000;
+
+    private boolean showSentiment = false;
 
     LineGraphSeries<DataPoint> anger_series = new LineGraphSeries<DataPoint>();
     LineGraphSeries<DataPoint> anticipation_series = new LineGraphSeries<DataPoint>();
@@ -37,6 +40,9 @@ public class LineGraphActivity extends AppCompatActivity {
     LineGraphSeries<DataPoint> sadness_series = new LineGraphSeries<DataPoint>();
     LineGraphSeries<DataPoint> surprise_series = new LineGraphSeries<DataPoint>();
     LineGraphSeries<DataPoint> trust_series = new LineGraphSeries<DataPoint>();
+
+    LineGraphSeries<DataPoint> positive_series = new LineGraphSeries<DataPoint>();
+    LineGraphSeries<DataPoint> negative_series = new LineGraphSeries<DataPoint>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +54,7 @@ public class LineGraphActivity extends AppCompatActivity {
 
     private void initGraph(){
         this.graph = (GraphView) findViewById(R.id.graph);
-
+        this.graph.setOnClickListener(this);
         //  this.updateGraph();
 
         anger_series.setTitle(Constants.DETAIL_GRAPH.EMOTION_NAME_ANGER);
@@ -60,6 +66,10 @@ public class LineGraphActivity extends AppCompatActivity {
         surprise_series.setTitle(Constants.DETAIL_GRAPH.EMOTION_NAME_SURPRISE);
         trust_series.setTitle(Constants.DETAIL_GRAPH.EMOTION_NAME_TRUST);
 
+        positive_series.setTitle(Constants.DETAIL_GRAPH.EMOTION_NAME_POSITIVE);
+        negative_series.setTitle(Constants.DETAIL_GRAPH.EMOTION_NAME_NEGATIVE);
+
+
         anger_series.setColor(Color.parseColor("#d62032"));
         anticipation_series.setColor(Color.parseColor("#f46314"));
         disgust_series.setColor(Color.parseColor("#bf1899"));
@@ -69,15 +79,11 @@ public class LineGraphActivity extends AppCompatActivity {
         surprise_series.setColor(Color.parseColor("#25c0ce"));
         trust_series.setColor(Color.parseColor("#99bc43"));
 
+        positive_series.setColor(Color.parseColor("#f8b313"));
+        negative_series.setColor(Color.parseColor("#999999"));
 
-        graph.addSeries(anger_series);
-        graph.addSeries(anticipation_series);
-        graph.addSeries(disgust_series);
-        graph.addSeries(fear_series);
-        graph.addSeries(joy_series);
-        graph.addSeries(sadness_series);
-        graph.addSeries(surprise_series);
-        graph.addSeries(trust_series);
+
+        this.addSeries();
 
         graph.getLegendRenderer().setVisible(true);
         graph.getLegendRenderer().setBackgroundColor(Color.argb(30,0,0,0));
@@ -102,6 +108,24 @@ public class LineGraphActivity extends AppCompatActivity {
       //  graph.getViewport().setScalableY(false);
 }
 
+    private void addSeries(){
+        graph.removeAllSeries();
+
+        if(this.showSentiment) {
+            graph.addSeries(anger_series);
+            graph.addSeries(anticipation_series);
+            graph.addSeries(disgust_series);
+            graph.addSeries(fear_series);
+            graph.addSeries(joy_series);
+            graph.addSeries(sadness_series);
+            graph.addSeries(surprise_series);
+            graph.addSeries(trust_series);
+        }else{
+            graph.addSeries(positive_series);
+            graph.addSeries(negative_series);
+        }
+    }
+
 
     private void updateGraph(){
         if(!AnalizationHelper.INSTANCE().isRunning()){
@@ -124,6 +148,9 @@ public class LineGraphActivity extends AppCompatActivity {
         DataPoint[] surprise = new DataPoint[steps.length];
         DataPoint[] trust = new DataPoint[steps.length];
 
+        DataPoint[] positive = new DataPoint[steps.length];
+        DataPoint[] negative = new DataPoint[steps.length];
+
         for(int i=0; i<steps.length;i++){
       //  for(int i=steps.length-1; i>=0;i--){
             float total = steps[i].weigthing.getTotalEmotion();
@@ -136,6 +163,10 @@ public class LineGraphActivity extends AppCompatActivity {
             sadness[i] = new DataPoint(steps[i].startDate,(((float)steps[i].weigthing.sadness)/total)*100f);
             surprise[i] = new DataPoint(steps[i].startDate,(((float)steps[i].weigthing.surprise)/total)*100f);
             trust[i] = new DataPoint(steps[i].startDate,(((float)steps[i].weigthing.trust)/total)*100f);
+
+            float total_s = steps[i].weigthing.getTotalSentiment();
+            positive[i] = new DataPoint(steps[i].startDate,(((float)steps[i].weigthing.sentiment_positive)/total_s)*100f);
+            negative[i] = new DataPoint(steps[i].startDate,(((float)steps[i].weigthing.sentiment_negative)/total_s)*100f);
         }
 
         anger_series.resetData(anger);
@@ -146,6 +177,10 @@ public class LineGraphActivity extends AppCompatActivity {
         sadness_series.resetData(sadness);
         surprise_series.resetData(surprise);
         trust_series.resetData(trust);
+
+        positive_series.resetData(positive);
+        negative_series.resetData(negative);
+
       //  Log.d("hv",anger_series.getLowestValueX()+"-"+anger_series.getHighestValueX()+" --> "+( anger_series.getHighestValueX()-anger_series.getLowestValueX()));
 
 
@@ -186,5 +221,14 @@ public class LineGraphActivity extends AppCompatActivity {
     public void onPause() {
         mHandler.removeCallbacks(this.refreshView);
         super.onPause();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == this.graph){
+            this.showSentiment = !this.showSentiment;
+
+            this.addSeries();
+        }
     }
 }

@@ -38,19 +38,15 @@
     <TableRow>
     <com.jjoe64.graphview.GraphView
         android:layout_width="wrap_content"
-        android:layout_height="200dip"
+        android:layout_height="200dp"
         android:layout_below="@+id/titledate"
         android:id="@+id/graph" />
     </TableRow>
 
-    <TableRow
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        >
+    <TableRow>
         <LinearLayout android:layout_width="wrap_content"
             android:orientation="horizontal"
+            android:weightSum="3"
             android:layout_gravity="center">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -58,6 +54,8 @@
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:weightSum="2"
                 android:orientation="vertical">
             <Button
                 android:id="@+id/changeviewbtn"
@@ -66,9 +64,9 @@
                 android:text="show timeline"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/p"
-                android:layout_height="70px"
-                android:layout_width="500px"
-                android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
                 />
 
             <Button
@@ -78,8 +76,9 @@
                 android:text="stop analysis"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/p"
-                android:layout_height="70px"
-                android:layout_width="500px" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_width="match_parent" />
             </LinearLayout>
 
 
@@ -88,6 +87,7 @@
                 android:orientation="vertical"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
+                android:layout_weight="1"
                 android:layout_centerHorizontal="true">
 
                 <LinearLayout
@@ -201,6 +201,8 @@
                 android:paddingBottom="@dimen/activity_vertical_margin"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_weight="1"
+                android:weightSum="2"
                 android:orientation="vertical">
                 <Button
                     android:id="@+id/saveanalysisbtn"
@@ -209,9 +211,9 @@
                     android:text="save and export"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/p"
-                    android:layout_height="70px"
-                    android:layout_width="500px"
-                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
                     />
 
                 <Button
@@ -221,8 +223,9 @@
                     android:text="show details"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/p"
-                    android:layout_height="70px"
-                    android:layout_width="500px" />
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"/>
             </LinearLayout>
         </LinearLayout>
     </TableRow>

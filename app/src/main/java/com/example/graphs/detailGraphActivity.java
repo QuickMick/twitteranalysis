@@ -30,7 +30,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * TODO: should this reload while analization is running?
+ *
  */
 public class DetailGraphActivity extends AppCompatActivity implements View.OnClickListener {
 

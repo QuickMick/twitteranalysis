@@ -38,7 +38,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
-public class HistoryTimelineActivity extends AppCompatActivity {
+public class HistoryTimelineActivity extends AppCompatActivity  implements View.OnClickListener{
 
     LineGraphSeries<DataPoint> anger_series = new LineGraphSeries<DataPoint>();
     LineGraphSeries<DataPoint> anticipation_series = new LineGraphSeries<DataPoint>();
@@ -49,7 +49,11 @@ public class HistoryTimelineActivity extends AppCompatActivity {
     LineGraphSeries<DataPoint> surprise_series = new LineGraphSeries<DataPoint>();
     LineGraphSeries<DataPoint> trust_series = new LineGraphSeries<DataPoint>();
 
+    LineGraphSeries<DataPoint> positive_series = new LineGraphSeries<DataPoint>();
+    LineGraphSeries<DataPoint> negative_series = new LineGraphSeries<DataPoint>();
+
     private GraphView graph;
+    private boolean showSentiment=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +102,7 @@ public class HistoryTimelineActivity extends AppCompatActivity {
 
     private void initGraph(){
         this.graph = (GraphView) findViewById(R.id.graph);
-
+        this.graph.setOnClickListener(this);
         //  this.updateGraph();
 
         anger_series.setTitle(Constants.DETAIL_GRAPH.EMOTION_NAME_ANGER);
@@ -110,6 +114,10 @@ public class HistoryTimelineActivity extends AppCompatActivity {
         surprise_series.setTitle(Constants.DETAIL_GRAPH.EMOTION_NAME_SURPRISE);
         trust_series.setTitle(Constants.DETAIL_GRAPH.EMOTION_NAME_TRUST);
 
+        positive_series.setTitle(Constants.DETAIL_GRAPH.EMOTION_NAME_POSITIVE);
+        negative_series.setTitle(Constants.DETAIL_GRAPH.EMOTION_NAME_NEGATIVE);
+
+
         anger_series.setColor(Color.parseColor("#d62032"));
         anticipation_series.setColor(Color.parseColor("#f46314"));
         disgust_series.setColor(Color.parseColor("#bf1899"));
@@ -119,39 +127,54 @@ public class HistoryTimelineActivity extends AppCompatActivity {
         surprise_series.setColor(Color.parseColor("#25c0ce"));
         trust_series.setColor(Color.parseColor("#99bc43"));
 
+        positive_series.setColor(Color.parseColor("#f8b313"));
+        negative_series.setColor(Color.parseColor("#999999"));
 
-        graph.addSeries(anger_series);
-        graph.addSeries(anticipation_series);
-        graph.addSeries(disgust_series);
-        graph.addSeries(fear_series);
-        graph.addSeries(joy_series);
-        graph.addSeries(sadness_series);
-        graph.addSeries(surprise_series);
-        graph.addSeries(trust_series);
+
+        this.addSeries();
 
         graph.getLegendRenderer().setVisible(true);
         graph.getLegendRenderer().setBackgroundColor(Color.argb(30,0,0,0));
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, new SimpleDateFormat("dd.MM.yyyy \n HH:mm:ss")));
-        graph.getGridLabelRenderer().setLabelsSpace(20);
+
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, new SimpleDateFormat("HH:mm:ss")));
 
 
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(1);
         graph.getViewport().setXAxisBoundsManual(true);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(3);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(4);
 
-/*
+
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(100);*/
+        graph.getViewport().setMaxY(100);
 
         graph.getViewport().setScalable(true);
         graph.getViewport().setScrollable(true);
 
+        //  graph.getViewport().setScalableY(false);
     }
 
+
+    private void addSeries(){
+        graph.removeAllSeries();
+
+        if(!this.showSentiment) {
+            graph.addSeries(anger_series);
+            graph.addSeries(anticipation_series);
+            graph.addSeries(disgust_series);
+            graph.addSeries(fear_series);
+            graph.addSeries(joy_series);
+            graph.addSeries(sadness_series);
+            graph.addSeries(surprise_series);
+            graph.addSeries(trust_series);
+        }else{
+            graph.addSeries(positive_series);
+            graph.addSeries(negative_series);
+        }
+    }
 
     private void updateGraph(DisplayValue[] steps){
 
@@ -169,7 +192,11 @@ public class HistoryTimelineActivity extends AppCompatActivity {
         DataPoint[] surprise = new DataPoint[steps.length];
         DataPoint[] trust = new DataPoint[steps.length];
 
+        DataPoint[] positive = new DataPoint[steps.length];
+        DataPoint[] negative = new DataPoint[steps.length];
+
         for(int i=0; i<steps.length;i++){
+            //  for(int i=steps.length-1; i>=0;i--){
             float total = steps[i].weigthing.getTotalEmotion();
             if(total ==0)total=1;
             anger[i] = new DataPoint(steps[i].startDate,(((float)steps[i].weigthing.anger)/total)*100f);
@@ -180,6 +207,10 @@ public class HistoryTimelineActivity extends AppCompatActivity {
             sadness[i] = new DataPoint(steps[i].startDate,(((float)steps[i].weigthing.sadness)/total)*100f);
             surprise[i] = new DataPoint(steps[i].startDate,(((float)steps[i].weigthing.surprise)/total)*100f);
             trust[i] = new DataPoint(steps[i].startDate,(((float)steps[i].weigthing.trust)/total)*100f);
+
+            float total_s = steps[i].weigthing.getTotalSentiment();
+            positive[i] = new DataPoint(steps[i].startDate,(((float)steps[i].weigthing.sentiment_positive)/total_s)*100f);
+            negative[i] = new DataPoint(steps[i].startDate,(((float)steps[i].weigthing.sentiment_negative)/total_s)*100f);
         }
 
         anger_series.resetData(anger);
@@ -190,6 +221,9 @@ public class HistoryTimelineActivity extends AppCompatActivity {
         sadness_series.resetData(sadness);
         surprise_series.resetData(surprise);
         trust_series.resetData(trust);
+
+        positive_series.resetData(positive);
+        negative_series.resetData(negative);
 
         //   graph.getGridLabelRenderer().setNumHorizontalLabels(5);
         graph.getViewport().setMinX(anger_series.getLowestValueX());
@@ -272,6 +306,15 @@ public class HistoryTimelineActivity extends AppCompatActivity {
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v == this.graph){
+            this.showSentiment = !this.showSentiment;
+
+            this.addSeries();
         }
     }
 

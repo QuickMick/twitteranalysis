@@ -89,6 +89,7 @@ public class LineGraphActivity extends AppCompatActivity implements View.OnClick
         graph.getLegendRenderer().setBackgroundColor(Color.argb(30,0,0,0));
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
+
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, new SimpleDateFormat("HH:mm:ss")));
 
 
@@ -111,7 +112,7 @@ public class LineGraphActivity extends AppCompatActivity implements View.OnClick
     private void addSeries(){
         graph.removeAllSeries();
 
-        if(this.showSentiment) {
+        if(!this.showSentiment) {
             graph.addSeries(anger_series);
             graph.addSeries(anticipation_series);
             graph.addSeries(disgust_series);

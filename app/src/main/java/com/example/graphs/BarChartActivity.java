@@ -150,10 +150,6 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             }
         });*/
 
-
-
-
-
         this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
         this.saveAnalysisBtn.setVisibility(Button.INVISIBLE);
         this.titledate.setVisibility(LinearLayout.GONE);

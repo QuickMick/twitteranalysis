@@ -55,7 +55,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * TODO: @paul use longclick on a entry/file, to delete the file and then reload
+ *
  */
 public class HistoryActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -255,7 +255,6 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
                                         Intent sendFileIntent = new Intent(Intent.ACTION_SEND);
 
                                         sendFileIntent.putExtra(Intent.EXTRA_STREAM, path);
-                                        //TODO: test with real apps -> should be able to send to dropbox or google drive or mail
                                         sendFileIntent.setType("application/json"); //sendFileIntent.setType("text/plain");
                                       /*  String to[] = {"asd@gmail.com"};
                                         emailIntent .putExtra(Intent.EXTRA_EMAIL, to);

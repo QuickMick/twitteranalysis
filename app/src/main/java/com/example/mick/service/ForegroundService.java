@@ -44,7 +44,6 @@ public class ForegroundService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        //TODO: starta nalaization in thread here
      //   this.result = new AnalizationResult();
        // this.result_steps = new LinkedList<AnalizationResult>();
 
@@ -90,7 +89,7 @@ public class ForegroundService extends Service {
                         public void run() {
                             ForegroundService.this.updateResult();
 
-                            //TODO: send broadcast?
+                            //TODO: mick: send broadcast?
                /* Log.d("analizer","Current WORDCOUNT: "+crawler.getCurrentResult().wordCount);
                 System.out.println(crawler..wordCount);*/
                         }

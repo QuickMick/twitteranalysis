@@ -204,7 +204,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
 
         }else if( view == validatebtn){
-            //TODO: @paul maybe show some "processing" or "waiting" bars or icons?
+            //TODO: @paul maybe show some "processing" or "waiting" bars or icons while the twitter credentials are checked for validity?
             backicon.setEnabled(false);
             consumerkeybtn.setEnabled(false);
             consumerkeybtnscrt.setEnabled(false);
@@ -220,7 +220,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             // you have to check the credentials in a thread, otherwise android will drop an exepction,
             // because no network connections are allowed in the main-thread
 
-            new AsyncTask<Void,Void,Boolean>() {
+            new AsyncTask<Void,Void,Boolean>() {    //checking if twitter credentials are valid
                 @Override
                 protected Boolean doInBackground(Void... params) {
                     return Settings.this.vertifyTwitterCredentials();

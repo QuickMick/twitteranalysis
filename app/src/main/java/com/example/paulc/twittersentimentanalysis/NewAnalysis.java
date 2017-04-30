@@ -126,7 +126,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
             Log.d("AppD","start analization clicked");
 
-            //TODO: @paul maybe show some "processing" or "waiting" bars or icons?
+            //TODO: @paul maybe show some "processing" or "waiting" bars or icons while vertifying, if the twitter credentials are correct?
             backicon.setEnabled(false);
             go.setEnabled(false);
             searchcriteria.setEnabled(false);
@@ -134,6 +134,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
             // you have to check the credentials in a thread, otherwise android will drop an exepction,
             // because no network connections are allowed in the main-thread
 
+            // check if the twitter credentials are correct in async task
             new AsyncTask<Void,Void,Boolean>() {
                 @Override
                 protected Boolean doInBackground(Void... params) {
@@ -159,10 +160,6 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                         ac.putExtra(Constants.ANALIZATION.DIAGRAM_MODE,Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
                         startActivity(ac);
 
-
-
-                        // TODO 5
-                        // 5. redirect him to the display activity.
                     }else{
                         Toast.makeText(NewAnalysis.this,"Twitter-tokens are incorrect, please check your settings.",Toast.LENGTH_SHORT).show();
                     }
@@ -170,14 +167,6 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
                 }
             }.execute();
-
-
-
-
-
-
-            //TODO 6
-            // 6. Redirect him to the display activity.
         }
 
     }

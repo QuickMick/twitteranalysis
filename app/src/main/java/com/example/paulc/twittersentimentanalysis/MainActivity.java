@@ -29,8 +29,6 @@ import org.w3c.dom.Text;
 
 /**
  * TODO: @paul - look if old analization results are saved on the SD-Card, if no, hide the history button ?
- * TODO: @paul - remove logout button - i think our app really does not need a log in feature - that would just be one thing more we would need to maintain
- * TODO: @paul - if the analization is running at the moment ( AnalitaionHelper.INSTANCE().isRunning() ) then hide the "new analysis" button and replace it with a "go to live diagramm" button
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

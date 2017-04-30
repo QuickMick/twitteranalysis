@@ -36,7 +36,6 @@ public class CircleView extends View {
 
         @Override
     protected void onDraw(Canvas canvas) {
-        // TODO Auto-generated method stub
         super.onDraw(canvas);
         float width = (float) getWidth();
         float height = (float) getHeight();

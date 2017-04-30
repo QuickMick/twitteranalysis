@@ -202,10 +202,7 @@ public class AnalizationHelper {
             e.printStackTrace();
         }
 
-        //TODO: remove following -> just test
-      //  Timer timer = new Timer();
-    //    timer.schedule(new SayHello(this.twitterCrawler), 0, 5000);
-       // timer.cancel();
+
     }
 
     public boolean isInitialized() {

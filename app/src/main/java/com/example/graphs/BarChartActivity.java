@@ -172,7 +172,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case Constants.ANALIZATION.MODE_HISTORY:
                 String date = i.getStringExtra(Constants.ANALIZATION.MODE_HISTORY_DATE);
-                //TODO: set date
+
                 this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
                 this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
                 this.ar = AnalizationHelper.INSTANCE().getFinalResult();
@@ -185,7 +185,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
                 this.updateGraphData();
 
-                //TODO: addDAte
+
                 break;
         }
 
@@ -399,6 +399,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
        this.requistPermission();
 
+        Toast.makeText(this, "Start writing",Toast.LENGTH_SHORT).show();
 
         //TODO: do the writing (following code) in an async task and show a "waiting" symbol - block everything else (also going back)
         AnalizationResult ar = AnalizationHelper.INSTANCE().getFinalResult();

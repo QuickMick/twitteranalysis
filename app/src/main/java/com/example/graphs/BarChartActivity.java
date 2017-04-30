@@ -161,7 +161,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 this.startRunningMode();
                 this.stopAnalysisBtn.setVisibility(Button.VISIBLE);
 
-                Toast.makeText(this, "Touch the chart to see the live emotion evolution", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Touch the chart to see the sentiments", Toast.LENGTH_SHORT).show();
                 break;
             case Constants.ANALIZATION.MODE_ANALIZATION_STOPPED:
                 this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
@@ -334,9 +334,9 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick (View view) {
         // if he presses on Register , call the register user function
-        if (view == this.changeViewBtn) {
+        if (view == this.graph) {
             this.showSentiment = !this.showSentiment;   //change stat
-            this.changeViewBtn.setText(this.showSentiment?"show emotions":"show sentiment");    //change button text
+          //  this.changeViewBtn.setText(this.showSentiment?"show emotions":"show sentiment");    //change button text
 
             this.updateGraphData(); //update graph based on the current mode
         }else if( view == this.stopAnalysisBtn){
@@ -349,7 +349,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             this.saveCurrentAnalysis();
         }else if(view == this.showDetailsBtn){
             this.showSelectEmotionDetail();
-        }else if(view == this.graph){
+        }else if(view == this.changeViewBtn){
 
             if(AnalizationHelper.INSTANCE().isRunning()) {
                 startActivity(new Intent(BarChartActivity.this, LineGraphActivity.class));

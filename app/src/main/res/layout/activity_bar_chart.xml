@@ -47,7 +47,7 @@
         android:id="@+id/changeviewbtn"
         android:background="@drawable/roundedblue"
         android:gravity="center"
-        android:text="show sentiments"
+        android:text="show timeline"
         android:textColor="#ffffff"
         android:textSize="@dimen/p"
         android:layout_height="70px"

@@ -14,7 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.graphs.BarChartActivity;
 import com.example.mick.emotionanalizer.AnalizationHelper;
+import com.example.mick.service.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -79,6 +81,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        if(AnalizationHelper.INSTANCE().isRunning()){
+            newAnalysis.setText("GO TO ANALYSIS");
+        }else{
+            newAnalysis.setText("NEW ANALYSIS");
+        }
+    }
 
     public void InitUI(){
 
@@ -132,10 +144,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view == newAnalysis) {
 
             if(AnalizationHelper.INSTANCE().isRunning()){
-                Toast.makeText(this,"Analization already running. Pleas stop current analization first..",Toast.LENGTH_SHORT).show();
-                return;
+                Intent i = new Intent(MainActivity.this, BarChartActivity.class);
+                i.putExtra( Constants.ANALIZATION.DIAGRAM_MODE,Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
+                startActivity(i);
+
+
+               // Toast.makeText(this,"Analization already running. Pleas stop current analization first..",Toast.LENGTH_SHORT).show();
+               // return;
+            }else {
+                startActivity(new Intent(MainActivity.this, NewAnalysis.class));
             }
-            startActivity(new Intent(MainActivity.this, NewAnalysis.class));
         }
 
         if(view == this.imprintBtn){

@@ -146,7 +146,7 @@ public class LineGraphActivity extends AppCompatActivity {
         sadness_series.resetData(sadness);
         surprise_series.resetData(surprise);
         trust_series.resetData(trust);
-        Log.d("hv",anger_series.getLowestValueX()+"-"+anger_series.getHighestValueX()+" --> "+( anger_series.getHighestValueX()-anger_series.getLowestValueX()));
+      //  Log.d("hv",anger_series.getLowestValueX()+"-"+anger_series.getHighestValueX()+" --> "+( anger_series.getHighestValueX()-anger_series.getLowestValueX()));
 
 
      //   graph.getGridLabelRenderer().setNumHorizontalLabels(5);

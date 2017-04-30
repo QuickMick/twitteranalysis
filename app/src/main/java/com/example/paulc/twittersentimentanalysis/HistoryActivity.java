@@ -25,12 +25,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.graphs.BarChartActivity;
 import com.example.graphs.DetailGraphActivity;
+import com.example.graphs.HistoryTimelineActivity;
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.emotionanalizer.AnalizationResult;
 import com.example.mick.service.Constants;
@@ -62,13 +64,16 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
 
     private File[] listedFiles;
 
+    private Button showHistoryTimelineBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
         this.filesLv = (ListView)findViewById(R.id.fileslv);
-
+        this.showHistoryTimelineBtn = (Button)findViewById(R.id.showhistorytimelinebtn);
+        this.showHistoryTimelineBtn.setOnClickListener(this);
         this.requistPermission();
         this.listFiles();
 
@@ -165,7 +170,13 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-
+        if(v==this.showHistoryTimelineBtn){
+            if(this.listedFiles.length <= 2){
+                Toast.makeText(HistoryActivity.this, "Not enough stored analysis to show a usefull graph. provide at least 2 analysises", Toast.LENGTH_SHORT).show();
+            }else{
+                startActivity(new Intent(this, HistoryTimelineActivity.class));
+            }
+        }
     }
 
     public String loadJSONFromFolder(File file) {

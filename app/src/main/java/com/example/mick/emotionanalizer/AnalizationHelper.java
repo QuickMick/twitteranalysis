@@ -12,6 +12,11 @@ import java.util.LinkedList;
 public class AnalizationHelper {
 
     /**
+     * steps saved for the live timeline
+     */
+    public static final int MAX_HISTORY_COUNT = 20;
+
+    /**
      * represents the folder name, e.g. "twitter_results", which is the folder, where all files for
      * the history are saved to and loaded from.
      */
@@ -81,7 +86,7 @@ public class AnalizationHelper {
             this.result_steps.addLast(lastResult);
 
             //TODO: shalle we save steps anyways?
-            if(this.result_steps.size() > 20){
+            if(this.result_steps.size() > MAX_HISTORY_COUNT){
                 this.result_steps.removeFirst();
             }
         }

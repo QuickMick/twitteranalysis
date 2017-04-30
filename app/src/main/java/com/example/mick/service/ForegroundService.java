@@ -55,9 +55,9 @@ public class ForegroundService extends Service {
         AnalizationResult current = AnalizationHelper.INSTANCE().getTwitterCrawler().getCurrentResult();
         AnalizationHelper.INSTANCE().addNextResultToFinalResult(current);
 
-        Log.d("analize_result",AnalizationHelper.INSTANCE().getFinalResult().toString());
+      //  Log.d("analize_result",AnalizationHelper.INSTANCE().getFinalResult().toString());
 
-        this.updateNotification("analized words: "+AnalizationHelper.INSTANCE().getFinalResult().wordCount);
+        this.updateNotification("Analized tweets: "+AnalizationHelper.INSTANCE().getFinalResult().tweetCount);
     }
 
     private void sendMessageToActivity(String msg) {
@@ -70,6 +70,12 @@ public class ForegroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+
+        if(intent.getAction() == null){
+            Toast.makeText(this,"Action unknown try again",Toast.LENGTH_SHORT).show();
+        }
+
         if (intent.getAction().equals(ForegroundService.STARTFOREGROUND_ACTION)) {
             Log.d("AppD", "Received Start Foreground Intent ");
             AnalizationHelper.INSTANCE().recreate();
@@ -95,7 +101,7 @@ public class ForegroundService extends Service {
 
 
 
-            Notification notification = this.createNotification("Analized words: 25345");
+            Notification notification = this.createNotification("Analized tweets: 0");
             startForeground(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE,
                     notification);
         } else if (intent.getAction().equals(ForegroundService.STOP_ANALYSIS_ACTION)) {

@@ -31,6 +31,7 @@ import com.example.mick.emotionanalizer.AnalizationResult;
 import com.example.mick.emotionanalizer.EmotionWeighting;
 import com.example.mick.service.Constants;
 import com.example.mick.service.ForegroundService;
+import com.example.paulc.twittersentimentanalysis.NewAnalysis;
 import com.example.paulc.twittersentimentanalysis.R;
 import com.example.paulc.twittersentimentanalysis.Settings;
 import com.jjoe64.graphview.DefaultLabelFormatter;
@@ -120,9 +121,9 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
 
         this.graph = (GraphView) findViewById(R.id.graph);
+        this.graph.setOnClickListener(this);
 
-
-
+        mainHandler = new Handler(this.getMainLooper());
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(100);
@@ -163,6 +164,8 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
                 this.startRunningMode();
                 this.stopAnalysisBtn.setVisibility(Button.VISIBLE);
+
+                Toast.makeText(this, "Touch the chart to see the live emotion evolution", Toast.LENGTH_SHORT).show();
                 break;
             case Constants.ANALIZATION.MODE_ANALIZATION_STOPPED:
                 this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
@@ -285,12 +288,15 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    private Handler mainHandler;
     protected void onResume() {
         super.onResume();
 
         if(AnalizationHelper.INSTANCE().isRunning()) {
             this.startRunningMode();
         }
+
+        mainHandler = new Handler(this.getMainLooper());
     }
 
 
@@ -301,7 +307,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         this.ar = AnalizationHelper.INSTANCE().getFinalResult();
         this.updateGraphData();
 
-        final Handler mainHandler = new Handler(this.getMainLooper());
+
         this.refreshTimer = new Timer();
         this.refreshTimer.schedule(new TimerTask(){
 
@@ -347,6 +353,13 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             this.saveCurrentAnalysis();
         }else if(view == this.showDetailsBtn){
             this.showSelectEmotionDetail();
+        }else if(view == this.graph){
+
+            if(AnalizationHelper.INSTANCE().isRunning()) {
+                startActivity(new Intent(BarChartActivity.this, LineGraphActivity.class));
+            }else{
+                Toast.makeText(this, "Timeline is only available for running analysis",Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

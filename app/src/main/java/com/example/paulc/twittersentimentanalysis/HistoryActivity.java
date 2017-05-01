@@ -79,7 +79,7 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
-        final ProgressDialog dialog = ProgressDialog.show(HistoryActivity.this, "","Saving. Please wait...", true);
+        final ProgressDialog dialog = ProgressDialog.show(HistoryActivity.this, "","Loading History. Please wait...", true);
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {

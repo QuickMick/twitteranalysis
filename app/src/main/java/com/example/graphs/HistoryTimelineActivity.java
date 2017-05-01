@@ -66,7 +66,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
         this.initGraph();
 
 
-        final ProgressDialog dialog = ProgressDialog.show(HistoryTimelineActivity.this, "","Saving. Please wait...", true);
+        final ProgressDialog dialog = ProgressDialog.show(HistoryTimelineActivity.this, "","Loading History Data. Please wait...", true);
         new AsyncTask<Void, Void, DisplayValue[]>() {
             @Override
             protected DisplayValue[] doInBackground(Void... params) {

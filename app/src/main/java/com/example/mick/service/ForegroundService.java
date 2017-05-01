@@ -161,8 +161,6 @@ public class ForegroundService extends Service {
      * Stops the analization and closes the notification
      */
     private void stopService(){
-// TODO: really in thread? maby add "is blocked"
-
     //    final ProgressDialog dialog = ProgressDialog.show(ForegroundService.this, "","Saving. Please wait...", true);
 
         new Handler(this.getMainLooper()).post(new Runnable() {

@@ -238,22 +238,45 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
 
                                 switch(options[which]){
                                     case Constants.HISORY.OPEN:
+
+                                        // Load the History
                                         if(!AnalizationHelper.INSTANCE().isRunning()) {
-                                            //TODO:load in asyncTask
-                                            try {
-                                                AnalizationHelper.INSTANCE().setFinalResult(AnalizationResult.createFromJSON(HistoryActivity.this.loadJSONFromFolder(file)));
-                                                AnalizationHelper.INSTANCE().setSaved(true);
-                                            } catch (JSONException e) {
-                                                Toast.makeText(HistoryActivity.this, "Error while loading file "+file.getName(), Toast.LENGTH_SHORT).show();
-                                                return;
-                                            }
+                                            // load the history file in async task
+                                            final ProgressDialog progressDialog = ProgressDialog.show(HistoryActivity.this, "","Saving. Please wait...", true);
+                                            new AsyncTask<Void,Void,Boolean>(){
+
+                                                @Override
+                                                protected Boolean doInBackground(Void... params) {
+                                                    try {
+                                                        AnalizationHelper.INSTANCE().setFinalResult(AnalizationResult.createFromJSON(HistoryActivity.this.loadJSONFromFolder(file)));
+                                                        AnalizationHelper.INSTANCE().setSaved(true);
+                                                        return true;
+                                                    } catch (JSONException e) {
+
+                                                        return false;
+                                                    }
+                                                }
+
+                                                @Override
+                                                protected void onPostExecute(Boolean result) {
+                                                    progressDialog.dismiss();
+                                                    if(result){
+                                                        Intent i = new Intent(HistoryActivity.this, BarChartActivity.class);
+                                                        i.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_HISTORY);
+                                                        startActivity(i);
+                                                        Toast.makeText(HistoryActivity.this, file.getName()+" sucessfully loaded", Toast.LENGTH_SHORT).show();
+                                                    }else{
+                                                        Toast.makeText(HistoryActivity.this, "Error while loading file "+file.getName(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+
+                                            }.execute();
 
 
 
-                                            Intent i = new Intent(HistoryActivity.this, BarChartActivity.class);
-                                            i.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_HISTORY);
-                                            startActivity(i);
-                                            Toast.makeText(HistoryActivity.this, file.getName()+" sucessfully loaded", Toast.LENGTH_SHORT).show();
+
+
+
                                         }else {
                                             Toast.makeText(HistoryActivity.this, "Cannot load Archived Analysis, because Analysis is running. Please stop it first.", Toast.LENGTH_SHORT).show();
                                         }

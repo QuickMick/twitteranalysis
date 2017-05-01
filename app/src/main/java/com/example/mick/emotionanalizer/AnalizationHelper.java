@@ -104,7 +104,6 @@ public class AnalizationHelper {
             lastResult.finalize();
             this.result_steps.addLast(lastResult);
 
-            //TODO: shalle we save steps anyways?
             if(this.result_steps.size() > MAX_HISTORY_COUNT){
                 this.result_steps.removeFirst();
             }

@@ -22,11 +22,6 @@ import com.example.mick.service.ForegroundService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DatabaseError;
 
 import org.w3c.dom.Text;
 
@@ -39,7 +34,7 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * Created by paulc on 21.04.2017.
  *
- * TODO: @paul add questionmark, which, when clicked, provides a short explanation (maybe toast) for how to get the twitter tokens?
+ * TODO: @paul add questionmark, which, when clicked, provides a short explanation (maybe toast) for how to get the twitter tokens? or open twitter age?
  * TODO: @paul this view looks weird in landscape mode
  * TODO: @paul pls add one option in the settings view, to specify the folder name for the analysis (see todo in AnalizationHelper)
  */
@@ -50,8 +45,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     TextView backicon;
     Button consumerkeybtn,consumerkeybtnscrt,accesstokenbtn,accesstokenbtnscrt,savebtn,validatebtn;
     EditText consumerkeytxt,consumerkeytxtscrt,accesstokentxt,accesstokentxtscrt;
-    FirebaseDatabase firebaseDatabase;
-    DatabaseReference databaseReference;
+
     private ProgressDialog progressDialog;
 
     @Override
@@ -68,6 +62,14 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         savebtn.setOnClickListener(this);
         validatebtn.setOnClickListener(this);
         progressDialog = new ProgressDialog(this);
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        //TODO: @paul load tokens from local encrypted storage
 
     }
 
@@ -142,11 +144,18 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
             public void onClick(View v) {
                 //Creating firebase object
-                databaseReference = firebaseDatabase.getInstance().getReference();
+
 
                 //Getting values to be stored
                 SettingsModel model = new SettingsModel(consumerkeytext, consumerkeytextscrt, accesstokentext, accesstokentextscrt);
-                insertSaveData(model);
+
+
+
+                //TODO: @paul save in local encrypted storage an set following values
+                AnalizationHelper.INSTANCE().setAccessToken("token");
+                AnalizationHelper.INSTANCE().setAccessTokenSecret("token");
+                AnalizationHelper.INSTANCE().setConsumerKey("token");
+                AnalizationHelper.INSTANCE().setConsumerSecret("token");
 
                 //checking if the data was inserted into the DB or not
 
@@ -154,13 +163,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         });
     }
 
-    //methode for inserting the Settings in the Database.
-    private void insertSaveData(SettingsModel model) {
-        //calls the Database
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        //pushes the Data into the Database
-        reference.child("Settings").push().setValue(model);
-    }
+
 
     //methode for displaying the Saved Text
     private void showMessage(String message) {
@@ -173,17 +176,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         Toast msg = Toast.makeText(Settings.this, message, Toast.LENGTH_SHORT);
         msg.show();
     }
-
-   // TODO 1
-    // 1. Check why the Data is saved into the Database only after the second click on the Button. If i press two times on the button, the first time nothing happens. The second time, all the Data
-    // is inserted into the DB. If a press a third time, even though i changed something in the text, the data from the second attempt is inserted.
-
-    //TODO 2
-    // 2. The Redirect should be made only if the Data was inserted successfully into the DB.
-    // the redirect should be made after 5 secounds after the insert Job was successful. -- Partially Solved. Only need to work on the success part.
-
-   // TODO 3
-    // 3. The Data which was inserted into the fiels and saved, should be displayed into those fiels after the save and when the user enters the Setting again.
 
     @Override
     public void onClick (View view){
@@ -204,7 +196,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
 
         }else if( view == validatebtn){
-            //TODO: @paul maybe show some "processing" or "waiting" bars or icons while the twitter credentials are checked for validity?
             backicon.setEnabled(false);
             consumerkeybtn.setEnabled(false);
             consumerkeybtnscrt.setEnabled(false);
@@ -220,6 +211,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             // you have to check the credentials in a thread, otherwise android will drop an exepction,
             // because no network connections are allowed in the main-thread
 
+            final ProgressDialog dialog = ProgressDialog.show(Settings.this, "","Checking Token-validity. Please wait...", true);
             new AsyncTask<Void,Void,Boolean>() {    //checking if twitter credentials are valid
                 @Override
                 protected Boolean doInBackground(Void... params) {
@@ -239,6 +231,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
                     accesstokentxt.setEnabled(true);
                     accesstokentxtscrt.setEnabled(true);
 
+                    dialog.dismiss();
                     if(result) {
                         Toast.makeText(Settings.this,"Validation successfull. Tokens are correct",Toast.LENGTH_SHORT).show();
                     }else{

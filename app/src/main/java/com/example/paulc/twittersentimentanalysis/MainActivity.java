@@ -25,16 +25,10 @@ import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.service.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
 /**
- * TODO: @paul - look if old analization results are saved on the SD-Card, if no, hide the history button ?
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -82,7 +76,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         newAnalysis.setOnClickListener(this);
         this.imprintBtn.setOnClickListener(this);
 
-      //  AnalizationHelper.INSTANCE().init(this);
+
+
+        //TODO: @paul, load twitter tokens from local encrypted storage and set the following values:
+       // AnalizationHelper.INSTANCE().setAccessToken("token");
+        //AnalizationHelper.INSTANCE().setAccessTokenSecret("token");
+        //AnalizationHelper.INSTANCE().setConsumerKey("token");
+       // AnalizationHelper.INSTANCE().setConsumerSecret("token");
 
 
 
@@ -153,16 +153,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FM.setAppMedium(settings);
         FM.setAppRegular(informativeText);
 
-    }
-
-
-
-    //user Logout methode
-    private void userLogout() {
-        FirebaseAuth f_auth = FirebaseAuth.getInstance();
-        f_auth.signOut();
-        finish();
-        startActivity(new Intent(MainActivity.this, LoginScreen5.class));
     }
 
     @Override

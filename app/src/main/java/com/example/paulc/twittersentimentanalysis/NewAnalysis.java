@@ -23,11 +23,6 @@ import com.example.mick.service.Constants;
 import com.example.mick.service.ForegroundService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.w3c.dom.Text;
 
@@ -119,8 +114,6 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
             if(AnalizationHelper.INSTANCE().isRunning()){
                 Toast.makeText(this,"Analization already running. Pleas stop current analization first..",Toast.LENGTH_SHORT).show();
-                //TODO 7
-                // 7. Redirect him to the display activity.
                 return;
             }else if(AnalizationHelper.INSTANCE().isBlocked()) {
                 Toast.makeText(this, "Software is currently saving - please be patient", Toast.LENGTH_SHORT).show();
@@ -129,7 +122,6 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
             Log.d("AppD","start analization clicked");
 
-            //TODO: @paul maybe show some "processing" or "waiting" bars or icons while vertifying, if the twitter credentials are correct?
             backicon.setEnabled(false);
             go.setEnabled(false);
             searchcriteria.setEnabled(false);

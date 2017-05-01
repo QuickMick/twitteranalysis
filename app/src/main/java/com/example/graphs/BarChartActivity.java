@@ -164,6 +164,9 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 this.stopAnalysisBtn.setVisibility(Button.VISIBLE);
                 this.changeViewBtn.setVisibility(Button.VISIBLE);
                 Toast.makeText(this, "Touch the chart to see the sentiments", Toast.LENGTH_SHORT).show();
+
+                this.analizationIntervalLbl.setText("from "+new SimpleDateFormat(AnalizationResult.DATE_FORMAT).format(ar.startDate)+ " to now");
+
                 break;
             case Constants.ANALIZATION.MODE_ANALIZATION_STOPPED:
                 this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
@@ -171,6 +174,10 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 this.ar = AnalizationHelper.INSTANCE().getFinalResult();
                 this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
                 this.changeViewBtn.setVisibility(Button.INVISIBLE);
+
+                this.analizationIntervalLbl.setText("from "+new SimpleDateFormat(AnalizationResult.DATE_FORMAT).format(ar.startDate)+ " to now");
+
+
                 this.updateGraphData();
                 break;
             case Constants.ANALIZATION.MODE_HISTORY:

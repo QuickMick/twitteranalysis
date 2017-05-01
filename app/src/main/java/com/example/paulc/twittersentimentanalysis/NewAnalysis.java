@@ -122,6 +122,9 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                 //TODO 7
                 // 7. Redirect him to the display activity.
                 return;
+            }else if(AnalizationHelper.INSTANCE().isBlocked()) {
+                Toast.makeText(this, "Software is currently saving - please be patient", Toast.LENGTH_SHORT).show();
+                return;
             }
 
             Log.d("AppD","start analization clicked");

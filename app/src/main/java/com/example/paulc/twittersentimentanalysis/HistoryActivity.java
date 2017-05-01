@@ -4,6 +4,7 @@ import android.*;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.service.carrier.CarrierMessagingService;
@@ -74,8 +76,38 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
         this.filesLv = (ListView)findViewById(R.id.fileslv);
         this.showHistoryTimelineBtn = (Button)findViewById(R.id.showhistorytimelinebtn);
         this.showHistoryTimelineBtn.setOnClickListener(this);
-        this.requistPermission();
-        this.listFiles();
+
+
+
+        final ProgressDialog dialog = ProgressDialog.show(HistoryActivity.this, "","Saving. Please wait...", true);
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                HistoryActivity.this.requistPermission();
+                HistoryActivity.this.listFiles();
+                return "";
+            }
+
+            @Override
+            public void onPostExecute(String result){
+                ArrayAdapter adapter = new ArrayAdapter<File>(HistoryActivity.this, android.R.layout.simple_list_item_2, android.R.id.text1,HistoryActivity.this.listedFiles  ) {
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        View view = super.getView(position, convertView, parent);
+                        TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                        TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+
+                        text1.setText(HistoryActivity.this.listedFiles [position].getName());
+                        text2.setText(HistoryActivity.this.listedFiles [position].getAbsolutePath());
+                        return view;
+                    }
+                };
+
+                HistoryActivity.this.filesLv.setAdapter(adapter);
+                dialog.dismiss();
+            }
+        }.execute();
+
 
 
 
@@ -109,26 +141,8 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
         Collections.sort(cur);
         Collections.reverse(cur);
 
+
         this.listedFiles = cur.toArray(new File[cur.size()]);
-
-        ArrayAdapter adapter = new ArrayAdapter<File>(this, android.R.layout.simple_list_item_2, android.R.id.text1,this.listedFiles  ) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                TextView text1 = (TextView) view.findViewById(android.R.id.text1);
-                TextView text2 = (TextView) view.findViewById(android.R.id.text2);
-
-                text1.setText(HistoryActivity.this.listedFiles [position].getName());
-                text2.setText(HistoryActivity.this.listedFiles [position].getAbsolutePath());
-                return view;
-            }
-        };
-
-
-
-        this.filesLv.setAdapter(adapter);
-
-
     }
 
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;

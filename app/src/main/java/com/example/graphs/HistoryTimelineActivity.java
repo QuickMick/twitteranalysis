@@ -1,7 +1,9 @@
 package com.example.graphs;
 
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -64,15 +66,30 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
         this.initGraph();
 
 
-        this.init();
+        final ProgressDialog dialog = ProgressDialog.show(HistoryTimelineActivity.this, "","Saving. Please wait...", true);
+        new AsyncTask<Void, Void, DisplayValue[]>() {
+            @Override
+            protected DisplayValue[] doInBackground(Void... params) {
+                return HistoryTimelineActivity.this.init();
+            }
 
+            @Override
+            protected void onPostExecute(DisplayValue[] r){
+                if(r == null){
+                    Toast.makeText(HistoryTimelineActivity.this, "Error while loading files",Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                HistoryTimelineActivity.this.updateGraph(r);
+                dialog.dismiss();
+            }
+        }.execute();
 
     }
 
-    private void init(){
+    private DisplayValue[] init(){
         File[] files = this.listFiles();
 
-        if(files.length <=0)return;
+        if(files.length <=0) return null;
 
         ArrayList<DisplayValue> result = new ArrayList<DisplayValue>();
         try {
@@ -84,9 +101,9 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Error: while loading files",Toast.LENGTH_SHORT).show();
-            finish();
-            return;
+
+            //finish();
+            return null;
         }
 
         Collections.sort(result, new Comparator<DisplayValue>() {
@@ -95,7 +112,8 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
             }
         });
 
-        this.updateGraph(result.toArray(new DisplayValue[result.size()]));
+        return result.toArray(new DisplayValue[result.size()]);
+
     }
 
 

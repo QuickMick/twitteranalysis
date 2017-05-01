@@ -68,9 +68,10 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onResume(){
         super.onResume();
-
-        //TODO: @paul load tokens from local encrypted storage
-
+        consumerkeytxt.setText(AnalizationHelper.INSTANCE().getConsumerKey());
+        consumerkeytxtscrt.setText(AnalizationHelper.INSTANCE().getConsumerSecret());
+        accesstokentxt.setText(AnalizationHelper.INSTANCE().getAccessToken());
+        accesstokentxtscrt.setText(AnalizationHelper.INSTANCE().getAccessTokenSecret());
     }
 
 

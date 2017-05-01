@@ -33,6 +33,11 @@ import org.w3c.dom.Text;
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    /**
+     * Ask once on startup, if the user wants to enable wifi
+     */
+    private static boolean ASKED_FOR_WLAN = false;
+
     // declaration of views
     FontManager FM;
     TextView userdisplay,informativeText,backicon;
@@ -80,14 +85,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-        //TODO: @paul, load twitter tokens from local encrypted storage and set the following values:
-       // AnalizationHelper.INSTANCE().setAccessToken("token");
-        //AnalizationHelper.INSTANCE().setAccessTokenSecret("token");
-        //AnalizationHelper.INSTANCE().setConsumerKey("token");
-       // AnalizationHelper.INSTANCE().setConsumerSecret("token");
-
-
-
 
     }
 
@@ -112,15 +109,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        // ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
        // NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-        final WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        if(ASKED_FOR_WLAN) {
+            final WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
 
-        if (!wifi.isWifiEnabled()) {
-            new AlertDialog.Builder(this).setMessage("We recomend to use WIFI for the Twitter Analysis. Do you want to activate your WIFI now?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            if (!wifi.isWifiEnabled()) {
+                new AlertDialog.Builder(this).setMessage("We recomend to use WIFI for the Twitter Analysis. Do you want to activate your WIFI now?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                switch (which){
+                                switch (which) {
                                     case DialogInterface.BUTTON_POSITIVE:
                                         //Yes button clicked
                                         wifi.setWifiEnabled(true);
@@ -132,9 +130,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 }
                             }
                         })
-                    .setNegativeButton("No", null).show();
-        }
+                        .setNegativeButton("No", null).show();
+            }
 
+            ASKED_FOR_WLAN=true;
+        }
 
 
     }

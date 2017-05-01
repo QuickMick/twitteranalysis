@@ -29,11 +29,18 @@ public class AnalizationHelper {
 
     private static AnalizationHelper instance = new AnalizationHelper();
 
+
     public static void recreate(){
         instance = new AnalizationHelper();
     }
 
-    private AnalizationHelper(){}
+    private AnalizationHelper(){
+        //TODO: @paul very importatn!! remove these keys and load them from the settings
+        this.consumerKey = "WTSdBrmGi9X3GlSW1OTMb0Xhj";
+        this.consumerSecret = "2xPN57eBDYeqWPKVpmG95XrwjX6fq79fUS2ilC7sYNWEc25xIL";
+        this.accessToken = "791421180129476609-Ld84Ity8cdq9i0a7GawzS1OxKzGYWtz";
+        this.AccessTokenSecret = "lOlxp3j603JJ4fZPJTl08PhEPnAZ30uJ6TmpYVwWCct1m";
+    }
 
     public static AnalizationHelper INSTANCE(){
         return AnalizationHelper.instance;
@@ -117,11 +124,7 @@ public class AnalizationHelper {
 
         Log.d("analizer","init analizer successfull");
 
-        //TODO: @paul very importatn!! remove these keys and load them from the settings
-        this.consumerKey = "WTSdBrmGi9X3GlSW1OTMb0Xhj";
-        this.consumerSecret = "2xPN57eBDYeqWPKVpmG95XrwjX6fq79fUS2ilC7sYNWEc25xIL";
-        this.accessToken = "791421180129476609-Ld84Ity8cdq9i0a7GawzS1OxKzGYWtz";
-        this.AccessTokenSecret = "lOlxp3j603JJ4fZPJTl08PhEPnAZ30uJ6TmpYVwWCct1m";
+
     }
 
     private boolean isRunning = false;

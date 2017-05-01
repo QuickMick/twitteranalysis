@@ -112,6 +112,15 @@
                     android:text="Settings"
                     android:textColor="#ffffff"
                     android:layout_height="0dp" />
+                <Button
+                    android:id="@+id/help"
+                    android:background="#a1e0a9"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.95"
+                    android:text="Help"
+                    android:textColor="#ffffff"
+                    android:layout_height="0dp" />
 
 
             </LinearLayout>

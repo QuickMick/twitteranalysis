@@ -353,11 +353,34 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
             this.updateGraphData(); //update graph based on the current mode
         }else if( view == this.stopAnalysisBtn){
-            this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
-            this.changeViewBtn.setVisibility(Button.INVISIBLE);
-            Intent stopIntent = new Intent(BarChartActivity.this, ForegroundService.class);
-            stopIntent.setAction(ForegroundService.STOPFOREGROUND_ACTION);
-            startService(stopIntent);
+
+
+            new android.support.v7.app.AlertDialog.Builder(this).setMessage("Do you really want to stop the Analysis?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    //Yes button clicked
+                                    BarChartActivity.this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
+                                    BarChartActivity.this.changeViewBtn.setVisibility(Button.INVISIBLE);
+                                    Intent stopIntent = new Intent(BarChartActivity.this, ForegroundService.class);
+                                    stopIntent.setAction(ForegroundService.STOPFOREGROUND_ACTION);
+                                    startService(stopIntent);
+                                    break;
+
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    //No button clicked
+                                    break;
+                            }
+                        }
+                    })
+                    .setNegativeButton("No", null).show();
+
+
+
+
+
         }else if(view == this.saveAnalysisBtn){
             this.saveCurrentAnalysis();
         }else if(view == this.showDetailsBtn){

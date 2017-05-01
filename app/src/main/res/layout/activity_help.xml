@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Imprint"
+        android:text="Help"
         android:id="@+id/textView3"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -22,12 +22,12 @@
         android:gravity="left"
         android:layout_height="fill_parent"
         android:layout_width="wrap_content"
-
-        android:text="Developed for the course 'Remote Collaboration' for HHN. Special Thanks to Jonas Gehring, who published 'android-graphview' which is used in this project and also to Alex Corvi, whos text inflector 'en-inflectors' originally developed for JavaScript, was used as archetype for our inflector."
+        android:scrollbars = "vertical"
+        android:text="@string/help_description"
         android:layout_below="@+id/textView3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-
-
 </RelativeLayout>
+
+

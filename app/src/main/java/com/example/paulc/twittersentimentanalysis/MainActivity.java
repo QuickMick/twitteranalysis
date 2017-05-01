@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // declaration of views
     FontManager FM;
     TextView userdisplay,informativeText,backicon;
-    Button newAnalysis,history,settings,imprintBtn;
+    Button newAnalysis,history,settings,imprintBtn,helpBtn;
     ProgressDialog progressDialog;
 
     @Override
@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      //   logouttv.setOnClickListener(this);
         settings.setOnClickListener(this);
         history.setOnClickListener(this);
+        helpBtn.setOnClickListener(this);
         newAnalysis.setOnClickListener(this);
         this.imprintBtn.setOnClickListener(this);
 
@@ -106,8 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         if (!wifi.isWifiEnabled()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("We recomend to use WIFI for the Twitter Analysis. Do you want to activate your WIFI now?")
+            new AlertDialog.Builder(this).setMessage("We recomend to use WIFI for the Twitter Analysis. Do you want to activate your WIFI now?")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         newAnalysis = (Button)findViewById(R.id.newAnalysis);
         history = (Button)findViewById(R.id.history);
         settings = (Button)findViewById(R.id.settings);
+        helpBtn = (Button) findViewById(R.id.help);
         informativeText = (TextView) findViewById(R.id.informativeText);
         this.imprintBtn = (Button)findViewById(R.id.imprintbnt);
 
@@ -198,6 +199,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(view == this.imprintBtn){
             startActivity(new Intent(MainActivity.this, ImprintActivity.class));
+        }
+
+        if(view == this.helpBtn){
+            startActivity(new Intent(MainActivity.this, HelpActivity.class));
         }
 
 

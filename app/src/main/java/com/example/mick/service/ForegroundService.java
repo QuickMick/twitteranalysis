@@ -6,11 +6,13 @@ package com.example.mick.service;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -56,7 +58,7 @@ public class ForegroundService extends Service {
 
       //  Log.d("analize_result",AnalizationHelper.INSTANCE().getFinalResult().toString());
 
-        this.updateNotification("Analized tweets: "+AnalizationHelper.INSTANCE().getFinalResult().tweetCount);
+        this.updateNotification("Analized tweets: "+AnalizationHelper.INSTANCE().getFinalResult().tweetCount,AnalizationHelper.INSTANCE().isRunning());
     }
 
     private void sendMessageToActivity(String msg) {
@@ -100,7 +102,7 @@ public class ForegroundService extends Service {
 
 
 
-            Notification notification = this.createNotification("Analized tweets: 0");
+            Notification notification = this.createNotification("Analized tweets: 0",true);
             startForeground(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE,
                     notification);
         } else if (intent.getAction().equals(ForegroundService.STOP_ANALYSIS_ACTION)) {
@@ -125,6 +127,8 @@ public class ForegroundService extends Service {
 
         } else if (intent.getAction().equals(ForegroundService.STOPFOREGROUND_ACTION)) {    //this comes from app
             Log.i(LOG_TAG, "Received Stop Foreground Intent");
+            this.updateNotification("Analized tweets: "+AnalizationHelper.INSTANCE().getFinalResult().tweetCount,false);
+            Toast.makeText(this,"Stopping analysis, please be patient",Toast.LENGTH_SHORT).show();
             this.stopService();
 
             this.sendMessageToActivity(Constants.ANALIZATION.BROADCAST_ANALIZATION_STOPPED);
@@ -149,19 +153,34 @@ public class ForegroundService extends Service {
      * Stops the analization and closes the notification
      */
     private void stopService(){
-        this.updateDataTimer.cancel();
-        AnalizationHelper.INSTANCE().stopAnalization();
+// TODO: really in thread? maby add "is blocked"
 
-        stopForeground(true);
-        stopSelf();
+    //    final ProgressDialog dialog = ProgressDialog.show(ForegroundService.this, "","Saving. Please wait...", true);
+
+        new Handler(this.getMainLooper()).post(new Runnable() {
+            public void run() {
+                AnalizationHelper.INSTANCE().setBlocked(true);
+
+                ForegroundService.this.updateDataTimer.cancel();
+                AnalizationHelper.INSTANCE().stopAnalization();
+
+                stopForeground(true);
+                stopSelf();
+
+                AnalizationHelper.INSTANCE().setBlocked(false);
+
+              //  dialog.dismiss();
+            }
+        });
+
     }
 
-    private void updateNotification(String text){
+    private void updateNotification(String text,boolean isRunning){
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(NOTIF_ID, this.createNotification(text));
+        mNotificationManager.notify(NOTIF_ID, this.createNotification(text,isRunning));
     }
 
-    private Notification createNotification(String content){
+    private Notification createNotification(String content,boolean isRunning){
 
         Intent notificationIntent = new Intent(this, BarChartActivity.class);
         notificationIntent.setAction(ForegroundService.GO_TO_GRAPH_ACTION);
@@ -177,34 +196,37 @@ public class ForegroundService extends Service {
         PendingIntent pstopIntent = PendingIntent.getService(this, 0,
                 stopIntent, 0);
 
-      /*  Intent playIntent = new Intent(this, ForegroundService.class);
-        playIntent.setAction(Constants.ACTION.PLAY_ACTION);
-        PendingIntent pplayIntent = PendingIntent.getService(this, 0,
-                playIntent, 0);
-
-        Intent nextIntent = new Intent(this, ForegroundService.class);
-        nextIntent.setAction(Constants.ACTION.NEXT_ACTION);
-        PendingIntent pnextIntent = PendingIntent.getService(this, 0,
-                nextIntent, 0);*/
-
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
                 R.drawable.movie);  // TODO: @paul do you have a nice icon?
 
-        Notification notification = new NotificationCompat.Builder(this)
-                .setContentTitle("Twitter Analysis running")
-                .setTicker("Twitter Analysis running")
-                .setContentText(content)
-                .setSmallIcon(R.drawable.movie) // TODO: @paul do you have a nice icon?
-                .setLargeIcon(Bitmap.createScaledBitmap(icon, 128, 128, false))
-                .setContentIntent(pendingIntent)
-                .setOngoing(true)
-                .addAction(android.R.drawable.ic_lock_power_off,
-                        "Stop", pstopIntent)
-                   /* .addAction(android.R.drawable.ic_media_play, "Play",
-                            pplayIntent)
-                    .addAction(android.R.drawable.ic_media_next, "Next",
-                            pnextIntent)*/
-                .build();
+        Notification notification;
+        if(isRunning) {
+            notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("Twitter Analysis running")
+                    .setTicker("Twitter Analysis running")
+                    .setContentText(content)
+                    .setSmallIcon(R.drawable.movie) // TODO: @paul do you have a nice icon?
+                    .setLargeIcon(Bitmap.createScaledBitmap(icon, 128, 128, false))
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(true)
+                    .addAction(android.R.drawable.ic_lock_power_off,
+                            "Stop", pstopIntent)
+                    .build();
+        }
+
+        else {
+            notification = new NotificationCompat.Builder(this)
+                    .setContentTitle("Twitter Analysis stopped")
+                    .setTicker("Twitter Analysis stopped")
+                    .setContentText(content)
+                    .setSmallIcon(R.drawable.movie) // TODO: @paul do you have a nice icon?
+                    .setLargeIcon(Bitmap.createScaledBitmap(icon, 128, 128, false))
+                    .setProgress(0, 0, true)
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(true)
+                    .build();
+        }
+
 
         return notification;
     }

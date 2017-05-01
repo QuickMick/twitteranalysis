@@ -131,9 +131,12 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
             go.setEnabled(false);
             searchcriteria.setEnabled(false);
 
+
+
             // you have to check the credentials in a thread, otherwise android will drop an exepction,
             // because no network connections are allowed in the main-thread
 
+            final ProgressDialog dialog = ProgressDialog.show(NewAnalysis.this, "","Starting analysis. Please wait...", true);
             // check if the twitter credentials are correct in async task
             new AsyncTask<Void,Void,Boolean>() {
                 @Override
@@ -163,7 +166,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                     }else{
                         Toast.makeText(NewAnalysis.this,"Twitter-tokens are incorrect, please check your settings.",Toast.LENGTH_SHORT).show();
                     }
-
+                    dialog.dismiss();
 
                 }
             }.execute();

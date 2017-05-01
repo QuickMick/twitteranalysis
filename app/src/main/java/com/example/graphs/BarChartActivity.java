@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -160,7 +162,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
                 this.startRunningMode();
                 this.stopAnalysisBtn.setVisibility(Button.VISIBLE);
-
+                this.changeViewBtn.setVisibility(Button.VISIBLE);
                 Toast.makeText(this, "Touch the chart to see the sentiments", Toast.LENGTH_SHORT).show();
                 break;
             case Constants.ANALIZATION.MODE_ANALIZATION_STOPPED:
@@ -168,11 +170,12 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
                 this.ar = AnalizationHelper.INSTANCE().getFinalResult();
                 this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
+                this.changeViewBtn.setVisibility(Button.INVISIBLE);
                 this.updateGraphData();
                 break;
             case Constants.ANALIZATION.MODE_HISTORY:
                 String date = i.getStringExtra(Constants.ANALIZATION.MODE_HISTORY_DATE);
-
+                this.changeViewBtn.setVisibility(Button.INVISIBLE);
                 this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
                 this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
                 this.ar = AnalizationHelper.INSTANCE().getFinalResult();
@@ -288,8 +291,11 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
     protected void onResume() {
         super.onResume();
 
+
         if(AnalizationHelper.INSTANCE().isRunning()) {
             this.startRunningMode();
+        }else{
+            this.changeViewBtn.setVisibility(Button.INVISIBLE);
         }
 
         mainHandler = new Handler(this.getMainLooper());
@@ -341,7 +347,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             this.updateGraphData(); //update graph based on the current mode
         }else if( view == this.stopAnalysisBtn){
             this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
-
+            this.changeViewBtn.setVisibility(Button.INVISIBLE);
             Intent stopIntent = new Intent(BarChartActivity.this, ForegroundService.class);
             stopIntent.setAction(ForegroundService.STOPFOREGROUND_ACTION);
             startService(stopIntent);
@@ -358,6 +364,8 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             }
         }
     }
+
+
 
     private void requistPermission(){
         String state = Environment.getExternalStorageState();
@@ -397,48 +405,67 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
     private void saveCurrentAnalysis() {
 
-       this.requistPermission();
+        AnalizationHelper.INSTANCE().setBlocked(true);
+       // Toast.makeText(BarChartActivity.this, "Start writing", Toast.LENGTH_SHORT).show();
+// Caused by: java.lang.RuntimeException: Can't create handler inside thread that has not called Looper.prepare()
 
-        Toast.makeText(this, "Start writing",Toast.LENGTH_SHORT).show();
 
-        //TODO: do the writing (following code) in an async task and show a "waiting" symbol - block everything else (also going back)
-        AnalizationResult ar = AnalizationHelper.INSTANCE().getFinalResult();
-        String json = ar.toJSON();
-        //DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        final ProgressDialog dialog = ProgressDialog.show(BarChartActivity.this, "","Saving. Please wait...", true);
+        new AsyncTask<Void, Void, String>(){
+            @Override
+            protected String doInBackground (Void...params){
 
-        //return "{\"startDate\":\""+format.format(this.startDate)+"\", "	/
-        DateFormat format = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
-        String fileName = "twitter_"+format.format(ar.startDate)+"_-_"+format.format(ar.endDate)+".json";
-        try {
-            File mydir = new File(Environment.getExternalStorageDirectory(),AnalizationHelper.getAnalyzation_folder());
-            if(!mydir.exists()) {
-                mydir.mkdirs();
+                BarChartActivity.this.requistPermission();
+
+                //TODO: do the writing (following code) in an async task and show a "waiting" symbol - block everything else (also going back)
+                AnalizationResult ar = AnalizationHelper.INSTANCE().getFinalResult();
+                String json = ar.toJSON();
+                //DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+
+                //return "{\"startDate\":\""+format.format(this.startDate)+"\", "	/
+                DateFormat format = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+                String fileName = "twitter_" + format.format(ar.startDate) + "_-_" + format.format(ar.endDate) + ".json";
+                try {
+                    File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.getAnalyzation_folder());
+                    if (!mydir.exists()) {
+                        mydir.mkdirs();
+                    }
+
+                    File myFile = new File(mydir, fileName);
+
+                    Log.d("AppD", "save file: " + myFile.getAbsolutePath());
+
+                    myFile.createNewFile();
+                    FileOutputStream fOut = new FileOutputStream(myFile);
+                    OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+                    myOutWriter.append(json);
+                    myOutWriter.close();
+                    fOut.close();
+
+
+                    AnalizationHelper.INSTANCE().setBlocked(false);
+                    return null;    // saving successfull
+
+                } catch (Exception e) {
+
+                    AnalizationHelper.INSTANCE().setBlocked(false);
+                    return e.getMessage();   // saving not sucessful
+                }
             }
 
-            File myFile = new File(mydir, fileName);
+            protected void onPostExecute (String result){
 
-            Log.d("AppD","save file: "+myFile.getAbsolutePath());
-
-            myFile.createNewFile();
-            FileOutputStream fOut = new FileOutputStream(myFile);
-            OutputStreamWriter myOutWriter =new OutputStreamWriter(fOut);
-            myOutWriter.append(json);
-            myOutWriter.close();
-            fOut.close();
-            Toast.makeText(this,"Done writing data to SD Card", Toast.LENGTH_SHORT).show();
-            this.saveAnalysisBtn.setVisibility(Button.INVISIBLE);
-        }
-        catch (Exception e)
-        {
-            Toast.makeText(this, "Error while saving: "+e.getMessage(),Toast.LENGTH_SHORT).show();
-        }
-
+                dialog.dismiss();
+                if(result==null) {
+                    Toast.makeText(BarChartActivity.this, "Done writing data to SD Card", Toast.LENGTH_SHORT).show();
+                    BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.INVISIBLE);
+                }else{
+                    Toast.makeText(BarChartActivity.this, "Error while saving: " + result, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
 
     }
-
-
-
-
 
 
 

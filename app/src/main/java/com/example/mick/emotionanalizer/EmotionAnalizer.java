@@ -67,6 +67,7 @@ public class EmotionAnalizer {
 	private EmotionAnalizer(){
 		//  this.init();
 		//this.wordProcessor = new WordProcessor();
+
 	}
 
 	// no need for this function anymore - the contractions will be removed anyway in the cleantokens section

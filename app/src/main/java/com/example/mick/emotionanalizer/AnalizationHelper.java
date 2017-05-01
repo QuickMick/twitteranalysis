@@ -12,6 +12,11 @@ import java.util.LinkedList;
 public class AnalizationHelper {
 
     /**
+     * this is true, while savin is in progress - so that we are able to block a new analization while saving
+     */
+    private boolean isBlocked = false;
+
+    /**
      * steps saved for the live timeline
      */
     public static final int MAX_HISTORY_COUNT = 20;
@@ -34,7 +39,7 @@ public class AnalizationHelper {
         return AnalizationHelper.instance;
     }
 
-    private boolean isInitialized = false;
+    private volatile boolean isInitialized = false;
 
     private Object lock = new Object();
     private Object lock2 = new Object();
@@ -121,6 +126,13 @@ public class AnalizationHelper {
     }
 
 
+    public boolean isBlocked() {
+        return isRunning;
+    }
+
+    public void setBlocked(boolean isBlocked){
+        this.isBlocked = isBlocked;
+    }
 
     public boolean isRunning() {
         return isRunning;
@@ -164,7 +176,7 @@ public class AnalizationHelper {
         this.isRunning = false;
         this.twitterCrawler = null;
 
-        Log.d("analize",this.getFinalResult().toJSON());
+       // Log.d("analize",this.getFinalResult().toJSON());
         EmotionAnalizer.Recreate();
     }
 

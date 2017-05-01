@@ -1,9 +1,15 @@
 package com.example.paulc.twittersentimentanalysis;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -77,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
       //  AnalizationHelper.INSTANCE().init(this);
 
+
+
+
     }
 
     @Override
@@ -88,6 +97,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             newAnalysis.setText("NEW ANALYSIS");
         }
+
+
+       // ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+       // NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        final WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+
+        if (!wifi.isWifiEnabled()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("We recomend to use WIFI for the Twitter Analysis. Do you want to activate your WIFI now?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which){
+                                    case DialogInterface.BUTTON_POSITIVE:
+                                        //Yes button clicked
+                                        wifi.setWifiEnabled(true);
+                                        break;
+
+                                    case DialogInterface.BUTTON_NEGATIVE:
+                                        //No button clicked
+                                        break;
+                                }
+                            }
+                        })
+                    .setNegativeButton("No", null).show();
+        }
+
+
+
     }
 
     public void InitUI(){
@@ -149,7 +189,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                // Toast.makeText(this,"Analization already running. Pleas stop current analization first..",Toast.LENGTH_SHORT).show();
                // return;
-            }else {
+            }else if(AnalizationHelper.INSTANCE().isBlocked()) {
+                Toast.makeText(this,"Software is currently saving - please be patient",Toast.LENGTH_SHORT).show();
+            }else{
                 startActivity(new Intent(MainActivity.this, NewAnalysis.class));
             }
         }

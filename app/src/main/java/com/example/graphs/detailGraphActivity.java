@@ -218,6 +218,17 @@ public class DetailGraphActivity extends AppCompatActivity implements View.OnCli
 
         }
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        if(AnalizationHelper.INSTANCE().isRunning()){
+            reloadDetailsBtn.setVisibility(Button.VISIBLE);
+        }else{
+            reloadDetailsBtn.setVisibility(Button.INVISIBLE);
+        }
+    }
 }
 class TwoLinedListItem{
     String term;

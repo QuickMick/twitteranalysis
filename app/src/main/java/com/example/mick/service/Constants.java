@@ -64,6 +64,8 @@ public class Constants {
          */
         public static String DIAGRAM_MODE = "DIAGRAM_MODE";
 
+        public static String DIAGRAM_MODE_FIND = "DIAGRAM_MODE_FIND";
+
         /**
          * Value for the diagram mode - means that the analization is currently running
          */

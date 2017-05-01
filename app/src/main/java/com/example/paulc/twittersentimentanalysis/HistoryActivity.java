@@ -242,10 +242,14 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
                                             //TODO:load in asyncTask
                                             try {
                                                 AnalizationHelper.INSTANCE().setFinalResult(AnalizationResult.createFromJSON(HistoryActivity.this.loadJSONFromFolder(file)));
+                                                AnalizationHelper.INSTANCE().setSaved(true);
                                             } catch (JSONException e) {
                                                 Toast.makeText(HistoryActivity.this, "Error while loading file "+file.getName(), Toast.LENGTH_SHORT).show();
                                                 return;
                                             }
+
+
+
                                             Intent i = new Intent(HistoryActivity.this, BarChartActivity.class);
                                             i.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_HISTORY);
                                             startActivity(i);

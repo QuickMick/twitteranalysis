@@ -22,6 +22,16 @@ public class AnalizationResult{
 
 	private String[] kewords = new String[0];
 
+	/*private boolean isSaved = false;
+
+	public boolean isSaved() {
+		return isSaved;
+	}
+
+	public void setSaved(boolean saved) {
+		isSaved = saved;
+	}*/
+
 	/**
 	 * the analitzaitonResult instance should be generated, when the analization starts,
 	 * so we initialize the start date with the current date
@@ -261,4 +271,5 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 	public String[] getKewords() {
 		return kewords;
 	}
+
 }

@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.graphs.BarChartActivity;
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.service.Constants;
+import com.example.mick.service.ForegroundService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // declaration of views
     FontManager FM;
     TextView userdisplay,informativeText,backicon;
-    Button newAnalysis,history,settings,imprintBtn,helpBtn;
+    Button newAnalysis,history,settings,imprintBtn,helpBtn,unsavedResultBtn;
     ProgressDialog progressDialog;
 
     @Override
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         helpBtn.setOnClickListener(this);
         newAnalysis.setOnClickListener(this);
         this.imprintBtn.setOnClickListener(this);
+        this.unsavedResultBtn.setOnClickListener(this);
 
 
 
@@ -92,12 +94,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume(){
         super.onResume();
-
+        this.unsavedResultBtn.setVisibility(Button.GONE);
         if(AnalizationHelper.INSTANCE().isRunning()){
             newAnalysis.setText("GO TO ANALYSIS");
         }else{
             newAnalysis.setText("NEW ANALYSIS");
+
+            if(!AnalizationHelper.INSTANCE().isSaved()){
+                this.unsavedResultBtn.setVisibility(Button.VISIBLE);
+            }
+
         }
+
+
 
 
        // ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -141,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         settings = (Button)findViewById(R.id.settings);
         helpBtn = (Button) findViewById(R.id.help);
         informativeText = (TextView) findViewById(R.id.informativeText);
+        unsavedResultBtn = (Button) findViewById(R.id.unsavedanalysis);
         this.imprintBtn = (Button)findViewById(R.id.imprintbnt);
 
 
@@ -182,6 +192,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                // return;
             }else if(AnalizationHelper.INSTANCE().isBlocked()) {
                 Toast.makeText(this,"Software is currently saving - please be patient",Toast.LENGTH_SHORT).show();
+            }else if(!AnalizationHelper.INSTANCE().isSaved()) {
+
+                new android.support.v7.app.AlertDialog.Builder(this).setMessage("Unsaved analysis results found. Starting a new Analysis will drop recent progess. Do you want to proceede?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(MainActivity.this, NewAnalysis.class));
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new android.support.v7.app.AlertDialog.Builder(MainActivity.this).setMessage("Do you want to see the previous unsaved result?")
+                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                startActivity(new Intent(MainActivity.this, BarChartActivity.class));
+                                            }
+                                        })
+                                        .setNegativeButton("No", null).show();
+                            }
+                        }).show();
+
+
             }else{
                 startActivity(new Intent(MainActivity.this, NewAnalysis.class));
             }
@@ -193,6 +227,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(view == this.helpBtn){
             startActivity(new Intent(MainActivity.this, HelpActivity.class));
+        }
+
+        if(view == this.unsavedResultBtn){
+            startActivity(new Intent(MainActivity.this, BarChartActivity.class));
         }
 
 

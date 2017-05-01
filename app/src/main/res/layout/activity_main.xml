@@ -84,6 +84,16 @@
                 android:layout_height="match_parent">
 
                 <Button
+                    android:id="@+id/unsavedanalysis"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.95"
+                    android:background="#a1e0a9"
+                    android:text="Show unsaved Analysis"
+                    android:textColor="#ffffff" />
+
+                <Button
                     android:id="@+id/newAnalysis"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

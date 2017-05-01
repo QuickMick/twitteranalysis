@@ -157,13 +157,31 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
        // this.titledate.setVisibility(LinearLayout.GONE);
         // start the view
         Intent i =getIntent();
-        switch(i.getStringExtra(Constants.ANALIZATION.DIAGRAM_MODE)){
+
+        String mode= i.getStringExtra(Constants.ANALIZATION.DIAGRAM_MODE);
+
+       // if(mode == Constants.ANALIZATION.DIAGRAM_MODE_FIND){
+            if(AnalizationHelper.INSTANCE().isRunning()){
+                mode = Constants.ANALIZATION.MODE_ANALIZATION_RUNNING;
+            }
+            else if(!AnalizationHelper.INSTANCE().isRunning() && !AnalizationHelper.INSTANCE().isSaved()){
+                mode = Constants.ANALIZATION.MODE_ANALIZATION_STOPPED;
+            }
+            else if(!AnalizationHelper.INSTANCE().isRunning() && AnalizationHelper.INSTANCE().isSaved()){
+                mode = Constants.ANALIZATION.MODE_HISTORY;
+            }
+    //    }
+
+
+        switch(mode){
             case Constants.ANALIZATION.MODE_ANALIZATION_RUNNING:
                 this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
                 this.startRunningMode();
                 this.stopAnalysisBtn.setVisibility(Button.VISIBLE);
                 this.changeViewBtn.setVisibility(Button.VISIBLE);
                 Toast.makeText(this, "Touch the chart to see the sentiments", Toast.LENGTH_SHORT).show();
+
+
 
                 this.analizationIntervalLbl.setText("from "+new SimpleDateFormat(AnalizationResult.DATE_FORMAT).format(ar.startDate)+ " to now");
 
@@ -175,7 +193,8 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
                 this.changeViewBtn.setVisibility(Button.INVISIBLE);
 
-                this.analizationIntervalLbl.setText("from "+new SimpleDateFormat(AnalizationResult.DATE_FORMAT).format(ar.startDate)+ " to now");
+                DateFormat format1 = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);
+                this.analizationIntervalLbl.setText("from "+format1.format(ar.startDate)+ " to "+format1.format(ar.endDate));
 
 
                 this.updateGraphData();
@@ -211,7 +230,22 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             public void onReceive(Context context, Intent intent) {
                 if(intent.getStringExtra("MSG").equals(Constants.ANALIZATION.BROADCAST_ANALIZATION_STOPPED)){
                     BarChartActivity.this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
+                    BarChartActivity.this.changeViewBtn.setVisibility(Button.INVISIBLE);
                     BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
+/*
+                    BarChartActivity.this.changeViewBtn.setVisibility(Button.INVISIBLE);
+                    BarChartActivity.this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
+                    BarChartActivity.this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
+                    BarChartActivity.this.ar = AnalizationHelper.INSTANCE().getFinalResult();
+                    BarChartActivity.this.titledate.setVisibility(LinearLayout.VISIBLE);
+
+
+                    DateFormat format = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);
+
+                    BarChartActivity.this.analizationIntervalLbl.setText("from "+format.format(ar.startDate)+ " to "+format.format(ar.endDate));
+
+                    BarChartActivity.this.updateGraphData();*/
+
                 }
             }
         }, intentFilter);
@@ -478,6 +512,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                     myOutWriter.close();
                     fOut.close();
 
+                    AnalizationHelper.INSTANCE().setSaved(true);
 
                     AnalizationHelper.INSTANCE().setBlocked(false);
                     return null;    // saving successfull

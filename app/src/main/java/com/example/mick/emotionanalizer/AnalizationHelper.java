@@ -39,6 +39,20 @@ public class AnalizationHelper {
         return AnalizationHelper.instance;
     }
 
+    /**
+     * true, if date is saved aka history data.
+     * also true at startup, because there is no data to save
+     */
+    private boolean isSaved= true;
+
+    public boolean isSaved() {
+        return isSaved;
+    }
+
+    public void setSaved(boolean saved) {
+        isSaved = saved;
+    }
+
     private volatile boolean isInitialized = false;
 
     private Object lock = new Object();
@@ -220,6 +234,8 @@ public class AnalizationHelper {
     public boolean isInitialized() {
         return isInitialized;
     }
+
+
 }
 /*
 class SayHello extends TimerTask {

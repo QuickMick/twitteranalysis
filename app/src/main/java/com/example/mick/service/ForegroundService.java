@@ -82,6 +82,7 @@ public class ForegroundService extends Service {
             AnalizationHelper.INSTANCE().recreate();
             AnalizationHelper.INSTANCE().init(this);
             String keywords = intent.getStringExtra(ForegroundService.SEARCH_CRITERIA);
+            AnalizationHelper.INSTANCE().setSaved(false);
             AnalizationHelper.INSTANCE().startAnalization(keywords,this);
 
 
@@ -117,11 +118,18 @@ public class ForegroundService extends Service {
             //go tho the diagramm screen if it is not opend already
             if(!BarChartActivity.isActive()) {
                 Intent notificationIntent = new Intent(this, BarChartActivity.class);
-                notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
+             //   notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
                 notificationIntent.setAction(ForegroundService.GO_TO_GRAPH_ACTION);
-                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+               // notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.DIAGRAM_MODE_FIND);
+             /*  if(AnalizationHelper.INSTANCE().isRunning()) {
+                    notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
+                }else{
+                    notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_ANALIZATION_STOPPED);
+                }*/
+
                 notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_ANALIZATION_STOPPED);
+
                 startActivity(notificationIntent);
             }
 
@@ -184,17 +192,15 @@ public class ForegroundService extends Service {
 
         Intent notificationIntent = new Intent(this, BarChartActivity.class);
         notificationIntent.setAction(ForegroundService.GO_TO_GRAPH_ACTION);
-        notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE,Constants.ANALIZATION.MODE_ANALIZATION_STOPPED);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE,Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
+        //notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
-                notificationIntent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,notificationIntent, 0);
 
         Intent stopIntent = new Intent(this, ForegroundService.class);
         stopIntent.setAction(ForegroundService.STOP_ANALYSIS_ACTION);
-        PendingIntent pstopIntent = PendingIntent.getService(this, 0,
-                stopIntent, 0);
+        PendingIntent pstopIntent = PendingIntent.getService(this, 0, stopIntent, 0);
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
                 R.drawable.movie);  // TODO: @paul do you have a nice icon?

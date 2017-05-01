@@ -374,25 +374,25 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
 
 
-    private void requistPermission(){
+    private boolean requistPermission(){
         String state = Environment.getExternalStorageState();
         if (!Environment.MEDIA_MOUNTED.equals(state)){
-            Toast.makeText(this, "Error: external storage is unavailable",Toast.LENGTH_SHORT).show();
-            return;
+            // Toast.makeText(this, "Error: external storage is unavailable",Toast.LENGTH_SHORT).show();
+            return false;
         }
         if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            Toast.makeText(this, "Error: external storage is read only.",Toast.LENGTH_SHORT).show();
-            return ;
+            //Toast.makeText(this, "Error: external storage is read only.",Toast.LENGTH_SHORT).show();
+            return false;
         }
         Log.d("myAppName", "External storage is not read only or unavailable");
 
         if (ContextCompat.checkSelfPermission(this, // request permission when it is not granted.
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "permission:WRITE_EXTERNAL_STORAGE: NOT granted!",Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, "permission:WRITE_EXTERNAL_STORAGE: NOT granted!",Toast.LENGTH_SHORT).show();
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
 
                 // Show an expanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
@@ -401,13 +401,17 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
+
+            return false;
         }
+
+        return true;
     }
 
     private void saveCurrentAnalysis() {
@@ -422,7 +426,9 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             @Override
             protected String doInBackground (Void...params){
 
-                BarChartActivity.this.requistPermission();
+               if(!BarChartActivity.this.requistPermission()){
+                   return "External Storage unavailable";
+               }
 
                 //TODO: do the writing (following code) in an async task and show a "waiting" symbol - block everything else (also going back)
                 AnalizationResult ar = AnalizationHelper.INSTANCE().getFinalResult();

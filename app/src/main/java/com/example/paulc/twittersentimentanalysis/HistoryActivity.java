@@ -80,16 +80,23 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
 
 
         final ProgressDialog dialog = ProgressDialog.show(HistoryActivity.this, "","Loading History. Please wait...", true);
-        new AsyncTask<Void, Void, String>() {
+        new AsyncTask<Void, Void, Boolean>() {
             @Override
-            protected String doInBackground(Void... params) {
-                HistoryActivity.this.requistPermission();
+            protected Boolean doInBackground(Void... params) {
+                if(!HistoryActivity.this.requistPermission()){
+                    return false;
+                }
                 HistoryActivity.this.listFiles();
-                return "";
+                return true;
             }
 
             @Override
-            public void onPostExecute(String result){
+            public void onPostExecute(Boolean result){
+                if(!result){
+                    Toast.makeText(HistoryActivity.this, "Error: external storage is unavailable",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 ArrayAdapter adapter = new ArrayAdapter<File>(HistoryActivity.this, android.R.layout.simple_list_item_2, android.R.id.text1,HistoryActivity.this.listedFiles  ) {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
@@ -146,22 +153,22 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-    private void requistPermission(){
+    private boolean requistPermission(){
         String state = Environment.getExternalStorageState();
         if (!Environment.MEDIA_MOUNTED.equals(state)){
-            Toast.makeText(this, "Error: external storage is unavailable",Toast.LENGTH_SHORT).show();
-            return;
+           // Toast.makeText(this, "Error: external storage is unavailable",Toast.LENGTH_SHORT).show();
+            return false;
         }
         if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            Toast.makeText(this, "Error: external storage is read only.",Toast.LENGTH_SHORT).show();
-            return ;
+            //Toast.makeText(this, "Error: external storage is read only.",Toast.LENGTH_SHORT).show();
+            return false;
         }
         Log.d("myAppName", "External storage is not read only or unavailable");
 
         if (ContextCompat.checkSelfPermission(this, // request permission when it is not granted.
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "permission:WRITE_EXTERNAL_STORAGE: NOT granted!",Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "permission:WRITE_EXTERNAL_STORAGE: NOT granted!",Toast.LENGTH_SHORT).show();
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -179,7 +186,11 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
                 // app-defined int constant. The callback method gets the
                 // result of the request.
             }
+
+            return false;
         }
+
+        return true;
     }
 
     @Override

@@ -232,6 +232,11 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                     BarChartActivity.this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
                     BarChartActivity.this.changeViewBtn.setVisibility(Button.INVISIBLE);
                     BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
+
+                    AnalizationResult ar = AnalizationHelper.INSTANCE().getFinalResult();
+                    DateFormat format1 = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);
+                    BarChartActivity.this.analizationIntervalLbl.setText("from "+format1.format(ar.startDate)+ " to "+format1.format(ar.endDate));
+
 /*
                     BarChartActivity.this.changeViewBtn.setVisibility(Button.INVISIBLE);
                     BarChartActivity.this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));

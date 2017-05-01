@@ -54,6 +54,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -145,9 +146,21 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
 
-        //TODO sort anders machn
-        Collections.sort(cur);
-        Collections.reverse(cur);
+        //sort the entries depending on the date, newest first
+        Collections.sort(cur,new Comparator<File>()
+        {
+            public int compare(File o1, File o2) {
+
+                if (o1.lastModified() > o2.lastModified()) {
+                    return -1;
+                } else if (o1.lastModified() < o2.lastModified()) {
+                    return 1;
+                }
+                return 0;
+            }
+
+        });
+       // Collections.reverse(cur);
 
 
         this.listedFiles = cur.toArray(new File[cur.size()]);

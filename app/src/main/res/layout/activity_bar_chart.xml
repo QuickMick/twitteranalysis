@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:orientation="vertical"
+    android:weightSum="6"
     tools:context="com.example.graphs.BarChartActivity">
 
-    <TableRow android:layout_height="wrap_content">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/titledate"
-        android:weightSum="1">
+        android:layout_height="0px"
+        android:layout_weight="0.5"
+        android:id="@+id/titledate">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Analization Interval "
-            android:layout_margin="10dp"
             android:id="@+id/textViesw21"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.02" />
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center_vertical" />
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,202 +32,216 @@
             android:gravity="right"
             android:layout_gravity="center_vertical" />
     </LinearLayout>
-    </TableRow>
 
-    <TableRow>
+
     <com.jjoe64.graphview.GraphView
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
         android:layout_below="@+id/titledate"
+        android:layout_weight="3.5"
+        android:layout_marginBottom="5dp"
         android:id="@+id/graph" />
-    </TableRow>
 
-    <TableRow>
-        <LinearLayout android:layout_width="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3"
-            android:layout_gravity="center">
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_weight="2"
+        android:layout_height="0px"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_gravity="center">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:orientation="vertical">
+        <Button
+            android:id="@+id/changeviewbtn"
+            android:background="@drawable/roundedblue"
+            android:gravity="center"
+            android:text="show timeline"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/p"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="3dp"
+            />
+
+        <Button
+            android:id="@+id/stopanalysisbtn"
+            android:background="@drawable/roundedblue"
+            android:gravity="center"
+            android:text="stop analysis"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/p"
+            android:layout_marginBottom="3dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_width="match_parent" />
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:weightSum="4"
+            android:layout_centerHorizontal="true">
+
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:weightSum="2"
-                android:orientation="vertical">
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Keywords: "
+                    android:id="@+id/textView21"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:layout_weight="1"
+                    android:id="@+id/tweetkeywordslbl"
+                    android:gravity="right"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Analized Tweets:"
+                    android:id="@+id/textView2"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/tweetcountlbl"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Analized Sentences:"
+                    android:id="@+id/textView5"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/sentencecountlbl"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Analized Words:"
+                    android:id="@+id/textView4"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/wordcountlbl"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:layout_weight="1"
+            android:weightSum="2"
+            android:orientation="vertical">
             <Button
-                android:id="@+id/changeviewbtn"
+                android:id="@+id/saveanalysisbtn"
                 android:background="@drawable/roundedblue"
                 android:gravity="center"
-                android:text="show timeline"
+                android:text="save and export"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/p"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
+                android:layout_marginBottom="3dp"
                 />
 
             <Button
-                android:id="@+id/stopanalysisbtn"
+                android:id="@+id/showdetailsbtn"
                 android:background="@drawable/roundedblue"
                 android:gravity="center"
-                android:text="stop analysis"
+                android:text="show details"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/p"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_width="match_parent" />
-            </LinearLayout>
-
-
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_centerHorizontal="true">
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Keywords: "
-                        android:id="@+id/textView21"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="0.36" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="New Text"
-                        android:id="@+id/tweetkeywordslbl"
-                        android:gravity="right"
-                        android:layout_gravity="center_horizontal" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Analized Tweets:"
-                        android:id="@+id/textView2"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="0.36" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="New Text"
-                        android:id="@+id/tweetcountlbl"
-                        android:gravity="right"
-                        android:layout_gravity="center_horizontal" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Analized Sentences:"
-                        android:id="@+id/textView5"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="0.39" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="New Text"
-                        android:id="@+id/sentencecountlbl"
-                        android:gravity="right"
-                        android:layout_gravity="center_horizontal" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="Analized Words:"
-                        android:id="@+id/textView4"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_weight="0.39" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="New Text"
-                        android:id="@+id/wordcountlbl"
-                        android:gravity="right"
-                        android:layout_gravity="center_horizontal" />
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:layout_weight="1"
-                android:weightSum="2"
-                android:orientation="vertical">
-                <Button
-                    android:id="@+id/saveanalysisbtn"
-                    android:background="@drawable/roundedblue"
-                    android:gravity="center"
-                    android:text="save and export"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/p"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    />
-
-                <Button
-                    android:id="@+id/showdetailsbtn"
-                    android:background="@drawable/roundedblue"
-                    android:gravity="center"
-                    android:text="show details"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/p"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"/>
-            </LinearLayout>
+                android:layout_width="match_parent"/>
         </LinearLayout>
-    </TableRow>
+    </LinearLayout>
 
 
-</TableLayout>
+
+</LinearLayout>

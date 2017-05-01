@@ -145,6 +145,7 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
 
+        //TODO sort anders machn
         Collections.sort(cur);
         Collections.reverse(cur);
 

@@ -205,7 +205,16 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
                 this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
                 this.ar = AnalizationHelper.INSTANCE().getFinalResult();
-                this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
+
+
+                if( AnalizationHelper.INSTANCE().isSaved()) {
+                    BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
+                    Log.d("appd","save set invisible");
+                }else{
+                    BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.INVISIBLE);
+                }
+
+
                 this.changeViewBtn.setVisibility(Button.INVISIBLE);
                 this.showRecentTweetsbtn.setVisibility(Button.GONE);
 
@@ -260,7 +269,13 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 BarChartActivity.this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
                 BarChartActivity.this.changeViewBtn.setVisibility(Button.INVISIBLE);
                 BarChartActivity.this.showRecentTweetsbtn.setVisibility(Button.GONE);
-                BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
+
+                if( AnalizationHelper.INSTANCE().isSaved()) {
+                    BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
+                    Log.d("appd","save set invisible");
+                }else{
+                    BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.INVISIBLE);
+                }
 
                 AnalizationResult ar = AnalizationHelper.INSTANCE().getFinalResult();
                 DateFormat format1 = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);

@@ -28,31 +28,27 @@
 
         <service android:name="com.example.mick.service.ForegroundService" />
 
-        <activity
-            android:name="com.example.graphs.LineGraphActivity"
-             />
+        <activity android:name="com.example.graphs.LineGraphActivity" />
         <activity
             android:name="com.example.graphs.BarChartActivity"
-            android:launchMode="singleTask"
-            />
+            android:launchMode="singleTask" />
         <activity android:name="com.example.graphs.DetailGraphActivity" />
         <activity android:name=".HistoryActivity" />
         <activity android:name=".ImprintActivity" />
         <activity android:name="com.example.graphs.HistoryTimelineActivity" />
         <activity android:name=".HelpActivity" />
-        <activity android:name=".TweetHistoryActivity"></activity>
-
+        <activity android:name=".TweetHistoryActivity" />
 
         <receiver
-            android:exported="true"
-            android:name="com.example.mick.service.AnalysisSchedulTask">
+            android:name="com.example.mick.service.AnalysisSchedulTask"
+            android:exported="true">
             <intent-filter>
                 <action android:name="ANALYSIS_SCHEDULE_TASK" />
                 <action android:name="ANALIZATION" />
             </intent-filter>
-
-
         </receiver>
+
+        <activity android:name=".TaskScheduledActivity"></activity>
     </application>
 
 </manifest>

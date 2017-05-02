@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.graphs.BarChartActivity;
 import com.example.mick.emotionanalizer.AnalizationHelper;
+import com.example.mick.service.AnalysisSchedulTask;
 import com.example.mick.service.Constants;
 import com.example.mick.service.ForegroundService;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,6 +50,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // block main activity, if task is scheduled!
+
+        if(AnalysisSchedulTask.IS_RUNNGING(this)){
+            Log.d("analysis_schedule","scheduled task blocks main activity");
+            finish();
+
+            startActivity(new Intent(MainActivity.this, TaskScheduledActivity.class));
+        }
+
         setContentView(R.layout.activity_main);
 
         FM=new FontManager(getApplicationContext());
@@ -81,15 +93,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         newAnalysis.setOnClickListener(this);
         this.imprintBtn.setOnClickListener(this);
         this.unsavedResultBtn.setOnClickListener(this);
-
-
-
-
     }
+
 
     @Override
     protected void onResume(){
         super.onResume();
+
+        if(AnalysisSchedulTask.IS_RUNNGING(this)){
+            Log.d("analysis_schedule","scheduled task blocks main activity");
+            finish();
+
+            startActivity(new Intent(MainActivity.this, TaskScheduledActivity.class));
+        }
+
         this.unsavedResultBtn.setVisibility(Button.GONE);
         if(AnalizationHelper.INSTANCE().isRunning()){
             newAnalysis.setText("GO TO ANALYSIS");

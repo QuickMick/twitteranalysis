@@ -1,5 +1,8 @@
 package com.example.mick.service;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,7 +36,69 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
 
     public static final String ACTION = "ANALYSIS_SCHEDULE_TASK";
 
+    public static final int ID = 234324243;
+
     private static boolean safeFromService = false;
+
+    public static int hour_interval = 0;
+    public static int min_interval = 0;
+    public static int hour_duration=0;
+    public static int min_duration=0;
+
+    public static boolean IS_RUNNGING(Activity i){
+        boolean alarmUp = (PendingIntent.getBroadcast(i.getApplicationContext(), AnalysisSchedulTask.ID,
+                new Intent(AnalysisSchedulTask.ACTION),
+                PendingIntent.FLAG_NO_CREATE) != null);
+        return alarmUp;
+    }
+
+    public static void stopAlarm(Activity a){
+      /*  AlarmManager alarmManager = (AlarmManager) a.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(AnalysisSchedulTask.ACTION); //new Intent(a, AnalysisSchedulTask.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(a.getApplicationContext(), AnalysisSchedulTask.ID, intent,PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmManager.cancel(pendingIntent);
+
+
+        */
+
+
+        PendingIntent pi = PendingIntent.getBroadcast(a.getApplicationContext(), AnalysisSchedulTask.ID,
+                new Intent(AnalysisSchedulTask.ACTION),
+                PendingIntent.FLAG_NO_CREATE);
+
+        if(pi != null){
+            pi.cancel();
+            Log.d("analysis_schedule","current alarm stopped");
+            Toast.makeText(a,"Schedule stopped",Toast.LENGTH_SHORT).show();
+        }else{
+            Log.d("analysis_schedule","current alarm still runnning");
+            Toast.makeText(a,"Schedule still running",Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    }
+
+    public static void startAlarm(Activity a, String keywords,int hourOfDay, int minute, int hourOfDay_duration, int minute_duration) {
+        Intent intent = new Intent(AnalysisSchedulTask.ACTION);
+        intent.putExtra("hour",hourOfDay_duration);
+        intent.putExtra("minute",minute_duration);
+        intent.putExtra("keywords",keywords);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(a.getApplicationContext(), AnalysisSchedulTask.ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) a.getSystemService(Context.ALARM_SERVICE);
+        // alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ (15 * 1000), pendingIntent);
+
+        long interval = (hourOfDay*60*60*1000)+(minute*60*1000);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime(), interval, pendingIntent);
+    }
+
+
+
+
+    public AnalysisSchedulTask(){
+        Log.d("analysis_schedule","create schedule task");
+    }
 
     @Override
     public void onReceive(final Context context, Intent intent) {
@@ -108,6 +173,7 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
         context.startService(stopIntent);
     }
 
+
     private void save(final Context context){
         AnalizationHelper.INSTANCE().setBlocked(true);
         // Toast.makeText(BarChartActivity.this, "Start writing", Toast.LENGTH_SHORT).show();
@@ -170,6 +236,7 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
             }
         }.execute();
     }
+
 /*
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     private boolean requistPermission(Context context){

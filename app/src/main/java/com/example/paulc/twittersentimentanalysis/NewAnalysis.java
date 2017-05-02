@@ -179,28 +179,25 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    private void stopAlarm(){
-        AlarmManager alarmManager = (AlarmManager) NewAnalysis.this.getSystemService(ALARM_SERVICE);
-        Intent intent = new Intent(NewAnalysis.this, AnalysisSchedulTask.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(NewAnalysis.this.getApplicationContext(), 234324243, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.cancel(pendingIntent);
-    }
 
 
     private void scheduleTask(final String keywords){
 
-        boolean alarmUp = (PendingIntent.getBroadcast(this.getApplicationContext(), 0,
+     /*   boolean alarmUp = (PendingIntent.getBroadcast(this.getApplicationContext(), AnalysisSchedulTask.ID,
                 new Intent(AnalysisSchedulTask.ACTION),
-                PendingIntent.FLAG_NO_CREATE) != null);
+                PendingIntent.FLAG_NO_CREATE) != null);*/
 
+        boolean alarmUp = AnalysisSchedulTask.IS_RUNNGING(this);
+
+        Log.d("analysis_schedule","Task state - is schedule running: "+alarmUp);
         if(alarmUp){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Analysis already scheduled. Do you want to remove it and start a new schedule?");
             builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     //delete
-                    NewAnalysis.this.stopAlarm();
-                    NewAnalysis.this.scheduleTask(keywords);
+                    AnalysisSchedulTask.stopAlarm(NewAnalysis.this);
+                    NewAnalysis.this.scheduleTaskX(keywords);
                     dialog.dismiss();
                 }
             });
@@ -256,20 +253,11 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                                         //Intent intent = new Intent(NewAnalysis.this, AnalysisSchedulTask.class);
                                        // intent.setAction(AnalysisSchedulTask.ACTION);
 
-                                        Intent intent = new Intent(AnalysisSchedulTask.ACTION);
-                                        intent.putExtra("hour",hourOfDay_duration);
-                                        intent.putExtra("minute",minute_duration);
-                                        intent.putExtra("keywords",keywords);
-                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(NewAnalysis.this.getApplicationContext(), 234324243, intent, 0);
+                                        AnalysisSchedulTask.startAlarm(NewAnalysis.this,keywords,hourOfDay,minute,hourOfDay_duration,minute_duration);
 
-                                        AlarmManager alarmManager = (AlarmManager) NewAnalysis.this.getSystemService(ALARM_SERVICE);
-                                       // alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ (15 * 1000), pendingIntent);
-
-                                        long interval = (hourOfDay*60*60*1000)+(minute*60*1000);
-                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime(), interval, pendingIntent);
-
-                                        Toast.makeText(NewAnalysis.this,"Select duration of each Analysis (cannot be greater than your interval of "+hourOfDay+":"+minute+")",Toast.LENGTH_SHORT).show();
-
+                                        Log.d("analysis_schedule","Analysis scheduled each "+hourOfDay+":"+minute+" with the duration of "+hourOfDay_duration+":"+minute_duration);
+                                        Toast.makeText(NewAnalysis.this,"Analysis scheduled each "+hourOfDay+":"+minute+" with the duration of "+hourOfDay_duration+":"+minute_duration,Toast.LENGTH_SHORT).show();
+                                        NewAnalysis.this.finish();
                                     }
                                 }, 0, 0, true);
 

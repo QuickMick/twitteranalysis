@@ -54,7 +54,12 @@ import java.util.TimerTask;
 
 public class BarChartActivity extends AppCompatActivity implements View.OnClickListener{
 
-    public static final int REFRESH_INTERVALL_MS = 1000; // refresh graph every 5 secons
+    /**
+     * show info toasts just at startup
+     */
+    private static boolean SHOW_INFO = true;
+
+    public static final int REFRESH_INTERVALL_MS = 1000; // refresh graph every 5 seconds
 
     private GraphView graph;
 
@@ -179,8 +184,10 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 this.startRunningMode();
                 this.stopAnalysisBtn.setVisibility(Button.VISIBLE);
                 this.changeViewBtn.setVisibility(Button.VISIBLE);
-                Toast.makeText(this, "Touch the chart to see the sentiments", Toast.LENGTH_SHORT).show();
-
+                if(SHOW_INFO) {
+                    Toast.makeText(this, "Touch the chart to see the sentiments", Toast.LENGTH_SHORT).show();
+                    SHOW_INFO = false;
+                }
 
 
                 this.analizationIntervalLbl.setText("from "+new SimpleDateFormat(AnalizationResult.DATE_FORMAT).format(ar.startDate)+ " to now");

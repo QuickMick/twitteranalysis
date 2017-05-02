@@ -21,7 +21,6 @@ import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.service.ForegroundService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 
 import org.w3c.dom.Text;
 
@@ -144,7 +143,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             @Override
 
             public void onClick(View v) {
-                //Creating firebase object
+
 
 
                 //Getting values to be stored

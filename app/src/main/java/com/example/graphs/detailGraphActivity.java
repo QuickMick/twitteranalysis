@@ -1,5 +1,7 @@
 package com.example.graphs;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,12 +13,14 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.emotionanalizer.AnalizationResult;
 import com.example.mick.emotionanalizer.EmotionWeighting;
 import com.example.mick.service.Constants;
 import com.example.paulc.twittersentimentanalysis.CircleView;
+import com.example.paulc.twittersentimentanalysis.HistoryActivity;
 import com.example.paulc.twittersentimentanalysis.R;
 
 import java.util.ArrayList;
@@ -67,8 +71,28 @@ public class DetailGraphActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-    private void init(AnalizationResult ar) {
+   /* private void init(final AnalizationResult ar) {
+        final ProgressDialog dialog = ProgressDialog.show(DetailGraphActivity.this, "","Updating Details. Please wait...", true);
 
+        new AsyncTask<Void,Void,Boolean>(){
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                DetailGraphActivity.this.init2(ar);
+                return true;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean result){
+
+                dialog.dismiss();
+            }
+
+        }.execute();
+    }*/
+
+
+    private void init(AnalizationResult ar) {
         EmotionWeighting ew = ar.weigthing;
 
         String captionText = this.currentEmotion;
@@ -203,19 +227,18 @@ public class DetailGraphActivity extends AppCompatActivity implements View.OnCli
             }
         };
 
-
-
         this.wordListLv.setAdapter(adapter);
+
     }
 
     @Override
     public void onClick(View v) {
         if(v == this.reloadDetailsBtn){
-
             this.currentEmotion = this.getIntent().getStringExtra(Constants.DETAIL_GRAPH.EMOTION_NAME);
             Log.d("AppD","selected detail emotion: "+this.currentEmotion);
             this.init(AnalizationHelper.INSTANCE().getFinalResult());
 
+            Toast.makeText(DetailGraphActivity.this, "Details refreshed.", Toast.LENGTH_SHORT).show();
         }
     }
 

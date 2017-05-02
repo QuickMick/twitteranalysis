@@ -57,9 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FM.setBackIcon(backicon);
 
         //Database Connection to display the username in the GUI
-      ///  FirebaseAuth f_auth = FirebaseAuth.getInstance();
-       /// FirebaseUser f_user = f_auth.getCurrentUser();
-       // String email = f_user.getEmail();
+
         String email = "test@test.com";
 
 

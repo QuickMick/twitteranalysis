@@ -64,6 +64,8 @@ public class Constants {
          */
         public static String DIAGRAM_MODE = "DIAGRAM_MODE";
 
+        public static String DIAGRAM_MODE_DONT_SHOW = "DIAGRAM_MODE_DONT_SHOW";
+
         public static String DIAGRAM_MODE_FIND = "DIAGRAM_MODE_FIND";
 
         /**

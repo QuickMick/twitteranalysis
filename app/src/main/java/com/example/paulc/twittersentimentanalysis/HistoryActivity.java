@@ -133,7 +133,7 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void listFiles(){
-        File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.getAnalyzation_folder());
+        File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.INSTANCE().getAnalyzation_folder());
         if(!mydir.exists()) {
             return;
         }

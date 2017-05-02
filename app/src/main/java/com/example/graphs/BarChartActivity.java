@@ -239,42 +239,35 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
         // following code is required for receiving messages from the foregroudn service
         // currently it is just used to remove the "stop analysis button"
-        LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Constants.ACTION.ANALIZATION);
-        bManager.registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if(intent.getStringExtra("MSG").equals(Constants.ANALIZATION.BROADCAST_ANALIZATION_STOPPED)){
-                    BarChartActivity.this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
-                    BarChartActivity.this.changeViewBtn.setVisibility(Button.INVISIBLE);
-                    BarChartActivity.this.showRecentTweetsbtn.setVisibility(Button.GONE);
-                    BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
 
-                    AnalizationResult ar = AnalizationHelper.INSTANCE().getFinalResult();
-                    DateFormat format1 = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);
-                    BarChartActivity.this.analizationIntervalLbl.setText("from "+format1.format(ar.startDate)+ " to "+format1.format(ar.endDate));
-
-/*
-                    BarChartActivity.this.changeViewBtn.setVisibility(Button.INVISIBLE);
-                    BarChartActivity.this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
-                    BarChartActivity.this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
-                    BarChartActivity.this.ar = AnalizationHelper.INSTANCE().getFinalResult();
-                    BarChartActivity.this.titledate.setVisibility(LinearLayout.VISIBLE);
-
-
-                    DateFormat format = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);
-
-                    BarChartActivity.this.analizationIntervalLbl.setText("from "+format.format(ar.startDate)+ " to "+format.format(ar.endDate));
-
-                    BarChartActivity.this.updateGraphData();*/
-
-                }
-            }
-        }, intentFilter);
 
 
     }
+
+
+    private BroadcastReceiver br = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getStringExtra("MSG").equals(Constants.ANALIZATION.BROADCAST_ANALIZATION_STOPPED)){
+
+                String mode= intent.getStringExtra(Constants.ANALIZATION.DIAGRAM_MODE);
+                if(mode==null)mode = "";
+                if(mode.equals(Constants.ANALIZATION.DIAGRAM_MODE_DONT_SHOW)) {
+                    finish();
+                    return;
+                }
+
+                BarChartActivity.this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
+                BarChartActivity.this.changeViewBtn.setVisibility(Button.INVISIBLE);
+                BarChartActivity.this.showRecentTweetsbtn.setVisibility(Button.GONE);
+                BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
+
+                AnalizationResult ar = AnalizationHelper.INSTANCE().getFinalResult();
+                DateFormat format1 = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);
+                BarChartActivity.this.analizationIntervalLbl.setText("from "+format1.format(ar.startDate)+ " to "+format1.format(ar.endDate));
+            }
+        }
+    };
 
     private void updateGraphData(){
         EmotionWeighting ew = this.currentData;
@@ -346,15 +339,26 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
     protected void onPause() {
         super.onPause();
 
+      //  LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
+      //  bManager.unregisterReceiver(this.br);
+
         if(refreshTimer != null) {
             this.refreshTimer.cancel();
         }
     }
 
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
+        bManager.unregisterReceiver(this.br);
+    }
+
     private Handler mainHandler;
     protected void onResume() {
         super.onResume();
-
+        LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
+        bManager.registerReceiver(this.br, new IntentFilter(Constants.ACTION.ANALIZATION));
 
         if(AnalizationHelper.INSTANCE().isRunning()) {
             this.startRunningMode();
@@ -528,7 +532,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
                 String fileName = "twitter_" + format.format(ar.startDate) + "_-_" + format.format(ar.endDate) + ".json";
                 try {
-                    File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.getAnalyzation_folder());
+                    File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.INSTANCE().getAnalyzation_folder());
                     if (!mydir.exists()) {
                         mydir.mkdirs();
                     }

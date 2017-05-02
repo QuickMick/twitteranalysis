@@ -26,7 +26,7 @@ public class AnalizationHelper {
      * represents the folder name, e.g. "twitter_results", which is the folder, where all files for
      * the history are saved to and loaded from.
      */
-    private static String analyzation_folder= "twitter_results";
+    private String analyzation_folder= "twitter_results";
 
     private static AnalizationHelper instance = new AnalizationHelper();
 
@@ -41,6 +41,7 @@ public class AnalizationHelper {
         this.consumerSecret = "2xPN57eBDYeqWPKVpmG95XrwjX6fq79fUS2ilC7sYNWEc25xIL";
         this.accessToken = "791421180129476609-Ld84Ity8cdq9i0a7GawzS1OxKzGYWtz";
         this.AccessTokenSecret = "lOlxp3j603JJ4fZPJTl08PhEPnAZ30uJ6TmpYVwWCct1m";
+        analyzation_folder= "twitter_results";
     }
 
     public static AnalizationHelper INSTANCE(){
@@ -72,16 +73,16 @@ public class AnalizationHelper {
 
 
 
-    public static String getAnalyzation_folder() {
-        return analyzation_folder;
+    public String getAnalyzation_folder() {
+        return this.analyzation_folder;
     }
 
     /**
      * TODO: @paul pls add one option in the settings view, to specify the folder name for the analysis
      * @param analyzation_folder
      */
-    public static void setAnalyzation_folder(String analyzation_folder) {
-        AnalizationHelper.analyzation_folder = analyzation_folder;
+    public void setAnalyzation_folder(String analyzation_folder) {
+        this.analyzation_folder = analyzation_folder;
     }
 
 

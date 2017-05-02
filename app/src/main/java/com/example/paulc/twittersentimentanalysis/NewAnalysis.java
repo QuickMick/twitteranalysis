@@ -1,45 +1,37 @@
 package com.example.paulc.twittersentimentanalysis;
 
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.icu.util.Calendar;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.graphs.BarChartActivity;
-import com.example.graphs.LineGraphActivity;
+import com.example.mick.service.AnalysisSchedulTask;
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.service.Constants;
 import com.example.mick.service.ForegroundService;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
-import org.w3c.dom.Text;
+import java.util.Date;
 
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
-import twitter4j.TwitterStream;
-import twitter4j.TwitterStreamFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -181,17 +173,54 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
         }else if(view == this.scheduleBtn){
 
             //TODO: input dialog
-            this.scheduleTask();
+            this.scheduleTask(searchcriteria.getText().toString());
 
         }
 
     }
 
+    private void stopAlarm(){
+        AlarmManager alarmManager = (AlarmManager) NewAnalysis.this.getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(NewAnalysis.this, AnalysisSchedulTask.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(NewAnalysis.this.getApplicationContext(), 234324243, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(pendingIntent);
+    }
 
 
-    private void scheduleTask(){
-        //TODO:
+    private void scheduleTask(final String keywords){
 
+        boolean alarmUp = (PendingIntent.getBroadcast(this.getApplicationContext(), 0,
+                new Intent(AnalysisSchedulTask.ACTION),
+                PendingIntent.FLAG_NO_CREATE) != null);
+
+        if(alarmUp){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Analysis already scheduled. Do you want to remove it and start a new schedule?");
+            builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    //delete
+                    NewAnalysis.this.stopAlarm();
+                    NewAnalysis.this.scheduleTask(keywords);
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    //cancel
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+
+
+            return;
+        }
+
+        this.scheduleTaskX(keywords);
+    }
+
+    private void scheduleTaskX(final String keywords){
         new DialogFragment() {
 
             @Override
@@ -217,14 +246,29 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                             public Dialog onCreateDialog(Bundle savedInstanceState) {
                                 //Use the current time as the default values for the time picker
 
-                                int hour = 0;
-                                int minute = 0;
-
                                 //Create and return a new instance of TimePickerDialog //android.R.style#Theme_Material_Dialog_Alert
                                 return new TimePickerDialog(NewAnalysis.this, AlertDialog.THEME_TRADITIONAL ,new TimePickerDialog.OnTimeSetListener() {
                                     @Override
                                     public void onTimeSet(TimePicker view, final int hourOfDay_duration, final int minute_duration) {
                                         //TODO:
+
+
+                                        //Intent intent = new Intent(NewAnalysis.this, AnalysisSchedulTask.class);
+                                       // intent.setAction(AnalysisSchedulTask.ACTION);
+
+                                        Intent intent = new Intent(AnalysisSchedulTask.ACTION);
+                                        intent.putExtra("hour",hourOfDay_duration);
+                                        intent.putExtra("minute",minute_duration);
+                                        intent.putExtra("keywords",keywords);
+                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(NewAnalysis.this.getApplicationContext(), 234324243, intent, 0);
+
+                                        AlarmManager alarmManager = (AlarmManager) NewAnalysis.this.getSystemService(ALARM_SERVICE);
+                                       // alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ (15 * 1000), pendingIntent);
+
+                                        long interval = (hourOfDay*60*60*1000)+(minute*60*1000);
+                                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime(), interval, pendingIntent);
+
+                                        Toast.makeText(NewAnalysis.this,"Select duration of each Analysis (cannot be greater than your interval of "+hourOfDay+":"+minute+")",Toast.LENGTH_SHORT).show();
 
                                     }
                                 }, 0, 0, true);
@@ -244,15 +288,5 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
         }.show(this.getFragmentManager(),"Interval-Picker");
         Toast.makeText(NewAnalysis.this,"Select intervall in which the Analysis should be started",Toast.LENGTH_SHORT).show();
 
-    }
-}
-
-class MyBroadcastReceiver extends BroadcastReceiver {
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-
-        //TODO: start and stop
-        Toast.makeText(context, "Alarm....", Toast.LENGTH_LONG).show();
     }
 }

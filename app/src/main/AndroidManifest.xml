@@ -41,6 +41,18 @@
         <activity android:name="com.example.graphs.HistoryTimelineActivity" />
         <activity android:name=".HelpActivity" />
         <activity android:name=".TweetHistoryActivity"></activity>
+
+
+        <receiver
+            android:exported="true"
+            android:name="com.example.mick.service.AnalysisSchedulTask">
+            <intent-filter>
+                <action android:name="ANALYSIS_SCHEDULE_TASK" />
+                <action android:name="ANALIZATION" />
+            </intent-filter>
+
+
+        </receiver>
     </application>
 
 </manifest>

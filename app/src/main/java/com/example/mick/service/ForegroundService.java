@@ -115,8 +115,13 @@ public class ForegroundService extends Service {
 
             this.stopService();
             this.sendMessageToActivity(Constants.ANALIZATION.BROADCAST_ANALIZATION_STOPPED);
+
+
+
             //go tho the diagramm screen if it is not opend already
-            if(!BarChartActivity.isActive()) {
+            String mode= intent.getStringExtra(Constants.ANALIZATION.DIAGRAM_MODE);
+            if(mode==null)mode = "";
+            if(!BarChartActivity.isActive() && !mode.equals(Constants.ANALIZATION.DIAGRAM_MODE_DONT_SHOW)) {
                 Intent notificationIntent = new Intent(this, BarChartActivity.class);
              //   notificationIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
                 notificationIntent.setAction(ForegroundService.GO_TO_GRAPH_ACTION);

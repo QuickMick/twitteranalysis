@@ -254,7 +254,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
 
     private File[] listFiles(){
-        File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.getAnalyzation_folder());
+        File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.INSTANCE().getAnalyzation_folder());
         if(!mydir.exists()) {
             return new File[0];
         }

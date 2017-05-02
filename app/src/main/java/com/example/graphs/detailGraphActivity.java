@@ -142,7 +142,7 @@ public class DetailGraphActivity extends AppCompatActivity implements View.OnCli
             case Constants.DETAIL_GRAPH.ALL_WORDS:
                 currentWordlist= ar.wordStatistic_all;
                 em=ar.wordCountAnalized;
-                captionText+=" | Total words: "+ar.wordCount+" - Analized: "+ar.wordCountAnalized;
+                captionText+=" | Total words: "+ar.wordCount+" - Analized words: "+ar.wordCountAnalized;
                 break;
         }
 

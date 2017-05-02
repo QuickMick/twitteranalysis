@@ -258,6 +258,7 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
                                             final ProgressDialog progressDialog = ProgressDialog.show(HistoryActivity.this, "","Saving. Please wait...", true);
                                             new AsyncTask<Void,Void,Boolean>(){
 
+
                                                 @Override
                                                 protected Boolean doInBackground(Void... params) {
                                                     try {
@@ -276,7 +277,8 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
                                                     if(result){
                                                         Intent i = new Intent(HistoryActivity.this, BarChartActivity.class);
                                                         i.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_HISTORY);
-                                                        startActivity(i);
+
+                                                        HistoryActivity.this.startActivity(i);
                                                         Toast.makeText(HistoryActivity.this, file.getName()+" sucessfully loaded", Toast.LENGTH_SHORT).show();
                                                     }else{
                                                         Toast.makeText(HistoryActivity.this, "Error while loading file "+file.getName(), Toast.LENGTH_SHORT).show();
@@ -284,11 +286,6 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
                                                 }
 
                                             }.execute();
-
-
-
-
-
 
                                         }else {
                                             Toast.makeText(HistoryActivity.this, "Cannot load Archived Analysis, because Analysis is running. Please stop it first.", Toast.LENGTH_SHORT).show();

@@ -170,6 +170,9 @@ public class ForegroundService extends Service {
 
         new Handler(this.getMainLooper()).post(new Runnable() {
             public void run() {
+                if(!AnalizationHelper.INSTANCE().isRunning()){  //check is needed, becuase maybe a scheduled call can come after the user has stoped it in beforehand
+                    return;
+                }
                 AnalizationHelper.INSTANCE().setBlocked(true);
 
                 ForegroundService.this.updateDataTimer.cancel();

@@ -158,19 +158,23 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
         graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, new SimpleDateFormat("HH:mm:ss")));
 
-
+/*
         graph.getViewport().setMinX(0);
         graph.getViewport().setMaxX(1);
-        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getViewport().setXAxisBoundsManual(true);*/
         graph.getGridLabelRenderer().setNumHorizontalLabels(4);
 
+        graph.getViewport().setScalable(false);
+        graph.getViewport().setScrollable(false);
+        graph.getViewport().setScalableY(false);
 
+/*
         graph.getViewport().setYAxisBoundsManual(true);
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(100);
 
         graph.getViewport().setScalable(true);
-        graph.getViewport().setScrollable(true);
+        graph.getViewport().setScrollable(true);*/
 
         //  graph.getViewport().setScalableY(false);
     }
@@ -243,13 +247,8 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
         positive_series.resetData(positive);
         negative_series.resetData(negative);
 
-        //   graph.getGridLabelRenderer().setNumHorizontalLabels(5);
         graph.getViewport().setMinX(anger_series.getLowestValueX());
         graph.getViewport().setMaxX(anger_series.getHighestValueX());
-        //   graph.getViewport().setXAxisBoundsManual(true);
-
-      /*  graph.scrollTo(steps.length-1,100);
-        graph.computeScroll();*/
 
     }
 

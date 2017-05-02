@@ -30,6 +30,7 @@ import com.google.android.gms.tasks.Task;
 import org.w3c.dom.Text;
 
 /**
+ * TODO: @paul Change app name to something cool :D
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

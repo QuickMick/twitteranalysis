@@ -30,7 +30,7 @@
 
         <activity
             android:name="com.example.graphs.LineGraphActivity"
-            android:launchMode="singleTask" />
+             />
         <activity
             android:name="com.example.graphs.BarChartActivity"
             android:launchMode="singleTask"

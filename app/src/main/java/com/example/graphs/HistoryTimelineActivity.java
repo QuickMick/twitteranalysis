@@ -156,7 +156,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
         graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
 
-        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, new SimpleDateFormat("HH:mm:ss")));
+        graph.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(this, new SimpleDateFormat("dd.MM.yyyy\nHH:mm:ss")));
 
 /*
         graph.getViewport().setMinX(0);

@@ -21,6 +21,7 @@ public class AnalizationHelper {
      */
     public static final int MAX_HISTORY_COUNT = 20;
 
+
     /**
      * represents the folder name, e.g. "twitter_results", which is the folder, where all files for
      * the history are saved to and loaded from.
@@ -64,8 +65,12 @@ public class AnalizationHelper {
 
     private Object lock = new Object();
     private Object lock2 = new Object();
+
     private volatile AnalizationResult finalResult = null;
     private volatile LinkedList<AnalizationResult> result_steps = null;
+
+
+
 
     public static String getAnalyzation_folder() {
         return analyzation_folder;
@@ -219,8 +224,12 @@ public class AnalizationHelper {
             kw = processKewords.toArray(new String[processKewords.size()]);
         }
 
-        this.finalResult = new AnalizationResult(kw);
-        this.result_steps = new LinkedList<AnalizationResult>();
+        synchronized (lock) {
+            this.finalResult = new AnalizationResult(kw);
+        }
+        synchronized (lock2) {
+            this.result_steps = new LinkedList<AnalizationResult>();
+        }
         this.twitterCrawler = new TwitterCrawler();
 
         this.isRunning = true;

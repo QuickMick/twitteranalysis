@@ -203,8 +203,8 @@ public class DetailGraphActivity extends AppCompatActivity implements View.OnCli
         for (Map.Entry<String,Integer> e : entries) {
             if(keyWords.contains(e.getKey())) continue; //filter the searched keywords --> becuase they are in every tweet
             TwoLinedListItem c = new TwoLinedListItem();
-                c.term = e.getKey();
-            c.occurency = e.getValue().toString();
+                c.caption = e.getKey();
+            c.subtext = e.getValue().toString();
             visibleItems.add(c);
             i++;
             // showing all data would propably kill the list
@@ -221,8 +221,8 @@ public class DetailGraphActivity extends AppCompatActivity implements View.OnCli
                 TextView text1 = (TextView) view.findViewById(android.R.id.text1);
                 TextView text2 = (TextView) view.findViewById(android.R.id.text2);
 
-               text1.setText(items[position].term);
-               text2.setText("Occurence: "+items[position].occurency+" times");
+               text1.setText(items[position].caption);
+               text2.setText("Occurence: "+items[position].subtext+" times");
                 return view;
             }
         };
@@ -253,10 +253,7 @@ public class DetailGraphActivity extends AppCompatActivity implements View.OnCli
         }
     }
 }
-class TwoLinedListItem{
-    String term;
-    String occurency;
-}
+
 /*
 final Handler mainHandler = new Handler(this.getMainLooper());
         new Timer().schedule(new TimerTask(){

@@ -36,6 +36,7 @@ import com.example.mick.service.ForegroundService;
 import com.example.paulc.twittersentimentanalysis.NewAnalysis;
 import com.example.paulc.twittersentimentanalysis.R;
 import com.example.paulc.twittersentimentanalysis.Settings;
+import com.example.paulc.twittersentimentanalysis.TweetHistoryActivity;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.ValueDependentColor;
@@ -72,6 +73,8 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
     private Button saveAnalysisBtn;
 
     private Button showDetailsBtn;
+
+    private Button showRecentTweetsbtn;
 
     private EmotionWeighting currentData = new EmotionWeighting();
 
@@ -120,6 +123,9 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         this.analizationIntervalLbl = (TextView)findViewById(R.id.analizationintervallbl);
         this.titledate = (LinearLayout) findViewById(R.id.titledate);
 
+        this.showRecentTweetsbtn = (Button) findViewById(R.id.showrecenttweetsbtn);
+        this.showRecentTweetsbtn.setOnClickListener(this);
+
         this.saveAnalysisBtn = (Button) findViewById(R.id.saveanalysisbtn);
         this.saveAnalysisBtn.setOnClickListener(this);
 
@@ -159,7 +165,8 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
         this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
         this.saveAnalysisBtn.setVisibility(Button.INVISIBLE);
-       // this.titledate.setVisibility(LinearLayout.GONE);
+        this.showRecentTweetsbtn.setVisibility(Button.GONE);
+        // this.titledate.setVisibility(LinearLayout.GONE);
         // start the view
         Intent i =getIntent();
 
@@ -184,6 +191,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 this.startRunningMode();
                 this.stopAnalysisBtn.setVisibility(Button.VISIBLE);
                 this.changeViewBtn.setVisibility(Button.VISIBLE);
+                this.showRecentTweetsbtn.setVisibility(Button.VISIBLE);
                 if(SHOW_INFO) {
                     Toast.makeText(this, "Touch the chart to see the sentiments", Toast.LENGTH_SHORT).show();
                     SHOW_INFO = false;
@@ -199,6 +207,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 this.ar = AnalizationHelper.INSTANCE().getFinalResult();
                 this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
                 this.changeViewBtn.setVisibility(Button.INVISIBLE);
+                this.showRecentTweetsbtn.setVisibility(Button.GONE);
 
                 DateFormat format1 = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);
                 this.analizationIntervalLbl.setText("from "+format1.format(ar.startDate)+ " to "+format1.format(ar.endDate));
@@ -209,6 +218,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             case Constants.ANALIZATION.MODE_HISTORY:
                 String date = i.getStringExtra(Constants.ANALIZATION.MODE_HISTORY_DATE);
                 this.changeViewBtn.setVisibility(Button.INVISIBLE);
+                this.showRecentTweetsbtn.setVisibility(Button.GONE);
                 this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
                 this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
                 this.ar = AnalizationHelper.INSTANCE().getFinalResult();
@@ -238,6 +248,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 if(intent.getStringExtra("MSG").equals(Constants.ANALIZATION.BROADCAST_ANALIZATION_STOPPED)){
                     BarChartActivity.this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
                     BarChartActivity.this.changeViewBtn.setVisibility(Button.INVISIBLE);
+                    BarChartActivity.this.showRecentTweetsbtn.setVisibility(Button.GONE);
                     BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
 
                     AnalizationResult ar = AnalizationHelper.INSTANCE().getFinalResult();
@@ -349,6 +360,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
             this.startRunningMode();
         }else{
             this.changeViewBtn.setVisibility(Button.INVISIBLE);
+            this.showRecentTweetsbtn.setVisibility(Button.GONE);
         }
 
         mainHandler = new Handler(this.getMainLooper());
@@ -410,6 +422,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                                     //Yes button clicked
                                     BarChartActivity.this.stopAnalysisBtn.setVisibility(Button.INVISIBLE);
                                     BarChartActivity.this.changeViewBtn.setVisibility(Button.INVISIBLE);
+                                    BarChartActivity.this.showRecentTweetsbtn.setVisibility(Button.GONE);
                                     Intent stopIntent = new Intent(BarChartActivity.this, ForegroundService.class);
                                     stopIntent.setAction(ForegroundService.STOPFOREGROUND_ACTION);
                                     startService(stopIntent);
@@ -437,6 +450,13 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(new Intent(BarChartActivity.this, LineGraphActivity.class));
             }else{
                 Toast.makeText(this, "Timeline is only available for running analysis",Toast.LENGTH_SHORT).show();
+            }
+        }else if(view ==  this.showRecentTweetsbtn){
+            if(AnalizationHelper.INSTANCE().isRunning()) {
+                startActivity(new Intent(BarChartActivity.this, TweetHistoryActivity.class));
+            }else
+            {
+                Toast.makeText(this, "Recent Tweets are only available for running analysis",Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -118,7 +118,7 @@ public class EmotionAnalizer {
 
 	}
 
-	private AnalizationResult analyzeEmotions(String[] tokens, AnalizationResult result){
+	private AnalizationResult analyzeEmotions(String[] tokens, AnalizationResult result, TweetCache tc){
 		int[] resultSet = new int[]{0,0,0,0,0,0,0,0,0,0};
 
 		// Iterate over tokens
@@ -175,10 +175,30 @@ public class EmotionAnalizer {
 			}
 		}
 
+		if(tc.weighting == null) {
+			tc.weighting = new EmotionWeighting(resultSet);
+		}else{
+			tc.weighting.add(resultSet);
+		}
+		if(tc.tweetTokens == null) {
+			tc.tweetTokens = tokens;
+		}else{
+			tc.tweetTokens =  this.concat(tc.tweetTokens,tokens);
+		}
+
 		result.wordCount+=tokens.length;
 		result.weigthing.add(resultSet);
 
 		return result;
+	}
+
+	private String[] concat(String[] A, String[] B) {
+		int aLen = A.length;
+		int bLen = B.length;
+		String[] C= new String[aLen+bLen];
+		System.arraycopy(A, 0, C, 0, aLen);
+		System.arraycopy(B, 0, C, aLen, bLen);
+		return C;
 	}
 
 	private void addWordToCounter(HashMap<String,Integer> hm, String word){
@@ -191,6 +211,9 @@ public class EmotionAnalizer {
 	}
 
 	public AnalizationResult process(String text,AnalizationResult result){
+		TweetCache tc = new TweetCache();
+		tc.tweetText = text;
+
 		text = text.replaceAll("&([^;]*);", ""); 						// remove HTML-entities
 		text = text.replaceAll("(?:https?|ftp):\\/\\/[\\n\\S]+", ""); 	// remove urls
 
@@ -201,10 +224,14 @@ public class EmotionAnalizer {
 		result.tweetCount +=1;
 		result.sentenceCount +=sentences.length;
 
+
+
 		for(String sentence : sentences){
-			result = this.analyzeEmotions(this.cleanTokens(this.tokenize(this.prepareText(this.exapndContractions(sentence)))),result);
+			result = this.analyzeEmotions(this.cleanTokens(this.tokenize(this.prepareText(this.exapndContractions(sentence)))),result,tc);
 			//Log.d("text_sentence",this.prepareText(this.exapndContractions(sentence)));
 		}
+
+		result.addToTweetCache(tc);
 
 		return result;
 	}

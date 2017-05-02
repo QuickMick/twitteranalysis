@@ -30,17 +30,17 @@
 
         <activity
             android:name="com.example.graphs.LineGraphActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="landscape" />
+            android:launchMode="singleTask" />
         <activity
             android:name="com.example.graphs.BarChartActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="landscape" />
+            />
         <activity android:name="com.example.graphs.DetailGraphActivity" />
         <activity android:name=".HistoryActivity" />
         <activity android:name=".ImprintActivity" />
         <activity android:name="com.example.graphs.HistoryTimelineActivity" />
-        <activity android:name=".HelpActivity"></activity>
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".TweetHistoryActivity"></activity>
     </application>
 
 </manifest>

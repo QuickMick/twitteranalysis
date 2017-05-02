@@ -12,9 +12,16 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class AnalizationResult{
+
+
+	/**
+	 * Count of the tweets which are saved
+	 */
+	public static final int MAX_TWEET_HISTORY_COUNT = 50;
 
 	public static String DATE_FORMAT= "dd.MM.yyyy HH:mm:ss";
 
@@ -254,6 +261,17 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 		this.mergeHashTables(this.wordStatistic_trust, ar.wordStatistic_trust);
 		this.mergeHashTables(this.wordStatistic_sentiment_negative, ar.wordStatistic_sentiment_negative);
 		this.mergeHashTables(this.wordStatistic_sentiment_positive, ar.wordStatistic_sentiment_positive);
+
+		this.tweetSteps.addAll(ar.getTweetStepsRaw());
+
+		// merge the tweetcache
+		int size = this.tweetSteps.size();
+		if(size > MAX_TWEET_HISTORY_COUNT){
+			//this.tweetSteps = (LinkedList<TweetCache>)this.tweetSteps.subList(size-1-MAX_TWEET_HISTORY_COUNT,size-1);
+			this.tweetSteps.subList(0,size-MAX_TWEET_HISTORY_COUNT).clear();	//remove first/old elements
+		}
+
+
 	}
 
 	private void  mergeHashTables(HashMap<String,Integer> a, HashMap<String,Integer> b){
@@ -270,6 +288,23 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 
 	public String[] getKewords() {
 		return kewords;
+	}
+
+	private LinkedList<TweetCache> tweetSteps = new LinkedList<>();
+
+	public TweetCache[] getTweetSteps(){
+		return this.tweetSteps.toArray(new TweetCache[this.tweetSteps.size()]);
+	}
+
+	private LinkedList<TweetCache> getTweetStepsRaw(){
+		return this.tweetSteps;
+	}
+
+	public void addToTweetCache(TweetCache next) {
+		this.tweetSteps.addLast(next);
+		if(this.tweetSteps.size() > MAX_TWEET_HISTORY_COUNT){
+			this.tweetSteps.removeFirst();
+		}
 	}
 
 }

@@ -1,19 +1,28 @@
 package com.example.paulc.twittersentimentanalysis;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.graphs.BarChartActivity;
@@ -48,6 +57,8 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
     Button go;
     EditText searchcriteria;
 
+    private Button scheduleBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +79,8 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
         backicon = (TextView)findViewById(R.id.backicon);
         //Buttons
         go = (Button) findViewById(R.id.go);
+        scheduleBtn = (Button) findViewById(R.id.schedulebtn);
+        scheduleBtn.setOnClickListener(this);
         //EditText
         searchcriteria = (EditText)findViewById(R.id.searchcriteria);
 
@@ -165,7 +178,81 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
                 }
             }.execute();
+        }else if(view == this.scheduleBtn){
+
+            //TODO: input dialog
+            this.scheduleTask();
+
         }
 
+    }
+
+
+
+    private void scheduleTask(){
+        //TODO:
+
+        new DialogFragment() {
+
+            @Override
+            public Dialog onCreateDialog(Bundle savedInstanceState) {
+                //Use the current time as the default values for the time picker
+
+                int hour = 0;
+                int minute = 0;
+
+                //Create and return a new instance of TimePickerDialog //android.R.style#Theme_Material_Dialog_Alert
+                return new TimePickerDialog(NewAnalysis.this, AlertDialog.THEME_TRADITIONAL ,new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, final int hourOfDay, final int minute) {
+
+
+
+
+
+
+                        new DialogFragment() {
+
+                            @Override
+                            public Dialog onCreateDialog(Bundle savedInstanceState) {
+                                //Use the current time as the default values for the time picker
+
+                                int hour = 0;
+                                int minute = 0;
+
+                                //Create and return a new instance of TimePickerDialog //android.R.style#Theme_Material_Dialog_Alert
+                                return new TimePickerDialog(NewAnalysis.this, AlertDialog.THEME_TRADITIONAL ,new TimePickerDialog.OnTimeSetListener() {
+                                    @Override
+                                    public void onTimeSet(TimePicker view, final int hourOfDay_duration, final int minute_duration) {
+                                        //TODO:
+
+                                    }
+                                }, 0, 0, true);
+
+                            }
+                        }.show(NewAnalysis.this.getFragmentManager(),"Duration-Picker");
+                        Toast.makeText(NewAnalysis.this,"Select duration of each Analysis (cannot be greater than your interval of "+hourOfDay+":"+minute+")",Toast.LENGTH_SHORT).show();
+
+
+
+
+
+                    }
+                }, 0, 0, true);
+
+            }
+        }.show(this.getFragmentManager(),"Interval-Picker");
+        Toast.makeText(NewAnalysis.this,"Select intervall in which the Analysis should be started",Toast.LENGTH_SHORT).show();
+
+    }
+}
+
+class MyBroadcastReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+
+        //TODO: start and stop
+        Toast.makeText(context, "Alarm....", Toast.LENGTH_LONG).show();
     }
 }

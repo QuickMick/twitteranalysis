@@ -144,18 +144,15 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
             public void onClick(View v) {
 
-
-
                 //Getting values to be stored
-                SettingsModel model = new SettingsModel(consumerkeytext, consumerkeytextscrt, accesstokentext, accesstokentextscrt);
+                SettingsModel model = new SettingsModel(consumerkeytext, consumerkeytextscrt, accesstokentext, accesstokentextscrt); // @paul i think this is not needed anymore because we have no firebase anymore right?
 
-
+                AnalizationHelper.INSTANCE().setAccessToken(accesstokentext);
+                AnalizationHelper.INSTANCE().setAccessTokenSecret(accesstokentextscrt);
+                AnalizationHelper.INSTANCE().setConsumerKey(consumerkeytext);
+                AnalizationHelper.INSTANCE().setConsumerSecret(consumerkeytextscrt);
 
                 //TODO: @paul save in local encrypted storage an set following values
-                AnalizationHelper.INSTANCE().setAccessToken("token");
-                AnalizationHelper.INSTANCE().setAccessTokenSecret("token");
-                AnalizationHelper.INSTANCE().setConsumerKey("token");
-                AnalizationHelper.INSTANCE().setConsumerSecret("token");
 
                 //checking if the data was inserted into the DB or not
 

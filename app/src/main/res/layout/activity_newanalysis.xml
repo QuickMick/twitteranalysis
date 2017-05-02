@@ -97,6 +97,19 @@
                         android:textColor="#ffffff"
                         android:textSize="@dimen/p" />
 
+                    <Button
+                        android:id="@+id/schedulebtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1.53"
+                        android:background="@drawable/roundedblue"
+                        android:gravity="center"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="Schedule"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/p" />
+
 
                 </LinearLayout>
 

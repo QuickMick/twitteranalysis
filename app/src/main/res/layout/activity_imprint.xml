@@ -23,7 +23,7 @@
         android:layout_height="fill_parent"
         android:layout_width="wrap_content"
 
-        android:text="Developed for the course 'Remote Collaboration' for HHN. Special Thanks to Jonas Gehring, who published 'android-graphview' which is used in this project and also to Alex Corvi, whos text inflector 'en-inflectors' originally developed for JavaScript, was used as archetype for our inflector."
+        android:text="Developed for the course 'Remote Collaboration' for HHN. Special Thanks to Jonas Gehring, who published 'android-graphview' which is used in this project and also to Alex Corvi, whos text inflector 'en-inflectors' originally developed for JavaScript, was used as archetype for our inflector. To etablish the connection and to be able to collect the Tweets from the Twitter Streaming API, twitter4j was used. For the sentiment and emotion analysis the NRC Emotional Lexicon (see saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm) is used. "
         android:layout_below="@+id/textView3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

@@ -493,9 +493,6 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                     if(emotionTotal==0)emotionTotal=1;
                     if(sentimentTotal==0)sentimentTotal=1;
 
-                    time+=SEPERATOR+format.format(dv.startDate);
-                    timecode+=SEPERATOR+dv.startDate.getTime();
-
                     anger_p+=SEPERATOR+((((double)dv.weigthing.anger)/emotionTotal) *100d);
                     anticipation_p+=SEPERATOR+((((double)dv.weigthing.anticipation)/emotionTotal) *100d);
                     disgust_p+=SEPERATOR+((((double)dv.weigthing.disgust)/emotionTotal) *100d);

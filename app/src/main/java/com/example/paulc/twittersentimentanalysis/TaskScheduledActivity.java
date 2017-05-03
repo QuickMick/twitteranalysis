@@ -16,7 +16,7 @@ import com.example.mick.service.AnalysisSchedulTask;
 
 public class TaskScheduledActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private TextView duration,interval;
+    private TextView duration,interval,folderLbl;
 
     private Button dismiss;
 
@@ -27,6 +27,7 @@ public class TaskScheduledActivity extends AppCompatActivity implements View.OnC
 
         this.duration = (TextView)findViewById(R.id.durationlbl);
         this.interval = (TextView)findViewById(R.id.intervallbl);
+        this.folderLbl = (TextView)findViewById(R.id.folderlbl);
 
         this.dismiss = (Button)findViewById(R.id.dismissbtn);
         this.dismiss.setOnClickListener(this);
@@ -50,6 +51,7 @@ public class TaskScheduledActivity extends AppCompatActivity implements View.OnC
 
         this.duration.setText(String.format("%02d", hour_duration)+":"+String.format("%02d", min_duration)+"h");
         this.interval.setText(String.format("%02d", hour_interval)+":"+String.format("%02d", min_interval)+"h");
+        this.folderLbl.setText(AnalizationHelper.INSTANCE().getAnalyzation_folder());
     }
 
     @Override

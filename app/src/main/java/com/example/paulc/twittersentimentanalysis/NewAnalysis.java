@@ -125,6 +125,8 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                 return;
             }
 
+       //     AnalizationHelper.INSTANCE().loadSettings(this);
+
             Log.d("AppD","start analization clicked");
 
             backicon.setEnabled(false);
@@ -148,7 +150,8 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                         backicon.setEnabled(true);
                         go.setEnabled(true);
                         searchcriteria.setEnabled(true);
-
+                    Log.d("token", "ConsumerKey " + AnalizationHelper.INSTANCE().getConsumerKey());
+                    Log.d("token", "AccessToken " + AnalizationHelper.INSTANCE().getAccessToken());
                         if (result) {
                             if(view == NewAnalysis.this.go) {
                                 Intent startIntent = new Intent(NewAnalysis.this, ForegroundService.class);

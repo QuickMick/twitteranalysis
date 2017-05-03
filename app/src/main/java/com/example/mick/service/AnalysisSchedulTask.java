@@ -190,6 +190,7 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
 
 
     private void start(Context context, String kw){
+        AnalizationHelper.INSTANCE().loadSettings(context);
         Intent startIntent = new Intent(context, ForegroundService.class);
         startIntent.setAction(ForegroundService.STARTFOREGROUND_ACTION);
         Log.d("AppD","Start scheduled task at: "+new Date()+" with keyowrds: "+kw);

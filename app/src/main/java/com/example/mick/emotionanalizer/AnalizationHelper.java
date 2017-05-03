@@ -57,12 +57,12 @@ public class AnalizationHelper {
 
     public void loadSettings(Context a){
         SharedPreferences sharedPref = a.getSharedPreferences(Settings.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
-
-        final String consumerkeytext = sharedPref.getString("consumerkey", "");
-        final String consumerkeytextscrt = sharedPref.getString("consumerkeyscrt", "");
-        final String accesstokentext = sharedPref.getString("accesstoken", "");
-        final String accesstokentextscrt = sharedPref.getString("accesstokenscrt", "");
-        final String folder = sharedPref.getString("folder", "twitter_results");
+        Log.d("AppD","refresh settings");
+        final String consumerkeytext = sharedPref.getString("consumerkey", "").trim();
+        final String consumerkeytextscrt = sharedPref.getString("consumerkeyscrt", "").trim();
+        final String accesstokentext = sharedPref.getString("accesstoken", "").trim();
+        final String accesstokentextscrt = sharedPref.getString("accesstokenscrt", "").trim();
+        final String folder = sharedPref.getString("folder", "twitter_results").trim();
 
         this.setAccessToken(accesstokentext);
         this.setAccessTokenSecret(accesstokentextscrt);

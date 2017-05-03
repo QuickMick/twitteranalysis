@@ -59,6 +59,9 @@ public class Constants {
     public interface ANALIZATION{
 
         public static String BROADCAST_ANALIZATION_STOPPED = "BROADCAST_ANALIZATION_STOPPED";
+
+        public static String BROADCAST_ANALIZATION_SAVED = "BROADCAST_ANALIZATION_SAVED";
+
         /**
          * Key for intend, when creating a new diagramm activity
          */

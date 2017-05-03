@@ -207,7 +207,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 this.ar = AnalizationHelper.INSTANCE().getFinalResult();
 
 
-                if( AnalizationHelper.INSTANCE().isSaved()) {
+                if(!AnalizationHelper.INSTANCE().isSaved()) {
                     BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
                     Log.d("appd","save set invisible");
                 }else{
@@ -257,6 +257,12 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
     private BroadcastReceiver br = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
+            if(intent.getStringExtra("MSG").equals(Constants.ANALIZATION.BROADCAST_ANALIZATION_SAVED)){
+
+                BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.INVISIBLE);
+            }
+
             if(intent.getStringExtra("MSG").equals(Constants.ANALIZATION.BROADCAST_ANALIZATION_STOPPED)){
 
                 String mode= intent.getStringExtra(Constants.ANALIZATION.DIAGRAM_MODE);
@@ -270,7 +276,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 BarChartActivity.this.changeViewBtn.setVisibility(Button.INVISIBLE);
                 BarChartActivity.this.showRecentTweetsbtn.setVisibility(Button.GONE);
 
-                if( AnalizationHelper.INSTANCE().isSaved()) {
+                if(!AnalizationHelper.INSTANCE().isSaved()) {
                     BarChartActivity.this.saveAnalysisBtn.setVisibility(Button.VISIBLE);
                     Log.d("appd","save set invisible");
                 }else{
@@ -546,6 +552,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 DateFormat format = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
                 String fileName = "twitter_" + format.format(ar.startDate) + "_-_" + format.format(ar.endDate) + ".json";
                 try {
+                    AnalizationHelper.INSTANCE().loadSettings(BarChartActivity.this);
                     File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.INSTANCE().getAnalyzation_folder());
                     if (!mydir.exists()) {
                         mydir.mkdirs();

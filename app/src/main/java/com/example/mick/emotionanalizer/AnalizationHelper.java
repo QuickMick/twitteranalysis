@@ -55,7 +55,7 @@ public class AnalizationHelper {
         //analyzation_folder= "twitter_results";
     }
 
-    public void loadSettings(Activity a){
+    public void loadSettings(Context a){
         SharedPreferences sharedPref = a.getSharedPreferences(Settings.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
 
         final String consumerkeytext = sharedPref.getString("consumerkey", "");

@@ -204,8 +204,18 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
         context.startService(stopIntent);
     }
 
+    private void sendMessageToActivity(String msg,Context context) {
+        Intent intent = new Intent("TwitterAnalizationUpdate");
+        // You can also include some extra data.
+        intent.setAction(Constants.ACTION.ANALIZATION);
+        intent.putExtra("MSG",msg);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+    }
 
     private void save(final Context context){
+
+        sendMessageToActivity(Constants.ANALIZATION.BROADCAST_ANALIZATION_SAVED,context);
+        AnalizationHelper.INSTANCE().loadSettings(context);
         AnalizationHelper.INSTANCE().setBlocked(true);
         // Toast.makeText(BarChartActivity.this, "Start writing", Toast.LENGTH_SHORT).show();
 // Caused by: java.lang.RuntimeException: Can't create handler inside thread that has not called Looper.prepare()

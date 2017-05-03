@@ -65,7 +65,12 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
 
     private ListView filesLv;
 
-    private File[] listedFiles = new File[0];
+    private File[] listedFilesX = new File[0];
+    private synchronized File[] getListedFiles(){
+        synchronized (lock){
+            return this.listedFilesX;
+        }
+    }
 
     private Button showHistoryTimelineBtn;
 
@@ -87,7 +92,7 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
             {
-                File clickedFile = HistoryActivity.this.listedFiles[position];
+                File clickedFile = HistoryActivity.this.getListedFiles()[position];
 
                 HistoryActivity.this.showSelectDialog(clickedFile);
                 //Toast.makeText(HistoryActivity.this, clickedFile.getName(), Toast.LENGTH_SHORT).show();
@@ -98,6 +103,10 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
 
     protected void onResume(){
         super.onResume();
+        this.rebuildView();
+    }
+
+    private void rebuildView(){
         AnalizationHelper.INSTANCE().loadSettings(this);
 
         this.folderTv.setText("/"+AnalizationHelper.INSTANCE().getAnalyzation_folder()+"/");
@@ -119,15 +128,15 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 }
 
-                ArrayAdapter adapter = new ArrayAdapter<File>(HistoryActivity.this, android.R.layout.simple_list_item_2, android.R.id.text1,HistoryActivity.this.listedFiles  ) {
+                ArrayAdapter adapter = new ArrayAdapter<File>(HistoryActivity.this, android.R.layout.simple_list_item_2, android.R.id.text1,HistoryActivity.this.getListedFiles()  ) {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
                         TextView text1 = (TextView) view.findViewById(android.R.id.text1);
                         TextView text2 = (TextView) view.findViewById(android.R.id.text2);
 
-                        text1.setText(HistoryActivity.this.listedFiles [position].getName());
-                        text2.setText(HistoryActivity.this.listedFiles [position].getAbsolutePath());
+                        text1.setText(HistoryActivity.this.getListedFiles() [position].getName());
+                        text2.setText(HistoryActivity.this.getListedFiles() [position].getAbsolutePath());
                         return view;
                     }
                 };
@@ -138,38 +147,40 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
         }.execute();
     }
 
-    private void listFiles(){
-        File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.INSTANCE().getAnalyzation_folder());
-        if(!mydir.exists()) {
-            return;
-        }
+    private Object lock = new Object();
+    private synchronized void listFiles(){
 
-        File[] tmpFiles = mydir.listFiles();
-        ArrayList<File> cur = new ArrayList<File>();
-        for(File f :tmpFiles){
-            if(f.getAbsolutePath().endsWith(".json")) {
-                cur.add(f);
+            File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.INSTANCE().getAnalyzation_folder());
+            if (!mydir.exists()) {
+                return;
             }
-        }
 
-        //sort the entries depending on the date, newest first
-        Collections.sort(cur,new Comparator<File>()
-        {
-            public int compare(File o1, File o2) {
-
-                if (o1.lastModified() > o2.lastModified()) {
-                    return -1;
-                } else if (o1.lastModified() < o2.lastModified()) {
-                    return 1;
+            File[] tmpFiles = mydir.listFiles();
+            ArrayList<File> cur = new ArrayList<File>();
+            for (File f : tmpFiles) {
+                if (f.getAbsolutePath().endsWith(".json")) {
+                    cur.add(f);
                 }
-                return 0;
             }
 
-        });
-       // Collections.reverse(cur);
+            //sort the entries depending on the date, newest first
+            Collections.sort(cur, new Comparator<File>() {
+                public int compare(File o1, File o2) {
 
+                    if (o1.lastModified() > o2.lastModified()) {
+                        return -1;
+                    } else if (o1.lastModified() < o2.lastModified()) {
+                        return 1;
+                    }
+                    return 0;
+                }
 
-        this.listedFiles = cur.toArray(new File[cur.size()]);
+            });
+            // Collections.reverse(cur);
+
+        synchronized (lock) {
+            this.listedFilesX = cur.toArray(new File[cur.size()]);
+        }
     }
 
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
@@ -216,7 +227,8 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         if(v==this.showHistoryTimelineBtn){
-            if(this.listedFiles.length <= 2){
+            int len = this.getListedFiles().length;
+            if( len <= 2){
                 Toast.makeText(HistoryActivity.this, "Not enough stored analysis to show a usefull graph. provide at least 2 analysises", Toast.LENGTH_SHORT).show();
             }else{
                 startActivity(new Intent(this, HistoryTimelineActivity.class));
@@ -306,7 +318,7 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
                                                 //delete
                                                 file.delete();
                                                 Toast.makeText(HistoryActivity.this, "File"+file.getName()+" successfully deleted", Toast.LENGTH_SHORT).show();
-                                                HistoryActivity.this.listFiles();
+                                                HistoryActivity.this.rebuildView();
                                                 dialog.dismiss();
                                             }
                                         });

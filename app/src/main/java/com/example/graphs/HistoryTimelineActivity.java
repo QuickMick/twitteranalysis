@@ -118,7 +118,8 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
             for(File f :files){
 
                 AnalizationResult ar = AnalizationResult.createFromJSON(this.loadJSONFromFolder(f));
-                result.add(new DisplayValue(ar.weigthing,ar.startDate));
+                //   public DisplayValue(EmotionWeighting w, Date d, int words, int sentences, int tweets, int analizedWords){
+                result.add(new DisplayValue(ar.weigthing,ar.startDate,ar.wordCount,ar.sentenceCount,ar.tweetCount,ar.wordCountAnalized));
             }
 
         } catch (JSONException e) {
@@ -375,7 +376,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
         if(myFile.exists()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("*.CSV already exists. Do you want to override it?");
+            builder.setTitle("*.CSV already exists. Do you want to overwrite it?");
             builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     //delete
@@ -435,6 +436,12 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                 String surprise_p="Surprise";
                 String trust_p="Trust";
 
+                String totalTweets = "Amount of Tweet";
+                String totalSentences = "Amount of Sentences";
+                String totalWords = "Amount of Word";
+                String analizedWords = "Analized Words";
+
+
                 String sentiment_negative_p="Negative";
                 String sentiment_positive_p="Positive";
 
@@ -444,6 +451,12 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
                     time+=SEPERATOR+format.format(dv.startDate);
                     timecode+=SEPERATOR+dv.startDate.getTime();
+
+                    totalTweets += SEPERATOR+dv.tweets;
+                    totalSentences += SEPERATOR+dv.sentences;
+                    totalWords += SEPERATOR+dv.words;
+                    analizedWords += SEPERATOR+dv.analizedWords;
+
 
                     anger+=SEPERATOR+dv.weigthing.anger;
                     anticipation+=SEPERATOR+dv.weigthing.anticipation;
@@ -481,6 +494,9 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
                 String csv ="Total\n"+timecode+"\n"+time+"\n"+anger+"\n"+anticipation+"\n"+disgust+"\n"+fear+"\n"+joy+"\n"+sadness+"\n"+surprise+"\n"+trust+"\n"+sentiment_negative+"\n"+sentiment_positive;
                 csv +="\n\nPercent\n"+timecode+"\n"+time+"\n"+anger_p+"\n"+anticipation_p+"\n"+disgust_p+"\n"+fear_p+"\n"+joy_p+"\n"+sadness_p+"\n"+surprise_p+"\n"+trust_p+"\n"+sentiment_negative_p+"\n"+sentiment_positive_p;
+
+                csv +="\n\nStatistic\n"+totalTweets+"\n"+totalSentences+"\n"+totalWords+"\n"+analizedWords+"\n";
+
 
                 csv=csv.replace(".",",");
 
@@ -552,10 +568,18 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
     class DisplayValue{
         EmotionWeighting weigthing;
+        int words;
+        int sentences;
+        int analizedWords;
+        int tweets;
         Date startDate;
-        public DisplayValue(EmotionWeighting w, Date d){
+        public DisplayValue(EmotionWeighting w, Date d, int words, int sentences, int tweets, int analizedWords){
             this.weigthing = w;
             this.startDate = d;
+            this.words = words;
+            this.sentences = sentences;
+            this.tweets = tweets;
+            this.analizedWords = analizedWords;
         }
     }
 }

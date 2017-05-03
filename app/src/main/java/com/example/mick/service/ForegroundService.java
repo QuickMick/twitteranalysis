@@ -92,7 +92,6 @@ public class ForegroundService extends Service {
                         public void run() {
                             ForegroundService.this.updateResult();
 
-                            //TODO: mick: send broadcast?
                /* Log.d("analizer","Current WORDCOUNT: "+crawler.getCurrentResult().wordCount);
                 System.out.println(crawler..wordCount);*/
                         }

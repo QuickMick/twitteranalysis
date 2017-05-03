@@ -239,11 +239,6 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                                 return new TimePickerDialog(NewAnalysis.this, AlertDialog.THEME_TRADITIONAL ,new TimePickerDialog.OnTimeSetListener() {
                                     @Override
                                     public void onTimeSet(TimePicker view, final int hourOfDay_duration, final int minute_duration) {
-                                        //TODO:
-
-
-                                        //Intent intent = new Intent(NewAnalysis.this, AnalysisSchedulTask.class);
-                                       // intent.setAction(AnalysisSchedulTask.ACTION);
 
                                         AnalysisSchedulTask.startAlarm(NewAnalysis.this,keywords,hourOfDay,minute,hourOfDay_duration,minute_duration);
 

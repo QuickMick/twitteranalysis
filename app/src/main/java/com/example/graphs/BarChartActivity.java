@@ -538,7 +538,6 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                    return "External Storage unavailable";
                }
 
-                //TODO: do the writing (following code) in an async task and show a "waiting" symbol - block everything else (also going back)
                 AnalizationResult ar = AnalizationHelper.INSTANCE().getFinalResult();
                 String json = ar.toJSON();
                 //DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");

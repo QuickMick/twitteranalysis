@@ -105,7 +105,10 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
         // alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()+ (15 * 1000), pendingIntent);
 
         long interval = (hourOfDay*60*60*1000)+(minute*60*1000);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime(), interval, pendingIntent);
+
+
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime(), interval, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, interval, pendingIntent); //TODO: to start immediatly just start wih 0 becuase its in the past?
     }
 
 

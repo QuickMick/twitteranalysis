@@ -20,7 +20,7 @@ import java.util.Date;
 
 public class TaskScheduledActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private TextView duration,interval,folderLbl,startTimeLbl,nextLbl;
+    private TextView duration,interval,folderLbl,startTimeLbl,nextLbl,analysesCountLbl;
 
     private Button dismiss;
 
@@ -32,6 +32,8 @@ public class TaskScheduledActivity extends AppCompatActivity implements View.OnC
         this.duration = (TextView)findViewById(R.id.durationlbl);
         this.interval = (TextView)findViewById(R.id.intervallbl);
         this.folderLbl = (TextView)findViewById(R.id.folderlbl);
+
+        this.analysesCountLbl = (TextView)findViewById(R.id.analysescountlbl);
 
         this.startTimeLbl = (TextView)findViewById(R.id.starttimelbl);
         this.nextLbl = (TextView)findViewById(R.id.nextlbl);
@@ -68,6 +70,13 @@ public class TaskScheduledActivity extends AppCompatActivity implements View.OnC
 
         long count = (long)((cur-start_time)/intervalMillis);
         long nextTimeSept = (long)(intervalMillis*count)+((long)intervalMillis);
+
+        if(!AnalysisSchedulTask.isAnalizing()){
+            this.analysesCountLbl.setText((count+1)+" past analyses");
+        }else{
+            this.analysesCountLbl.setText("Currently running, "+count+" past analyses");
+        }
+
         this.nextLbl.setText(format.format(new Date( start_time+ nextTimeSept)));
         this.folderLbl.setText("/"+AnalizationHelper.INSTANCE().getAnalyzation_folder()+"/");
     }

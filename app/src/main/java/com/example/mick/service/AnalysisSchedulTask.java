@@ -42,6 +42,11 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
     public static final int ID = 234324243;
 
     private static boolean safeFromService = false;
+
+    private static boolean isAnalizing=false;
+    public static boolean isAnalizing(){
+        return isAnalizing;
+    }
 /*
     private static int hour_interval = 0;
     private static int min_interval = 0;
@@ -198,6 +203,8 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
 
 
     private void start(Context context, String kw){
+
+        isAnalizing =true;
         AnalizationHelper.INSTANCE().loadSettings(context);
         Intent startIntent = new Intent(context, ForegroundService.class);
         startIntent.setAction(ForegroundService.STARTFOREGROUND_ACTION);
@@ -207,6 +214,7 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
     }
 
     private void stop(Context context){
+        isAnalizing=false;
         Intent stopIntent = new Intent(context, ForegroundService.class);
         stopIntent.setAction(ForegroundService.STOPFOREGROUND_ACTION);
         stopIntent.putExtra(Constants.ANALIZATION.DIAGRAM_MODE,Constants.ANALIZATION.DIAGRAM_MODE_DONT_SHOW);

@@ -3,8 +3,10 @@ package com.example.graphs;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -48,6 +50,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
+import twitter4j.FilterQuery;
+
 public class HistoryTimelineActivity extends AppCompatActivity  implements View.OnClickListener{
 
     LineGraphSeries<DataPoint> anger_series = new LineGraphSeries<DataPoint>();
@@ -69,12 +73,15 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
     private DisplayValue[] displayValues;
 
+    private TextView folderLbl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_timeline);
         this.graph = (GraphView) findViewById(R.id.graph);
         this.exportCsvButton = (Button)findViewById(R.id.exportcsvbtn);
+        this.folderLbl = (TextView)findViewById(R.id.folderlbl);
         this.exportCsvButton.setOnClickListener(this);
         this.initGraph();
 
@@ -94,6 +101,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                 }
                 HistoryTimelineActivity.this.displayValues = r;
                 HistoryTimelineActivity.this.updateGraph(r);
+                HistoryTimelineActivity.this.folderLbl.setText("/"+AnalizationHelper.INSTANCE().getAnalyzation_folder()+"/");
                 dialog.dismiss();
             }
         }.execute();
@@ -249,6 +257,8 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
             negative[i] = new DataPoint(steps[i].startDate,(((float)steps[i].weigthing.sentiment_negative)/total_s)*100f);
         }
 
+      //  graph.removeAllSeries();
+
         anger_series.resetData(anger);
         anticipation_series.resetData(anticipation);
         disgust_series.resetData(disgust);
@@ -365,33 +375,29 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
         if(myFile.exists()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("*.CSV already exists. Do you want to override it??");
+            builder.setTitle("*.CSV already exists. Do you want to override it?");
             builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     //delete
-                    HistoryTimelineActivity.this.createCSV(mydir,myFile,format);
+                    HistoryTimelineActivity.this.createCSV(mydir,myFile);
                     dialog.dismiss();
                 }
             });
 
             builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    //cancel
+                    HistoryTimelineActivity.this.shareFile(myFile,"Do you Want to share the existing *.CSV");
                     dialog.dismiss();
                 }
             });
             builder.create().show();
         }else{
-            HistoryTimelineActivity.this.createCSV(mydir,myFile,format);
-        }
+            HistoryTimelineActivity.this.createCSV(mydir,myFile);
 
+        }
     }
 
-    private void createCSV(final File mydir, final File myFile,final DateFormat format){
-
-
-
-
+    private void createCSV(final File mydir, final File myFile){
         final ProgressDialog dialog = ProgressDialog.show(HistoryTimelineActivity.this, "","Saving. Please wait...", true);
         new AsyncTask<Void, Void, String>(){
             @Override
@@ -432,6 +438,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                 String sentiment_negative_p="Negative";
                 String sentiment_positive_p="Positive";
 
+                final DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
                 for(DisplayValue dv : HistoryTimelineActivity.this.displayValues) {
 
@@ -470,13 +477,12 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
                     sentiment_negative_p+=SEPERATOR+((((double)dv.weigthing.sentiment_negative)/sentimentTotal) *100d);
                     sentiment_positive_p+=SEPERATOR+((((double)dv.weigthing.sentiment_positive)/sentimentTotal) *100d);
-
-
                 }
 
-                String csv ="Total\n"+time+"\n"+timecode+"\n"+anger+"\n"+anticipation+"\n"+disgust+"\n"+fear+"\n"+joy+"\n"+sadness+"\n"+surprise+"\n"+trust+"\n"+sentiment_negative+"\n"+sentiment_positive;
-                csv +="\n\nPercent\n"+time+"\n"+timecode+"\n"+anger_p+"\n"+anticipation_p+"\n"+disgust_p+"\n"+fear_p+"\n"+joy_p+"\n"+sadness_p+"\n"+surprise_p+"\n"+trust_p+"\n"+sentiment_negative_p+"\n"+sentiment_positive_p;
+                String csv ="Total\n"+timecode+"\n"+time+"\n"+anger+"\n"+anticipation+"\n"+disgust+"\n"+fear+"\n"+joy+"\n"+sadness+"\n"+surprise+"\n"+trust+"\n"+sentiment_negative+"\n"+sentiment_positive;
+                csv +="\n\nPercent\n"+timecode+"\n"+time+"\n"+anger_p+"\n"+anticipation_p+"\n"+disgust_p+"\n"+fear_p+"\n"+joy_p+"\n"+sadness_p+"\n"+surprise_p+"\n"+trust_p+"\n"+sentiment_negative_p+"\n"+sentiment_positive_p;
 
+                csv=csv.replace(".",",");
 
                 try {
                   //  File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.INSTANCE().getAnalyzation_folder());
@@ -510,11 +516,38 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                 if(result==null) {
                     Toast.makeText(HistoryTimelineActivity.this, "Done writing Summary *.CSV to SD Card Folder (SD/"+AnalizationHelper.TWITTER_EXPORTS_FOLDER+") Filename "+myFile.getName(), Toast.LENGTH_LONG).show();
                     HistoryTimelineActivity.this.exportCsvButton.setVisibility(Button.INVISIBLE);
+                    HistoryTimelineActivity.this.shareFile(myFile,"Do you want to share the generated *.CSV?");
                 }else{
                     Toast.makeText(HistoryTimelineActivity.this, "Error while saving: " + result, Toast.LENGTH_SHORT).show();
                 }
             }
         }.execute();
+    }
+
+    private void shareFile(final File myFile,final String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(HistoryTimelineActivity.this);
+        builder.setTitle(msg);
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //delete
+                Uri path = Uri.fromFile(myFile);
+                Intent sendFileIntent = new Intent(Intent.ACTION_SEND);
+
+                sendFileIntent.putExtra(Intent.EXTRA_STREAM, path);
+                sendFileIntent.setType("application/csv");
+                startActivity(Intent.createChooser(sendFileIntent , "Share file..."));
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                //cancel
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 
     class DisplayValue{

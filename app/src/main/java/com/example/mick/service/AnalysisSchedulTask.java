@@ -86,16 +86,6 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
         long highScore = sharedPref.getInt(getString(R.string.saved_high_score), defaultValue);
 
 */
-
-        SharedPreferences sharedPref = a.getSharedPreferences(Settings.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("hour_interval", hourOfDay);
-        editor.putInt("hour_duration", hourOfDay_duration);
-        editor.putInt("min_interval", minute);
-        editor.putInt("min_duration", minute_duration);
-        editor.commit();
-
-
         Intent intent = new Intent(AnalysisSchedulTask.ACTION);
         intent.putExtra("hour",hourOfDay_duration);
         intent.putExtra("minute",minute_duration);
@@ -107,8 +97,19 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
 
         long interval = (hourOfDay*60*60*1000)+(minute*60*1000);
 
+        long start_time = System.currentTimeMillis();
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  start_time, interval, pendingIntent);
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(), interval, pendingIntent);
+        SharedPreferences sharedPref = a.getSharedPreferences(Settings.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("hour_interval", hourOfDay);
+        editor.putInt("hour_duration", hourOfDay_duration);
+        editor.putInt("min_interval", minute);
+        editor.putInt("min_duration", minute_duration);
+        editor.putLong("start_time", start_time);
+        editor.commit();
+
+        Log.d("analysis_schedule","Schedule for first task: "+start_time);
 
         //alarmManager.set(AlarmManager.RTC_WAKEUP, new Date().getTime(), pendingIntent);
         //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime()+interval, interval, pendingIntent);

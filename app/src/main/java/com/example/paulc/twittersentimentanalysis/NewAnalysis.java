@@ -150,7 +150,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                         backicon.setEnabled(true);
                         go.setEnabled(true);
                         searchcriteria.setEnabled(true);
-
+result = true;
                         if (result) {
                             if(view == NewAnalysis.this.go) {
                                 Intent startIntent = new Intent(NewAnalysis.this, ForegroundService.class);

@@ -14,9 +14,13 @@ import android.widget.TextView;
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.service.AnalysisSchedulTask;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class TaskScheduledActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private TextView duration,interval,folderLbl;
+    private TextView duration,interval,folderLbl,startTimeLbl,nextLbl;
 
     private Button dismiss;
 
@@ -28,6 +32,9 @@ public class TaskScheduledActivity extends AppCompatActivity implements View.OnC
         this.duration = (TextView)findViewById(R.id.durationlbl);
         this.interval = (TextView)findViewById(R.id.intervallbl);
         this.folderLbl = (TextView)findViewById(R.id.folderlbl);
+
+        this.startTimeLbl = (TextView)findViewById(R.id.starttimelbl);
+        this.nextLbl = (TextView)findViewById(R.id.nextlbl);
 
         this.dismiss = (Button)findViewById(R.id.dismissbtn);
         this.dismiss.setOnClickListener(this);
@@ -45,12 +52,23 @@ public class TaskScheduledActivity extends AppCompatActivity implements View.OnC
 
         int hour_interval = sharedPref.getInt("hour_interval", 0);
         int min_interval = sharedPref.getInt("min_interval", 0);
-        int hour_duration=sharedPref.getInt("hour_duration", 0);
-        int min_duration=sharedPref.getInt("min_duration", 0);
+        int hour_duration = sharedPref.getInt("hour_duration", 0);
+        int min_duration = sharedPref.getInt("min_duration", 0);
+        long start_time = sharedPref.getLong("start_time",0);
 
+        DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
         this.duration.setText(String.format("%02d", hour_duration)+":"+String.format("%02d", min_duration)+"h");
         this.interval.setText(String.format("%02d", hour_interval)+":"+String.format("%02d", min_interval)+"h");
+
+        this.startTimeLbl.setText(format.format(new Date(start_time)));
+
+        double intervalMillis = (hour_interval*60*60*1000)+(min_interval*60*1000);
+        double cur = System.currentTimeMillis();
+
+        long count = (long)((cur-start_time)/intervalMillis);
+        long nextTimeSept = (long)(intervalMillis*count)+((long)intervalMillis);
+        this.nextLbl.setText(format.format(new Date( start_time+ nextTimeSept)));
         this.folderLbl.setText("/"+AnalizationHelper.INSTANCE().getAnalyzation_folder()+"/");
     }
 

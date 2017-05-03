@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -107,7 +108,10 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
         long interval = (hourOfDay*60*60*1000)+(minute*60*1000);
 
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime(), interval, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,  System.currentTimeMillis(), interval, pendingIntent);
+
+        //alarmManager.set(AlarmManager.RTC_WAKEUP, new Date().getTime(), pendingIntent);
+        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, new Date().getTime()+interval, interval, pendingIntent);
        // alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, interval, pendingIntent); //TODO: to start immediatly just start wih 0 becuase its in the past?
     }
 

@@ -65,7 +65,7 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
 
     private ListView filesLv;
 
-    private File[] listedFiles;
+    private File[] listedFiles = new File[0];
 
     private Button showHistoryTimelineBtn;
 
@@ -78,6 +78,23 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
         this.showHistoryTimelineBtn = (Button)findViewById(R.id.showhistorytimelinebtn);
         this.showHistoryTimelineBtn.setOnClickListener(this);
 
+        this.filesLv.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
+            {
+                File clickedFile = HistoryActivity.this.listedFiles[position];
+
+                HistoryActivity.this.showSelectDialog(clickedFile);
+                //Toast.makeText(HistoryActivity.this, clickedFile.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    protected void onResume(){
+        super.onResume();
+        AnalizationHelper.INSTANCE().loadSettings(this);
 
 
         final ProgressDialog dialog = ProgressDialog.show(HistoryActivity.this, "","Loading History. Please wait...", true);
@@ -115,21 +132,6 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
                 dialog.dismiss();
             }
         }.execute();
-
-
-
-
-        this.filesLv.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1,int position, long arg3)
-            {
-                File clickedFile = HistoryActivity.this.listedFiles[position];
-
-                HistoryActivity.this.showSelectDialog(clickedFile);
-                //Toast.makeText(HistoryActivity.this, clickedFile.getName(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void listFiles(){

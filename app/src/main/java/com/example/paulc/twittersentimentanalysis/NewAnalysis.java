@@ -113,9 +113,9 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
     }
 
     @Override
-    public void onClick (View view){
+    public void onClick (final View view){
         // if he presses on Register , call the register user function
-        if (view == go) {
+        if (view == go || view == this.scheduleBtn) {
 
             if(AnalizationHelper.INSTANCE().isRunning()){
                 Toast.makeText(this,"Analization already running. Pleas stop current analization first..",Toast.LENGTH_SHORT).show();
@@ -141,40 +141,41 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
             new AsyncTask<Void,Void,Boolean>() {
                 @Override
                 protected Boolean doInBackground(Void... params) {
+                    AnalizationHelper.INSTANCE().loadSettings(NewAnalysis.this);
                     return NewAnalysis.this.vertifyTwitterCredentials();
                 }
                 protected void onPostExecute(Boolean result) {
-                    backicon.setEnabled(true);
-                    go.setEnabled(true);
-                    searchcriteria.setEnabled(true);
+                        backicon.setEnabled(true);
+                        go.setEnabled(true);
+                        searchcriteria.setEnabled(true);
 
-                    if(result) {
-                        Intent startIntent = new Intent(NewAnalysis.this, ForegroundService.class);
-                        startIntent.setAction(ForegroundService.STARTFOREGROUND_ACTION);
-                        String kw = searchcriteria.getText().toString();
-                        Log.d("AppD","Start analysis with kewords: "+kw);
-                        startIntent.putExtra(ForegroundService.SEARCH_CRITERIA,kw);
-                        finish();   // i thought it would be a good idea to close the newAnalisis activity so,
-                        // if you hit back from the graph activity
-                        // you are not able to start a new analisis, if the other one is still running
-                        startService(startIntent);
+                        if (result) {
+                            if(view == NewAnalysis.this.go) {
+                                Intent startIntent = new Intent(NewAnalysis.this, ForegroundService.class);
+                                startIntent.setAction(ForegroundService.STARTFOREGROUND_ACTION);
+                                String kw = searchcriteria.getText().toString();
+                                Log.d("AppD", "Start analysis with kewords: " + kw);
+                                startIntent.putExtra(ForegroundService.SEARCH_CRITERIA, kw);
+                                finish();   // i thought it would be a good idea to close the newAnalisis activity so,
+                                // if you hit back from the graph activity
+                                // you are not able to start a new analisis, if the other one is still running
+                                startService(startIntent);
 
-                        Intent ac = new Intent(NewAnalysis.this, BarChartActivity.class);
-                        ac.putExtra(Constants.ANALIZATION.DIAGRAM_MODE,Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
-                        startActivity(ac);
+                                Intent ac = new Intent(NewAnalysis.this, BarChartActivity.class);
+                                ac.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
+                                startActivity(ac);
+                            }else if(view == NewAnalysis.this.scheduleBtn){
+                                NewAnalysis.this.scheduleTask(searchcriteria.getText().toString());
+                            }
 
-                    }else{
-                        Toast.makeText(NewAnalysis.this,"Twitter-tokens are incorrect, please check your settings.",Toast.LENGTH_SHORT).show();
-                    }
+                        } else {
+                            Toast.makeText(NewAnalysis.this, "Twitter-tokens are incorrect or missing, please check your settings.", Toast.LENGTH_SHORT).show();
+                        }
+
                     dialog.dismiss();
 
                 }
             }.execute();
-        }else if(view == this.scheduleBtn){
-
-            //TODO: input dialog
-            this.scheduleTask(searchcriteria.getText().toString());
-
         }
 
     }
@@ -223,19 +224,10 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
             @Override
             public Dialog onCreateDialog(Bundle savedInstanceState) {
                 //Use the current time as the default values for the time picker
-
-                int hour = 0;
-                int minute = 0;
-
                 //Create and return a new instance of TimePickerDialog //android.R.style#Theme_Material_Dialog_Alert
                 return new TimePickerDialog(NewAnalysis.this, AlertDialog.THEME_TRADITIONAL ,new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, final int hourOfDay, final int minute) {
-
-
-
-
-
 
                         new DialogFragment() {
 

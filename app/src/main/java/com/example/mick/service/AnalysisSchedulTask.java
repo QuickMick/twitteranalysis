@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.emotionanalizer.AnalizationResult;
+import com.example.paulc.twittersentimentanalysis.Settings;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,11 +41,11 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
     public static final int ID = 234324243;
 
     private static boolean safeFromService = false;
-
-    public static int hour_interval = 0;
-    public static int min_interval = 0;
-    public static int hour_duration=0;
-    public static int min_duration=0;
+/*
+    private static int hour_interval = 0;
+    private static int min_interval = 0;
+    private static int hour_duration=0;
+    private static int min_duration=0;*/
 
     public static boolean IS_RUNNGING(Activity i){
         boolean alarmUp = (PendingIntent.getBroadcast(i.getApplicationContext(), AnalysisSchedulTask.ID,
@@ -69,17 +71,30 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
         if(pi != null){
             pi.cancel();
             Log.d("analysis_schedule","current alarm stopped");
-            Toast.makeText(a,"Schedule stopped",Toast.LENGTH_SHORT).show();
+            Toast.makeText(a,"Scheduled tasks stopped",Toast.LENGTH_SHORT).show();
         }else{
             Log.d("analysis_schedule","current alarm still runnning");
-            Toast.makeText(a,"Schedule still running",Toast.LENGTH_SHORT).show();
+            Toast.makeText(a,"Scheduled tasks still running",Toast.LENGTH_SHORT).show();
         }
-
-
-
     }
 
     public static void startAlarm(Activity a, String keywords,int hourOfDay, int minute, int hourOfDay_duration, int minute_duration) {
+/*
+        SharedPreferences sharedPref = a.getPreferences(Context.MODE_PRIVATE);
+        int defaultValue = a.getResources().getInteger(R.string.saved_high_score_default);
+        long highScore = sharedPref.getInt(getString(R.string.saved_high_score), defaultValue);
+
+*/
+
+        SharedPreferences sharedPref = a.getSharedPreferences(Settings.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("hour_interval", hourOfDay);
+        editor.putInt("hour_duration", hourOfDay_duration);
+        editor.putInt("min_interval", minute);
+        editor.putInt("min_duration", minute_duration);
+        editor.commit();
+
+
         Intent intent = new Intent(AnalysisSchedulTask.ACTION);
         intent.putExtra("hour",hourOfDay_duration);
         intent.putExtra("minute",minute_duration);
@@ -99,6 +114,22 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
     public AnalysisSchedulTask(){
         Log.d("analysis_schedule","create schedule task");
     }
+
+  /*  public static int getHour_interval() {
+        return hour_interval;
+    }
+
+    public static int getMin_interval() {
+        return min_interval;
+    }
+
+    public static int getHour_duration() {
+        return hour_duration;
+    }
+
+    public static int getMin_duration() {
+        return min_duration;
+    }*/
 
     @Override
     public void onReceive(final Context context, Intent intent) {

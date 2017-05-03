@@ -1,7 +1,11 @@
 package com.example.mick.emotionanalizer;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
+
+import com.example.paulc.twittersentimentanalysis.Settings;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -37,11 +41,33 @@ public class AnalizationHelper {
 
     private AnalizationHelper(){
         //TODO: @paul very importatn!! remove these keys and load them from the settings
-        this.consumerKey = "WTSdBrmGi9X3GlSW1OTMb0Xhj";
+     /*   this.consumerKey = "WTSdBrmGi9X3GlSW1OTMb0Xhj";
         this.consumerSecret = "2xPN57eBDYeqWPKVpmG95XrwjX6fq79fUS2ilC7sYNWEc25xIL";
         this.accessToken = "791421180129476609-Ld84Ity8cdq9i0a7GawzS1OxKzGYWtz";
-        this.AccessTokenSecret = "lOlxp3j603JJ4fZPJTl08PhEPnAZ30uJ6TmpYVwWCct1m";
-        analyzation_folder= "twitter_results";
+        this.AccessTokenSecret = "lOlxp3j603JJ4fZPJTl08PhEPnAZ30uJ6TmpYVwWCct1m";*/
+
+
+
+
+
+
+        //analyzation_folder= "twitter_results";
+    }
+
+    public void loadSettings(Activity a){
+        SharedPreferences sharedPref = a.getSharedPreferences(Settings.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+
+        final String consumerkeytext = sharedPref.getString("consumerkey", "");
+        final String consumerkeytextscrt = sharedPref.getString("consumerkeyscrt", "");
+        final String accesstokentext = sharedPref.getString("accesstoken", "");
+        final String accesstokentextscrt = sharedPref.getString("accesstokenscrt", "");
+        final String folder = sharedPref.getString("folder", "twitter_results");
+
+        AnalizationHelper.INSTANCE().setAccessToken(accesstokentext);
+        AnalizationHelper.INSTANCE().setAccessTokenSecret(accesstokentextscrt);
+        AnalizationHelper.INSTANCE().setConsumerKey(consumerkeytext);
+        AnalizationHelper.INSTANCE().setConsumerSecret(consumerkeytextscrt);
+        AnalizationHelper.INSTANCE().setAnalyzation_folder(folder);
     }
 
     public static AnalizationHelper INSTANCE(){

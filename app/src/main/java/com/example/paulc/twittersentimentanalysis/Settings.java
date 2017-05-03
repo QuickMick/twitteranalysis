@@ -1,7 +1,9 @@
 package com.example.paulc.twittersentimentanalysis;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -39,11 +41,13 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String SHARED_PREFERENCES_KEY = "TWITTER_ANALYSIS_PREFERENCES";
+
     // declaration of views
     FontManager FM;
     TextView backicon;
     Button consumerkeybtn,consumerkeybtnscrt,accesstokenbtn,accesstokenbtnscrt,savebtn,validatebtn;
-    EditText consumerkeytxt,consumerkeytxtscrt,accesstokentxt,accesstokentxtscrt;
+    EditText consumerkeytxt,consumerkeytxtscrt,accesstokentxt,accesstokentxtscrt,foldertext;
 
     private ProgressDialog progressDialog;
 
@@ -67,10 +71,26 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onResume(){
         super.onResume();
+
+        SharedPreferences sharedPref = this.getSharedPreferences(Settings.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+
+        final String consumerkeytext = sharedPref.getString("consumerkey", "");
+        final String consumerkeytextscrt = sharedPref.getString("consumerkeyscrt", "");
+        final String accesstokentext = sharedPref.getString("accesstoken", "");
+        final String accesstokentextscrt = sharedPref.getString("accesstokenscrt", "");
+        final String folder = sharedPref.getString("folder", "twitter_results");
+
+        AnalizationHelper.INSTANCE().setAccessToken(accesstokentext);
+        AnalizationHelper.INSTANCE().setAccessTokenSecret(accesstokentextscrt);
+        AnalizationHelper.INSTANCE().setConsumerKey(consumerkeytext);
+        AnalizationHelper.INSTANCE().setConsumerSecret(consumerkeytextscrt);
+        AnalizationHelper.INSTANCE().setAnalyzation_folder(folder);
+
         consumerkeytxt.setText(AnalizationHelper.INSTANCE().getConsumerKey());
         consumerkeytxtscrt.setText(AnalizationHelper.INSTANCE().getConsumerSecret());
         accesstokentxt.setText(AnalizationHelper.INSTANCE().getAccessToken());
         accesstokentxtscrt.setText(AnalizationHelper.INSTANCE().getAccessTokenSecret());
+        foldertext.setText(AnalizationHelper.INSTANCE().getAnalyzation_folder());
     }
 
 
@@ -84,6 +104,9 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         accesstokenbtnscrt = (Button) findViewById(R.id.accesstokenbtnscrt);
         savebtn = (Button) findViewById(R.id.savebtn) ;
         validatebtn = (Button) findViewById(R.id.validatebtn) ;
+
+        foldertext = (EditText)findViewById(R.id.foldertext);
+
         //EditText
         consumerkeytxt = (EditText)findViewById(R.id.consumerkeytxt);
         consumerkeytxtscrt = (EditText)findViewById(R.id.consumerkeytxtscrt);
@@ -110,7 +133,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         final String consumerkeytextscrt = consumerkeytxtscrt.getText().toString().trim();
         final String accesstokentext = accesstokentxt.getText().toString().trim();
         final String accesstokentextscrt = accesstokentxtscrt.getText().toString().trim();
-
+        final String folder = foldertext.getText().toString().trim();
         //checking if the Consumer Key is empty or not.
         if (TextUtils.isEmpty(consumerkeytext)){
             Toast.makeText(this, "Please enter your Consumer Key", Toast.LENGTH_SHORT).show();
@@ -145,16 +168,26 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             public void onClick(View v) {
 
                 //Getting values to be stored
-                SettingsModel model = new SettingsModel(consumerkeytext, consumerkeytextscrt, accesstokentext, accesstokentextscrt); // @paul i think this is not needed anymore because we have no firebase anymore right?
+              //  SettingsModel model = new SettingsModel(consumerkeytext, consumerkeytextscrt, accesstokentext, accesstokentextscrt); // @paul i think this is not needed anymore because we have no firebase anymore right?
 
                 AnalizationHelper.INSTANCE().setAccessToken(accesstokentext);
                 AnalizationHelper.INSTANCE().setAccessTokenSecret(accesstokentextscrt);
                 AnalizationHelper.INSTANCE().setConsumerKey(consumerkeytext);
                 AnalizationHelper.INSTANCE().setConsumerSecret(consumerkeytextscrt);
+                AnalizationHelper.INSTANCE().setAnalyzation_folder(folder);
 
-                //TODO: @paul save in local encrypted storage an set following values
+                SharedPreferences sharedPref = Settings.this.getSharedPreferences(Settings.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
 
-                //checking if the data was inserted into the DB or not
+                editor.putString("consumerkey", consumerkeytext);
+                editor.putString("consumerkeyscrt", consumerkeytextscrt);
+                editor.putString("accesstoken", accesstokentext);
+                editor.putString("accesstokenscrt", accesstokentextscrt);
+                editor.putString("folder", folder);
+                editor.commit();
+
+                Toast.makeText(Settings.this,"Settings saved",Toast.LENGTH_SHORT).show();
+
 
             }
         });

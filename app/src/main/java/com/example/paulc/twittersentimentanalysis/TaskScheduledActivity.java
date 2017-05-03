@@ -1,8 +1,10 @@
 package com.example.paulc.twittersentimentanalysis;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +31,22 @@ public class TaskScheduledActivity extends AppCompatActivity implements View.OnC
         this.dismiss.setOnClickListener(this);
 
 
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        SharedPreferences sharedPref = this.getSharedPreferences(Settings.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+
+        int hour_interval = sharedPref.getInt("hour_interval", 0);
+        int min_interval = sharedPref.getInt("min_interval", 0);
+        int hour_duration=sharedPref.getInt("hour_duration", 0);
+        int min_duration=sharedPref.getInt("min_duration", 0);
+
+
+        this.duration.setText(String.format("%02d", hour_duration)+":"+String.format("%02d", min_duration));
+        this.interval.setText(String.format("%02d", hour_interval)+":"+String.format("%02d", min_interval));
     }
 
     @Override

@@ -143,6 +143,28 @@
                     android:textColor="#6b6b6b"
                     android:textColorHint="#806b6b6b" />
 
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.52"
+                    android:background="#a1e0a9"
+                    android:text="Output Folder"
+                    android:textColor="#ffffff" />
+
+                <EditText
+                    android:id="@+id/foldertext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.22"
+                    android:background="@drawable/roundedwhite"
+                    android:hint="Please enter output folder name"
+                    android:inputType="text"
+                    android:paddingLeft="10dp"
+                    android:textAlignment="center"
+                    android:textColor="#6b6b6b"
+                    android:textColorHint="#806b6b6b" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

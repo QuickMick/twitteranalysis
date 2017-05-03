@@ -86,7 +86,7 @@ public class TaskScheduledActivity extends AppCompatActivity implements View.OnC
         if(v == this.dismiss){
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Do you really want to dissmiss all scheduled tasks?");
+            builder.setTitle("Do you really want to dismiss all scheduled tasks?");
             builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     AnalysisSchedulTask.stopAlarm(TaskScheduledActivity.this);

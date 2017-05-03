@@ -51,7 +51,7 @@ public class TaskScheduledActivity extends AppCompatActivity implements View.OnC
 
         this.duration.setText(String.format("%02d", hour_duration)+":"+String.format("%02d", min_duration)+"h");
         this.interval.setText(String.format("%02d", hour_interval)+":"+String.format("%02d", min_interval)+"h");
-        this.folderLbl.setText(AnalizationHelper.INSTANCE().getAnalyzation_folder());
+        this.folderLbl.setText("/"+AnalizationHelper.INSTANCE().getAnalyzation_folder()+"/");
     }
 
     @Override

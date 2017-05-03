@@ -40,7 +40,6 @@ public class AnalizationHelper {
     }
 
     private AnalizationHelper(){
-        //TODO: @paul very importatn!! remove these keys and load them from the settings
      /*   this.consumerKey = "WTSdBrmGi9X3GlSW1OTMb0Xhj";
         this.consumerSecret = "2xPN57eBDYeqWPKVpmG95XrwjX6fq79fUS2ilC7sYNWEc25xIL";
         this.accessToken = "791421180129476609-Ld84Ity8cdq9i0a7GawzS1OxKzGYWtz";
@@ -63,11 +62,11 @@ public class AnalizationHelper {
         final String accesstokentextscrt = sharedPref.getString("accesstokenscrt", "");
         final String folder = sharedPref.getString("folder", "twitter_results");
 
-        AnalizationHelper.INSTANCE().setAccessToken(accesstokentext);
-        AnalizationHelper.INSTANCE().setAccessTokenSecret(accesstokentextscrt);
-        AnalizationHelper.INSTANCE().setConsumerKey(consumerkeytext);
-        AnalizationHelper.INSTANCE().setConsumerSecret(consumerkeytextscrt);
-        AnalizationHelper.INSTANCE().setAnalyzation_folder(folder);
+        this.setAccessToken(accesstokentext);
+        this.setAccessTokenSecret(accesstokentextscrt);
+        this.setConsumerKey(consumerkeytext);
+        this.setConsumerSecret(consumerkeytextscrt);
+        this.setAnalyzation_folder(folder);
     }
 
     public static AnalizationHelper INSTANCE(){
@@ -104,7 +103,7 @@ public class AnalizationHelper {
     }
 
     /**
-     * TODO: @paul pls add one option in the settings view, to specify the folder name for the analysis
+     *
      * @param analyzation_folder
      */
     public void setAnalyzation_folder(String analyzation_folder) {
@@ -275,35 +274,3 @@ public class AnalizationHelper {
 
 
 }
-/*
-class SayHello extends TimerTask {
-
-    private TwitterCrawler crawler;
-    public SayHello(TwitterCrawler c){
-        crawler = c;
-    }
-
-    public void run() {
-        Log.d("analizer","Current WORDCOUNT: "+crawler.getCurrentResult().wordCount);
-        System.out.println(crawler.getCurrentResult().wordCount);
-    }
-}*/
-
-
-/**
- * protected static void startTimer() {
- isTimerRunning = true;
- timer.scheduleAtFixedRate(new TimerTask() {
- public void run() {
- elapsedTime += 1; //increase every sec
- mHandler.obtainMessage(1).sendToTarget();
- }
- }, 0, 1000);
- }
-
- public Handler mHandler = new Handler() {
- public void handleMessage(Message msg) {
- StopWatch.time.setText(formatIntoHHMMSS(elapsedTime)); //this is the textview
- }
- };
- */

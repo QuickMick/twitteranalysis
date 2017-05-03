@@ -69,6 +69,8 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
 
     private Button showHistoryTimelineBtn;
 
+    private TextView folderTv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +79,8 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
         this.filesLv = (ListView)findViewById(R.id.fileslv);
         this.showHistoryTimelineBtn = (Button)findViewById(R.id.showhistorytimelinebtn);
         this.showHistoryTimelineBtn.setOnClickListener(this);
+
+        this.folderTv = (TextView)findViewById(R.id.folder);
 
         this.filesLv.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -96,7 +100,7 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
         super.onResume();
         AnalizationHelper.INSTANCE().loadSettings(this);
 
-
+        this.folderTv.setText("/"+AnalizationHelper.INSTANCE().getAnalyzation_folder()+"/");
         final ProgressDialog dialog = ProgressDialog.show(HistoryActivity.this, "","Loading History. Please wait...", true);
         new AsyncTask<Void, Void, Boolean>() {
             @Override

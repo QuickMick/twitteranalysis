@@ -81,6 +81,9 @@ public class ForegroundService extends Service {
             Log.d("AppD", "Received Start Foreground Intent ");
             AnalizationHelper.INSTANCE().recreate();
             AnalizationHelper.INSTANCE().init(this);
+
+            AnalizationHelper.INSTANCE().loadSettings(this);
+
             String keywords = intent.getStringExtra(ForegroundService.SEARCH_CRITERIA);
             AnalizationHelper.INSTANCE().setSaved(false);
             AnalizationHelper.INSTANCE().startAnalization(keywords,this);

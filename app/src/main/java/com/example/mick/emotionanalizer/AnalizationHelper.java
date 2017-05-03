@@ -69,6 +69,12 @@ public class AnalizationHelper {
         this.setConsumerKey(consumerkeytext);
         this.setConsumerSecret(consumerkeytextscrt);
         this.setAnalyzation_folder(folder);
+/*
+
+        this.consumerKey = "WTSdBrmGi9X3GlSW1OTMb0Xhj";
+        this.consumerSecret = "2xPN57eBDYeqWPKVpmG95XrwjX6fq79fUS2ilC7sYNWEc25xIL";
+        this.accessToken = "791421180129476609-Ld84Ity8cdq9i0a7GawzS1OxKzGYWtz";
+        this.AccessTokenSecret = "lOlxp3j603JJ4fZPJTl08PhEPnAZ30uJ6TmpYVwWCct1m";*/
     }
 
     public static AnalizationHelper INSTANCE(){

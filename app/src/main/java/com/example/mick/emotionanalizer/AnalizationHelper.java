@@ -15,6 +15,8 @@ import java.util.LinkedList;
  */
 public class AnalizationHelper {
 
+    public static final String TWITTER_EXPORTS_FOLDER = "twitter_exports";
+
     /**
      * this is true, while savin is in progress - so that we are able to block a new analization while saving
      */

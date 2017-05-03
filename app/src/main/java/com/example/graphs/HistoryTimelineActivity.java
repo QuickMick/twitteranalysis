@@ -1,6 +1,8 @@
 package com.example.graphs;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -13,13 +15,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.emotionanalizer.AnalizationResult;
 import com.example.mick.emotionanalizer.EmotionWeighting;
+import com.example.mick.service.AnalysisSchedulTask;
 import com.example.mick.service.Constants;
+import com.example.paulc.twittersentimentanalysis.HistoryActivity;
 import com.example.paulc.twittersentimentanalysis.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
@@ -31,8 +36,11 @@ import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,12 +65,17 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
     private GraphView graph;
     private boolean showSentiment=false;
 
+    private Button exportCsvButton;
+
+    private DisplayValue[] displayValues;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_timeline);
         this.graph = (GraphView) findViewById(R.id.graph);
-
+        this.exportCsvButton = (Button)findViewById(R.id.exportcsvbtn);
+        this.exportCsvButton.setOnClickListener(this);
         this.initGraph();
 
 
@@ -79,6 +92,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                     Toast.makeText(HistoryTimelineActivity.this, "Error while loading files",Toast.LENGTH_SHORT).show();
                     finish();
                 }
+                HistoryTimelineActivity.this.displayValues = r;
                 HistoryTimelineActivity.this.updateGraph(r);
                 dialog.dismiss();
             }
@@ -290,15 +304,15 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
     }
 
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-    private void requistPermission(){
+    private boolean requistPermission(){
         String state = Environment.getExternalStorageState();
         if (!Environment.MEDIA_MOUNTED.equals(state)){
             Toast.makeText(this, "Error: external storage is unavailable",Toast.LENGTH_SHORT).show();
-            return;
+            return false;
         }
         if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
             Toast.makeText(this, "Error: external storage is read only.",Toast.LENGTH_SHORT).show();
-            return ;
+            return false;
         }
         Log.d("myAppName", "External storage is not read only or unavailable");
 
@@ -313,6 +327,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                 // Show an expanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
+            //    return false;
 
             } else {
                 // No explanation needed, we can request the permission.
@@ -322,17 +337,184 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
                 // result of the request.
+
             }
         }
+        return true;
+
     }
 
     @Override
     public void onClick(View v) {
         if(v == this.graph){
             this.showSentiment = !this.showSentiment;
-
             this.addSeries();
+
+        }else if(v == this.exportCsvButton){
+            this.exportAsCSV();
         }
+    }
+
+
+    private void exportAsCSV(){
+        final DateFormat format = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
+        final String fileName = AnalizationHelper.INSTANCE().getAnalyzation_folder()+"_"+format.format(HistoryTimelineActivity.this.displayValues[0].startDate)+"_-_" + format.format(HistoryTimelineActivity.this.displayValues[HistoryTimelineActivity.this.displayValues.length-1].startDate) + ".csv";
+
+        final File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.TWITTER_EXPORTS_FOLDER); // AnalizationHelper.INSTANCE().getAnalyzation_folder());
+        final File myFile = new File(mydir, fileName);
+
+        if(myFile.exists()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("*.CSV already exists. Do you want to override it??");
+            builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    //delete
+                    HistoryTimelineActivity.this.createCSV(mydir,myFile,format);
+                    dialog.dismiss();
+                }
+            });
+
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    //cancel
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+        }else{
+            HistoryTimelineActivity.this.createCSV(mydir,myFile,format);
+        }
+
+    }
+
+    private void createCSV(final File mydir, final File myFile,final DateFormat format){
+
+
+
+
+        final ProgressDialog dialog = ProgressDialog.show(HistoryTimelineActivity.this, "","Saving. Please wait...", true);
+        new AsyncTask<Void, Void, String>(){
+            @Override
+            protected String doInBackground (Void...params){
+
+                if(!HistoryTimelineActivity.this.requistPermission()){
+                    return "External Storage unavailable";
+                }
+
+                String SEPERATOR= ";";
+
+                String time="Time";
+                String timecode="Millis";
+
+                String anger="Anger";
+                String anticipation="Anticipation";
+                String disgust="Disgust";
+                String fear="Fear";
+                String joy="Joy";
+                String sadness="Sadness";
+                String surprise="Surprise";
+                String trust="Trust";
+
+                String sentiment_negative="Negative";
+                String sentiment_positive="Positive";
+
+
+
+                String anger_p="Anger";
+                String anticipation_p="Anticipation";
+                String disgust_p="Disgust";
+                String fear_p="Fear";
+                String joy_p="Joy";
+                String sadness_p="Sadness";
+                String surprise_p="Surprise";
+                String trust_p="Trust";
+
+                String sentiment_negative_p="Negative";
+                String sentiment_positive_p="Positive";
+
+
+                for(DisplayValue dv : HistoryTimelineActivity.this.displayValues) {
+
+                    time+=SEPERATOR+format.format(dv.startDate);
+                    timecode+=SEPERATOR+dv.startDate.getTime();
+
+                    anger+=SEPERATOR+dv.weigthing.anger;
+                    anticipation+=SEPERATOR+dv.weigthing.anticipation;
+                    disgust+=SEPERATOR+dv.weigthing.disgust;
+                    fear+=SEPERATOR+dv.weigthing.fear;
+                    joy+=SEPERATOR+dv.weigthing.joy;
+                    sadness+=SEPERATOR+dv.weigthing.sadness;
+                    surprise+=SEPERATOR+dv.weigthing.surprise;
+                    trust+=SEPERATOR+dv.weigthing.trust;
+
+                    sentiment_negative+=SEPERATOR+dv.weigthing.sentiment_negative;
+                    sentiment_positive+=SEPERATOR+dv.weigthing.sentiment_positive;
+
+                    double emotionTotal = dv.weigthing.getTotalEmotion();
+                    double sentimentTotal = dv.weigthing.getTotalSentiment();
+
+                    if(emotionTotal==0)emotionTotal=1;
+                    if(sentimentTotal==0)sentimentTotal=1;
+
+                    time+=SEPERATOR+format.format(dv.startDate);
+                    timecode+=SEPERATOR+dv.startDate.getTime();
+
+                    anger_p+=SEPERATOR+((((double)dv.weigthing.anger)/emotionTotal) *100d);
+                    anticipation_p+=SEPERATOR+((((double)dv.weigthing.anticipation)/emotionTotal) *100d);
+                    disgust_p+=SEPERATOR+((((double)dv.weigthing.disgust)/emotionTotal) *100d);
+                    fear_p+=SEPERATOR+((((double)dv.weigthing.fear)/emotionTotal) *100d);
+                    joy_p+=SEPERATOR+((((double)dv.weigthing.joy)/emotionTotal) *100d);
+                    sadness_p+=SEPERATOR+((((double)dv.weigthing.sadness)/emotionTotal) *100d);
+                    surprise_p+=SEPERATOR+((((double)dv.weigthing.surprise)/emotionTotal) *100d);
+                    trust_p+=SEPERATOR+((((double)dv.weigthing.trust)/emotionTotal) *100d);
+
+                    sentiment_negative_p+=SEPERATOR+((((double)dv.weigthing.sentiment_negative)/sentimentTotal) *100d);
+                    sentiment_positive_p+=SEPERATOR+((((double)dv.weigthing.sentiment_positive)/sentimentTotal) *100d);
+
+
+                }
+
+                String csv ="Total\n"+time+"\n"+timecode+"\n"+anger+"\n"+anticipation+"\n"+disgust+"\n"+fear+"\n"+joy+"\n"+sadness+"\n"+surprise+"\n"+trust+"\n"+sentiment_negative+"\n"+sentiment_positive;
+                csv +="\n\nPercent\n"+time+"\n"+timecode+"\n"+anger_p+"\n"+anticipation_p+"\n"+disgust_p+"\n"+fear_p+"\n"+joy_p+"\n"+sadness_p+"\n"+surprise_p+"\n"+trust_p+"\n"+sentiment_negative_p+"\n"+sentiment_positive_p;
+
+
+                try {
+                  //  File mydir = new File(Environment.getExternalStorageDirectory(), AnalizationHelper.INSTANCE().getAnalyzation_folder());
+                    if (!mydir.exists()) {
+                        mydir.mkdirs();
+                    }
+
+                  //  File myFile = new File(mydir, fileName);
+
+                    Log.d("AppD", "save file: " + myFile.getAbsolutePath());
+
+                    myFile.createNewFile();
+                    FileOutputStream fOut = new FileOutputStream(myFile);
+                    OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
+                    myOutWriter.append(csv);
+                    myOutWriter.close();
+                    fOut.close();
+
+
+                    return null;    // saving successfull
+
+                } catch (Exception e) {
+
+                    return e.getMessage();   // saving not sucessful
+                }
+            }
+
+            protected void onPostExecute (String result){
+
+                dialog.dismiss();
+                if(result==null) {
+                    Toast.makeText(HistoryTimelineActivity.this, "Done writing Summary *.CSV to SD Card Folder (SD/"+AnalizationHelper.TWITTER_EXPORTS_FOLDER+") Filename "+myFile.getName(), Toast.LENGTH_LONG).show();
+                    HistoryTimelineActivity.this.exportCsvButton.setVisibility(Button.INVISIBLE);
+                }else{
+                    Toast.makeText(HistoryTimelineActivity.this, "Error while saving: " + result, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }.execute();
     }
 
     class DisplayValue{

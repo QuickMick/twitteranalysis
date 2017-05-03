@@ -160,12 +160,12 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             // here we will stop the function from execution further
             return;
         }
-
+/*
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override
 
             public void onClick(View v) {
-
+*/
                 //Getting values to be stored
               //  SettingsModel model = new SettingsModel(consumerkeytext, consumerkeytextscrt, accesstokentext, accesstokentextscrt); // @paul i think this is not needed anymore because we have no firebase anymore right?
 
@@ -187,9 +187,9 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
                 Toast.makeText(Settings.this,"Settings saved",Toast.LENGTH_SHORT).show();
 
-
+/*
             }
-        });
+        });*/
     }
 
 
@@ -214,14 +214,14 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             SaveData();
 
             // redirect to the Main Activity, once the Data has been stored, after 5 seconds.
-            new Handler().postDelayed(new Runnable() {
+           /* new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     final Intent mainIntent = new Intent(Settings.this, MainActivity.class);
                     Settings.this.startActivity(mainIntent);
                     Settings.this.finish();
                 }
-            }, 5000);
+            }, 5000);*/
 
 
         }else if( view == validatebtn){

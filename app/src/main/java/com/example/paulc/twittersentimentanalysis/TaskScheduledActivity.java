@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.service.AnalysisSchedulTask;
 
 public class TaskScheduledActivity extends AppCompatActivity implements View.OnClickListener{
@@ -36,6 +37,8 @@ public class TaskScheduledActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onResume(){
         super.onResume();
+
+        AnalizationHelper.INSTANCE().loadSettings(this);
 
         SharedPreferences sharedPref = this.getSharedPreferences(Settings.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
 

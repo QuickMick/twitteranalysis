@@ -257,7 +257,6 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
 
             protected void onPostExecute (String result){
 
-
                 if(result==null) {
                     Toast.makeText(context, "Done writing data to SD Card", Toast.LENGTH_SHORT).show();
                 }else{

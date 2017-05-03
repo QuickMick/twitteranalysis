@@ -9,10 +9,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class AnalizationResult{
@@ -217,6 +220,28 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 
 	public HashMap<String,Integer> wordStatistic_sentiment_negative = new HashMap<String,Integer>();
 	public HashMap<String,Integer> wordStatistic_sentiment_positive = new HashMap<String,Integer>();
+
+
+	public static List<Map.Entry<String,Integer>> getTopList(HashMap<String,Integer> in){
+
+
+		List<Map.Entry<String,Integer>> entries = new ArrayList<Map.Entry<String,Integer>>( in.entrySet());
+
+		Collections.sort(
+				entries
+				,   new Comparator<Map.Entry<String,Integer>>() {
+					public int compare(Map.Entry<String,Integer> a, Map.Entry<String,Integer> b) {
+						if(b.getValue() > a.getValue()) return 1;
+						else if(b.getValue() < a.getValue()) return -1;
+
+						return 0;
+					}
+				}
+		);
+
+		return entries;
+	}
+
 
 
 	public String toString(){

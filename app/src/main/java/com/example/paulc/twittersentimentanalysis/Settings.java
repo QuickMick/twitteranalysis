@@ -21,8 +21,6 @@ import android.os.Handler;
 
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.service.ForegroundService;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 import org.w3c.dom.Text;
 

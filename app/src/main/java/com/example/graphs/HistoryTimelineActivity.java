@@ -49,6 +49,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import twitter4j.FilterQuery;
 
@@ -119,7 +121,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
                 AnalizationResult ar = AnalizationResult.createFromJSON(this.loadJSONFromFolder(f));
                 //   public DisplayValue(EmotionWeighting w, Date d, int words, int sentences, int tweets, int analizedWords){
-                result.add(new DisplayValue(ar.weigthing,ar.startDate,ar.wordCount,ar.sentenceCount,ar.tweetCount,ar.wordCountAnalized));
+                result.add(new DisplayValue(ar.weigthing,ar.startDate,ar.wordCount,ar.sentenceCount,ar.tweetCount,ar.wordCountAnalized,ar));
             }
 
         } catch (JSONException e) {
@@ -436,14 +438,29 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                 String surprise_p="Surprise";
                 String trust_p="Trust";
 
+                String sentiment_negative_p="Negative";
+                String sentiment_positive_p="Positive";
+
                 String totalTweets = "Amount of Tweet";
                 String totalSentences = "Amount of Sentences";
                 String totalWords = "Amount of Word";
                 String analizedWords = "Analized Words";
+                String differentWords = "Different Words";
 
 
-                String sentiment_negative_p="Negative";
-                String sentiment_positive_p="Positive";
+                String overall_top="Overall Top-List";
+                String anger_top="Anger Top-List";
+                String anticipation_top="Anticipation Top-List";
+                String disgust_top="Disgust Top-List";
+                String fear_top="Fear Top-List";
+                String joy_top="Joy Top-List";
+                String sadness_top="Sadness Top-List";
+                String surprise_top="Surprise Top-List";
+                String trust_top="Trust Top-List";
+
+                String sentiment_negative_top="Negative Top-List";
+                String sentiment_positive_top="Positive Top-List";
+
 
                 final DateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
@@ -456,7 +473,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                     totalSentences += SEPERATOR+dv.sentences;
                     totalWords += SEPERATOR+dv.words;
                     analizedWords += SEPERATOR+dv.analizedWords;
-
+                    differentWords += SEPERATOR+dv.source.wordStatistic_all.size();
 
                     anger+=SEPERATOR+dv.weigthing.anger;
                     anticipation+=SEPERATOR+dv.weigthing.anticipation;
@@ -490,6 +507,25 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
                     sentiment_negative_p+=SEPERATOR+((((double)dv.weigthing.sentiment_negative)/sentimentTotal) *100d);
                     sentiment_positive_p+=SEPERATOR+((((double)dv.weigthing.sentiment_positive)/sentimentTotal) *100d);
+
+
+
+
+                    int TOPLIST_ELEMENTS = 10;
+                    overall_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_all),SEPERATOR);
+                    anger_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_anger),SEPERATOR);
+                    anticipation_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_anticipation),SEPERATOR);
+                    disgust_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_disgust),SEPERATOR);
+                    fear_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_fear),SEPERATOR);
+                    joy_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_joy),SEPERATOR);
+                    sadness_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_sadness),SEPERATOR);
+                    surprise_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_surprise),SEPERATOR);
+                    trust_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_trust),SEPERATOR);
+
+                    sentiment_negative_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_sentiment_negative),SEPERATOR);
+                    sentiment_positive_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_sentiment_positive),SEPERATOR);
+
+
                 }
 
                /* String csv ="Total\n"+timecode+"\n"+time+"\n"+anger+"\n"+anticipation+"\n"+disgust+"\n"+fear+"\n"+joy+"\n"+sadness+"\n"+surprise+"\n"+trust+"\n"+sentiment_negative+"\n"+sentiment_positive;
@@ -501,9 +537,11 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                 String percentCaption="\n\nPercent Emotion Values\n";//+timecode+"\n"+time+"\n";
 
                 String percentData =anger_p+"\n"+anticipation_p+"\n"+disgust_p+"\n"+fear_p+"\n"+joy_p+"\n"+sadness_p+"\n"+surprise_p+"\n"+trust_p+"\n\nPercent Sentiment Values\n"+sentiment_negative_p+"\n"+sentiment_positive_p;
-                String statistic="\n\nStatistic\n"+totalTweets+"\n"+totalSentences+"\n"+totalWords+"\n"+analizedWords+"\n";
+                String statistic="\n\nStatistic\n"+totalTweets+"\n"+totalSentences+"\n"+totalWords+"\n"+analizedWords+"\n"+differentWords+"\n";
 
-                String csv=totalCaption+totalData.replace(".",",")+percentCaption+percentData.replace(".",",")+statistic;
+                String topLists= "\n\nOverall Top-List\n"+overall_top+"\n\nEmotion: Word Top-Lists\n"+anger_top+"\n"+anticipation_top+"\n"+disgust_top+"\n"+fear_top+"\n"+joy_top+"\n"+sadness_top+"\n"+surprise_top+"\n"+trust_top+"\n\nSentiment: Word Top-List\n"+sentiment_negative_top+"\n"+sentiment_positive_top;
+
+                String csv=totalCaption+totalData.replace(".",",")+percentCaption+percentData.replace(".",",")+statistic+topLists;
 
 
                 try {
@@ -546,6 +584,23 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
         }.execute();
     }
 
+
+    private String wordListToString(int n, List<Map.Entry<String,Integer>> list, String separator){
+        if(list.size() <=0)return "\"\"";
+        String result = "\"";
+        List<Map.Entry<String,Integer>> subItems = list.subList(0, Math.min(list.size(), n));
+
+        for(Map.Entry<String,Integer> e : subItems){
+            result+=e.getKey()+":"+e.getValue()+"\n";//+separator+" ";  //TODO: wozld it be better to remove the newline and replace it again with seperator+whitespace? but excel works fine with this
+        }
+
+        result = result.substring(0, result.length() - 2);  //remove last separator and newLine
+
+        result+="\"";
+
+        return result;
+    }
+
     private void shareFile(final File myFile,final String msg){
         AlertDialog.Builder builder = new AlertDialog.Builder(HistoryTimelineActivity.this);
         builder.setTitle(msg);
@@ -579,13 +634,15 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
         int analizedWords;
         int tweets;
         Date startDate;
-        public DisplayValue(EmotionWeighting w, Date d, int words, int sentences, int tweets, int analizedWords){
+        transient AnalizationResult source;
+        public DisplayValue(EmotionWeighting w, Date d, int words, int sentences, int tweets, int analizedWords,AnalizationResult ar){
             this.weigthing = w;
             this.startDate = d;
             this.words = words;
             this.sentences = sentences;
             this.tweets = tweets;
             this.analizedWords = analizedWords;
+            this.source = ar;
         }
     }
 }

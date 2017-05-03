@@ -25,9 +25,6 @@ import com.example.graphs.BarChartActivity;
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.service.AnalysisSchedulTask;
 import com.example.mick.service.Constants;
-import com.example.mick.service.ForegroundService;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 import org.w3c.dom.Text;
 

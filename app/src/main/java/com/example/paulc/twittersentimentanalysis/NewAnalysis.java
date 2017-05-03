@@ -148,7 +148,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                         backicon.setEnabled(true);
                         go.setEnabled(true);
                         searchcriteria.setEnabled(true);
-
+result = true; //TODO: remove this line
                         if (result) {
                             if(view == NewAnalysis.this.go) {
                                 Intent startIntent = new Intent(NewAnalysis.this, ForegroundService.class);
@@ -229,8 +229,12 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void onTimeSet(TimePicker view, final int hourOfDay, final int minute) {
 
-                        new DialogFragment() {
+                        if(hourOfDay == 0 && minute ==0){
+                            Toast.makeText(NewAnalysis.this,"Invalid interval of zero length",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
+                        new DialogFragment() {
                             @Override
                             public Dialog onCreateDialog(Bundle savedInstanceState) {
                                 //Use the current time as the default values for the time picker
@@ -240,21 +244,35 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                                     @Override
                                     public void onTimeSet(TimePicker view, final int hourOfDay_duration, final int minute_duration) {
 
+                                        if(hourOfDay_duration == 0 && minute_duration ==0){
+                                            Toast.makeText(NewAnalysis.this,"Invalid duration of zero length",Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+
+                                      /*  if((hourOfDay <= hourOfDay_duration && minute <= minute_duration)
+                                                ||(hourOfDay <= hourOfDay_duration)){*/
+
+                                        if((hourOfDay < hourOfDay_duration)
+                                                || (hourOfDay == hourOfDay_duration && minute <= minute_duration)){
+
+                                            Toast.makeText(NewAnalysis.this,"Duration has to be smaller then the interval",Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+
+
                                         AnalysisSchedulTask.startAlarm(NewAnalysis.this,keywords,hourOfDay,minute,hourOfDay_duration,minute_duration);
 
                                         Log.d("analysis_schedule","Analysis scheduled each "+hourOfDay+":"+minute+" with the duration of "+hourOfDay_duration+":"+minute_duration);
-                                        Toast.makeText(NewAnalysis.this,"Analysis scheduled each "+hourOfDay+":"+minute+" with the duration of "+hourOfDay_duration+":"+minute_duration,Toast.LENGTH_SHORT).show();
+
+                                        Toast.makeText(NewAnalysis.this,"Analysis scheduled each "+String.format("%02d",hourOfDay)+":"+String.format("%02d",minute)+" with the duration of "+String.format("%02d",hourOfDay_duration)+":"+String.format("%02d",minute_duration),Toast.LENGTH_SHORT).show();
                                         NewAnalysis.this.finish();
                                     }
                                 }, 0, 0, true);
-
                             }
                         }.show(NewAnalysis.this.getFragmentManager(),"Duration-Picker");
+
+
                         Toast.makeText(NewAnalysis.this,"Select duration of each Analysis (cannot be greater than your interval of "+hourOfDay+":"+minute+")",Toast.LENGTH_SHORT).show();
-
-
-
-
 
                     }
                 }, 0, 0, true);

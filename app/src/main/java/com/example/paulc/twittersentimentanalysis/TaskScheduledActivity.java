@@ -45,8 +45,8 @@ public class TaskScheduledActivity extends AppCompatActivity implements View.OnC
         int min_duration=sharedPref.getInt("min_duration", 0);
 
 
-        this.duration.setText(String.format("%02d", hour_duration)+":"+String.format("%02d", min_duration));
-        this.interval.setText(String.format("%02d", hour_interval)+":"+String.format("%02d", min_interval));
+        this.duration.setText(String.format("%02d", hour_duration)+":"+String.format("%02d", min_duration)+"h");
+        this.interval.setText(String.format("%02d", hour_interval)+":"+String.format("%02d", min_interval)+"h");
     }
 
     @Override

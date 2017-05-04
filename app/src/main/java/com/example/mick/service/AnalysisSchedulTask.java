@@ -167,7 +167,7 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
         }
 
 
-        if(AnalizationHelper.INSTANCE().isRunning()){
+        if(AnalizationHelper.INSTANCE().isRunning() || isAnalizing || safeFromService){
             Toast.makeText(context, "Cannot start scheduled Analysis Task, because Analysis already running! Waiting for next interval.", Toast.LENGTH_SHORT).show();
             return;
         }

@@ -3,6 +3,7 @@ package com.example.mick.emotionanalizer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.paulc.twittersentimentanalysis.Settings;
@@ -16,6 +17,7 @@ import java.util.LinkedList;
 public class AnalizationHelper {
 
     public static final String TWITTER_EXPORTS_FOLDER = "twitter_exports";
+    public static final String TWITTER_DEFAULT_PROJECT_FOLDER = "twitter_results";
 
     /**
      * this is true, while savin is in progress - so that we are able to block a new analization while saving
@@ -42,17 +44,6 @@ public class AnalizationHelper {
     }
 
     private AnalizationHelper(){
-     /*   this.consumerKey = "WTSdBrmGi9X3GlSW1OTMb0Xhj";
-        this.consumerSecret = "2xPN57eBDYeqWPKVpmG95XrwjX6fq79fUS2ilC7sYNWEc25xIL";
-        this.accessToken = "791421180129476609-Ld84Ity8cdq9i0a7GawzS1OxKzGYWtz";
-        this.AccessTokenSecret = "lOlxp3j603JJ4fZPJTl08PhEPnAZ30uJ6TmpYVwWCct1m";*/
-
-
-
-
-
-
-        //analyzation_folder= "twitter_results";
     }
 
     public void loadSettings(Context a){
@@ -62,19 +53,16 @@ public class AnalizationHelper {
         final String consumerkeytextscrt = sharedPref.getString("consumerkeyscrt", "").trim();
         final String accesstokentext = sharedPref.getString("accesstoken", "").trim();
         final String accesstokentextscrt = sharedPref.getString("accesstokenscrt", "").trim();
-        final String folder = sharedPref.getString("folder", "twitter_results").trim();
+        String folderX = sharedPref.getString("folder",TWITTER_DEFAULT_PROJECT_FOLDER).trim();
+        final String folder = TextUtils.isEmpty(folderX) ? TWITTER_DEFAULT_PROJECT_FOLDER : folderX;
+
+
 
         this.setAccessToken(accesstokentext);
         this.setAccessTokenSecret(accesstokentextscrt);
         this.setConsumerKey(consumerkeytext);
         this.setConsumerSecret(consumerkeytextscrt);
         this.setAnalyzation_folder(folder);
-/*
-
-        this.consumerKey = "WTSdBrmGi9X3GlSW1OTMb0Xhj";
-        this.consumerSecret = "2xPN57eBDYeqWPKVpmG95XrwjX6fq79fUS2ilC7sYNWEc25xIL";
-        this.accessToken = "791421180129476609-Ld84Ity8cdq9i0a7GawzS1OxKzGYWtz";
-        this.AccessTokenSecret = "lOlxp3j603JJ4fZPJTl08PhEPnAZ30uJ6TmpYVwWCct1m";*/
     }
 
     public static AnalizationHelper INSTANCE(){

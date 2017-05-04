@@ -158,6 +158,12 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
             // here we will stop the function from execution further
             return;
         }
+
+        if (folder != null && !folder.matches("[a-zA-Z0-9-_]+")){
+            Toast.makeText(this, "Folder name contains prohibited characters", Toast.LENGTH_SHORT).show();
+            // here we will stop the function from execution further
+            return;
+        }
 /*
         savebtn.setOnClickListener(new View.OnClickListener() {
             @Override

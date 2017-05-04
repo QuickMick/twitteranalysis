@@ -15,8 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,9 +22,7 @@ import android.widget.Toast;
 import com.example.mick.emotionanalizer.AnalizationHelper;
 import com.example.mick.emotionanalizer.AnalizationResult;
 import com.example.mick.emotionanalizer.EmotionWeighting;
-import com.example.mick.service.AnalysisSchedulTask;
 import com.example.mick.service.Constants;
-import com.example.paulc.twittersentimentanalysis.HistoryActivity;
 import com.example.paulc.twittersentimentanalysis.R;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.LegendRenderer;
@@ -45,16 +41,17 @@ import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import twitter4j.FilterQuery;
-
 public class HistoryTimelineActivity extends AppCompatActivity  implements View.OnClickListener{
+
+
+    public static final String SEPERATOR= ";";
+
 
     LineGraphSeries<DataPoint> anger_series = new LineGraphSeries<DataPoint>();
     LineGraphSeries<DataPoint> anticipation_series = new LineGraphSeries<DataPoint>();
@@ -121,7 +118,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
                 AnalizationResult ar = AnalizationResult.createFromJSON(this.loadJSONFromFolder(f));
                 //   public DisplayValue(EmotionWeighting w, Date d, int words, int sentences, int tweets, int analizedWords){
-                result.add(new DisplayValue(ar.weigthing,ar.startDate,ar.wordCount,ar.sentenceCount,ar.tweetCount,ar.wordCountAnalized,ar));
+                result.add(new DisplayValue(ar));
             }
 
         } catch (JSONException e) {
@@ -410,8 +407,6 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                     return "External Storage unavailable";
                 }
 
-                String SEPERATOR= ";";
-
                 String time="Time";
                 String timecode="Millis";
 
@@ -473,7 +468,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                     totalSentences += SEPERATOR+dv.sentences;
                     totalWords += SEPERATOR+dv.words;
                     analizedWords += SEPERATOR+dv.analizedWords;
-                    differentWords += SEPERATOR+dv.source.wordStatistic_all.size();
+                    differentWords += SEPERATOR+dv.different_words_count;
 
                     anger+=SEPERATOR+dv.weigthing.anger;
                     anticipation+=SEPERATOR+dv.weigthing.anticipation;
@@ -509,18 +504,18 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
 
                     int TOPLIST_ELEMENTS = 10;
-                    overall_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_all),SEPERATOR);
-                    anger_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_anger),SEPERATOR);
-                    anticipation_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_anticipation),SEPERATOR);
-                    disgust_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_disgust),SEPERATOR);
-                    fear_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_fear),SEPERATOR);
-                    joy_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_joy),SEPERATOR);
-                    sadness_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_sadness),SEPERATOR);
-                    surprise_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_surprise),SEPERATOR);
-                    trust_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_trust),SEPERATOR);
+                    overall_top     +=SEPERATOR+dv.overall_top;
+                    anger_top       +=SEPERATOR+dv.anger_top;
+                    anticipation_top+=SEPERATOR+dv.anticipation_top;
+                    disgust_top     +=SEPERATOR+dv.disgust_top;
+                    fear_top        +=SEPERATOR+dv.fear_top;
+                    joy_top         +=SEPERATOR+dv.joy_top;
+                    sadness_top     +=SEPERATOR+dv.sadness_top;
+                    surprise_top    +=SEPERATOR+dv.surprise_top;
+                    trust_top       +=SEPERATOR+dv.trust_top;
 
-                    sentiment_negative_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_sentiment_negative),SEPERATOR);
-                    sentiment_positive_top+=SEPERATOR+HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENTS,AnalizationResult.getTopList(dv.source.wordStatistic_sentiment_positive),SEPERATOR);
+                    sentiment_negative_top+=SEPERATOR+dv.sentiment_negative_top;
+                    sentiment_positive_top+=SEPERATOR+dv.sentiment_positive_top;
 
 
                 }
@@ -625,21 +620,53 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
     }
 
     class DisplayValue{
+        public static final int TOPLIST_ELEMENT_COUNT = 10;
         EmotionWeighting weigthing;
         int words;
         int sentences;
         int analizedWords;
         int tweets;
         Date startDate;
-        transient AnalizationResult source;
-        public DisplayValue(EmotionWeighting w, Date d, int words, int sentences, int tweets, int analizedWords,AnalizationResult ar){
-            this.weigthing = w;
-            this.startDate = d;
-            this.words = words;
-            this.sentences = sentences;
-            this.tweets = tweets;
-            this.analizedWords = analizedWords;
-            this.source = ar;
+        int different_words_count=0;
+
+        String overall_top="";
+        String anger_top="";
+        String anticipation_top="";
+        String disgust_top="";
+        String fear_top="";
+        String joy_top="";
+        String sadness_top="";
+        String surprise_top="";
+        String trust_top="";
+
+        String sentiment_negative_top="";
+        String sentiment_positive_top="";
+
+        public DisplayValue(AnalizationResult ar){
+            this.weigthing = ar.weigthing;
+            this.startDate = ar.startDate;
+            this.words = ar.wordCount;
+            this.sentences = ar.sentenceCount;
+            this.tweets = ar.tweetCount;
+            this.analizedWords = ar.wordCountAnalized;
+
+            this.different_words_count=ar.wordStatistic_all.size();
+
+            this.overall_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_all),SEPERATOR);
+            this.anger_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_anger),SEPERATOR);
+            this.anticipation_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_anticipation),SEPERATOR);
+            this.disgust_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_disgust),SEPERATOR);
+            this.fear_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_fear),SEPERATOR);
+            this.joy_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_joy),SEPERATOR);
+            this.sadness_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_sadness),SEPERATOR);
+            this.surprise_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_surprise),SEPERATOR);
+            this.trust_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_trust),SEPERATOR);
+
+            this.sentiment_negative_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_sentiment_negative),SEPERATOR);
+            this.sentiment_positive_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_sentiment_positive),SEPERATOR);
+
         }
+
+
     }
 }

@@ -524,7 +524,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                 csv +="\n\nPercent\n"+timecode+"\n"+time+"\n"+anger_p+"\n"+anticipation_p+"\n"+disgust_p+"\n"+fear_p+"\n"+joy_p+"\n"+sadness_p+"\n"+surprise_p+"\n"+trust_p+"\n"+sentiment_negative_p+"\n"+sentiment_positive_p;
                 csv +="\n\nStatistic\n"+totalTweets+"\n"+totalSentences+"\n"+totalWords+"\n"+analizedWords+"\n";
                 csv=csv.replace(".",",");*/
-                String totalCaption="TIME\n"+timecode+"\n"+time+"\n\nTotal Emotion Values";
+                String totalCaption="TIME\n"+timecode+"\n"+time+"\n\nTotal Emotion Values\n";
                 String totalData =anger+"\n"+anticipation+"\n"+disgust+"\n"+fear+"\n"+joy+"\n"+sadness+"\n"+surprise+"\n"+trust+"\n\nTotal Sentiment Values\n"+sentiment_negative+"\n"+sentiment_positive;
                 String percentCaption="\n\nPercent Emotion Values\n";//+timecode+"\n"+time+"\n";
 

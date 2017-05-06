@@ -9,10 +9,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_weight="8"
         android:background="#278e88"
         android:orientation="vertical"
-        android:weightSum="8">
+        android:layout_height="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,30 +23,27 @@
                 android:id="@+id/backicon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="120dp"
                 android:gravity="center"
-                android:text="      Settings"
+                android:text="Settings"
                 android:textColor="#ffffff"
-                android:textSize="@dimen/h1" />
+                android:textSize="@dimen/h1"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
 
         </RelativeLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="6.01"
+            android:layout_weight="5"
             android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="10">
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="425dp"
+                android:layout_height="match_parent"
                 android:layout_weight="7"
                 android:orientation="vertical"
                 android:weightSum="5">
@@ -54,8 +51,8 @@
                 <Button
                     android:id="@+id/consumerkeybtn"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="2dp"
                     android:layout_weight="0.52"
                     android:background="#a1e0a9"
                     android:text="Consumer Key"
@@ -65,20 +62,20 @@
                     android:id="@+id/consumerkeytxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.22"
+                    android:layout_weight="0.02"
                     android:background="@drawable/roundedwhite"
                     android:hint="Please enter the Consumer Key"
-                    android:textAlignment="center"
                     android:inputType="text"
                     android:paddingLeft="10dp"
+                    android:textAlignment="center"
                     android:textColor="#6b6b6b"
                     android:textColorHint="#806b6b6b" />
 
                 <Button
                     android:id="@+id/consumerkeybtnscrt"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0.52"
                     android:background="#a1e0a9"
                     android:text="Consumer Secret Key"
@@ -88,20 +85,20 @@
                     android:id="@+id/consumerkeytxtscrt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.22"
+                    android:layout_weight="0.19"
                     android:background="@drawable/roundedwhite"
                     android:hint="Please enter the Secret  Key"
-                    android:textAlignment="center"
                     android:inputType="text"
                     android:paddingLeft="10dp"
+                    android:textAlignment="center"
                     android:textColor="#6b6b6b"
                     android:textColorHint="#806b6b6b" />
 
                 <Button
                     android:id="@+id/accesstokenbtn"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0.52"
                     android:background="#a1e0a9"
                     android:text="Access Token"
@@ -111,20 +108,20 @@
                     android:id="@+id/accesstokentxt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.22"
+                    android:layout_weight="0.19"
                     android:background="@drawable/roundedwhite"
                     android:hint="Please enter the Access Token"
-                    android:textAlignment="center"
                     android:inputType="text"
                     android:paddingLeft="10dp"
+                    android:textAlignment="center"
                     android:textColor="#6b6b6b"
                     android:textColorHint="#806b6b6b" />
 
                 <Button
                     android:id="@+id/accesstokenbtnscrt"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0.52"
                     android:background="#a1e0a9"
                     android:text="Access Token Secret Key"
@@ -134,7 +131,7 @@
                     android:id="@+id/accesstokentxtscrt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.22"
+                    android:layout_weight="0.19"
                     android:background="@drawable/roundedwhite"
                     android:hint="Please enter the Secret Token Key"
                     android:inputType="text"
@@ -145,8 +142,8 @@
 
                 <Button
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="0.52"
                     android:background="#a1e0a9"
                     android:text="Output Folder"
@@ -156,7 +153,7 @@
                     android:id="@+id/foldertext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.22"
+                    android:layout_weight="0.19"
                     android:background="@drawable/roundedwhite"
                     android:hint="Please enter output folder name"
                     android:inputType="text"
@@ -165,47 +162,51 @@
                     android:textColor="#6b6b6b"
                     android:textColorHint="#806b6b6b" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.75"
-                    android:layout_marginTop="30dp"
-                    android:background="#f5f5f5"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:weightSum="3">
-
-                    <Button
-                        android:id="@+id/savebtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1.53"
-                        android:background="@drawable/roundedblue"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="Save"
-                        android:textColor="#ffffff"
-                        android:textSize="@dimen/p" />
-                    <Button
-                        android:id="@+id/validatebtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1.53"
-                        android:background="@drawable/roundedblue"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="validate credentials"
-                        android:textColor="#ffffff"
-                        android:textSize="@dimen/p" />
-
-
-                </LinearLayout>
 
             </LinearLayout>
 
+
         </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="2"
+        android:weightSum="3"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="#f5f5f5"
+        android:layout_height="0dp">
+
+        <Button
+            android:id="@+id/savebtn"
+            android:layout_width="wrap_content"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:background="@drawable/roundedblue"
+            android:gravity="center"
+            android:text="Save"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="@dimen/p"
+            android:layout_height="0dp" />
+
+        <Button
+            android:id="@+id/validatebtn"
+            android:layout_width="wrap_content"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:background="@drawable/roundedblue"
+            android:gravity="center"
+            android:text="Validate Credentials"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="5dp"
+            android:textSize="@dimen/p"
+            android:layout_height="0dp" />
 
     </LinearLayout>
 

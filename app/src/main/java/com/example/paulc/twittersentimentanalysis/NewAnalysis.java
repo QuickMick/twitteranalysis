@@ -11,7 +11,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -217,7 +220,65 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
             return;
         }
 
-        this.scheduleTaskX(keywords);
+
+        /**
+         * Intent intent = new Intent();
+         String packageName = context.getPackageName();
+         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+         if (pm.isIgnoringBatteryOptimizations(packageName))
+         intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+         else {
+         intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+         intent.setData(Uri.parse("package:" + packageName));
+         }
+         context.startActivity(intent);
+         */
+
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+
+
+            final String packageName = this.getPackageName();
+            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Android 6 new Doze feature could prevent the analyze-job from firering during the night. Do you want to put this app to the whitelist of your battery optimization?");
+                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        Intent intent = new Intent();
+                     //   intent.setAction(android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                      //  else{
+                            intent.setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                            intent.setData(Uri.parse("package:" + packageName));
+                       // }
+                        NewAnalysis.this.startActivity(intent);
+
+                        NewAnalysis.this.scheduleTaskX(keywords);
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        NewAnalysis.this.scheduleTaskX(keywords);
+
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+            }else{
+                NewAnalysis.this.scheduleTaskX(keywords);
+            }
+        }else{
+            NewAnalysis.this.scheduleTaskX(keywords);
+        }
+
+
+
+
     }
 
     private void scheduleTaskX(final String keywords){
@@ -254,17 +315,34 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                                       /*  if((hourOfDay <= hourOfDay_duration && minute <= minute_duration)
                                                 ||(hourOfDay <= hourOfDay_duration)){*/
 
-                                        if((hourOfDay < hourOfDay_duration)
+                                      /*  if((hourOfDay < hourOfDay_duration)
                                                 || (hourOfDay == hourOfDay_duration && minute <= minute_duration)){
 
                                             Toast.makeText(NewAnalysis.this,"Duration has to be smaller then the interval",Toast.LENGTH_SHORT).show();
                                             return;
+                                        }*/
+
+                                        long interval = (hourOfDay*60*60*1000)+(minute*60*1000);
+                                        long duration = (hourOfDay_duration*60*60*1000)+(minute_duration*60*1000);
+
+                                        if(interval < duration){
+                                            Toast.makeText(NewAnalysis.this,"Duration has to be smaller then the interval",Toast.LENGTH_SHORT).show();
+                                            return;
                                         }
 
+                                        if(interval < (30*60*1000)){
+                                            Toast.makeText(NewAnalysis.this,"Intervall should be at least half an hour",Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+
+                                        if(duration > interval/2){
+                                            Toast.makeText(NewAnalysis.this,"Duration should not be longer than the half of the intervals length",Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
 
                                         AnalysisSchedulTask.startAlarm(NewAnalysis.this,keywords,hourOfDay,minute,hourOfDay_duration,minute_duration);
 
-                                        Log.d("analysis_schedule","Analysis scheduled each "+hourOfDay+":"+minute+" with the duration of "+hourOfDay_duration+":"+minute_duration);
+                                        Log.d("analysis_schedule","Analysis scheduled each "+String.format("%02d",hourOfDay)+":"+String.format("%02d",minute)+" with the duration of "+String.format("%02d",hourOfDay_duration)+":"+String.format("%02d",minute_duration));
 
                                         Toast.makeText(NewAnalysis.this,"Analysis scheduled each "+String.format("%02d",hourOfDay)+":"+String.format("%02d",minute)+" with the duration of "+String.format("%02d",hourOfDay_duration)+":"+String.format("%02d",minute_duration),Toast.LENGTH_SHORT).show();
                                         NewAnalysis.this.finish();
@@ -274,7 +352,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                         }.show(NewAnalysis.this.getFragmentManager(),"Duration-Picker");
 
 
-                        Toast.makeText(NewAnalysis.this,"Select duration of each Analysis (cannot be greater than your interval of "+hourOfDay+":"+minute+")",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NewAnalysis.this,"Select duration of each Analysis (cannot be greater than your interval of "+String.format("%02d",hourOfDay)+":"+String.format("%02d",minute)+")",Toast.LENGTH_SHORT).show();
 
                     }
                 }, 0, 0, true);

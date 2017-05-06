@@ -70,7 +70,7 @@ public class ForegroundService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(final Intent intent, int flags, int startId) {
 
 
         if(intent == null || intent.getAction() == null){
@@ -79,35 +79,48 @@ public class ForegroundService extends Service {
 
         if (intent.getAction().equals(ForegroundService.STARTFOREGROUND_ACTION)) {
             Log.d("AppD", "Received Start Foreground Intent ");
-            AnalizationHelper.INSTANCE().recreate();
-            AnalizationHelper.INSTANCE().init(this);
-
-            AnalizationHelper.INSTANCE().loadSettings(this);
-
-            String keywords = intent.getStringExtra(ForegroundService.SEARCH_CRITERIA);
-            AnalizationHelper.INSTANCE().setSaved(false);
-            AnalizationHelper.INSTANCE().startAnalization(keywords,this);
-
-
-            this.updateDataTimer = new Timer();
-            this.updateDataTimer .schedule(
-                    new TimerTask() {
-                        public void run() {
-                            ForegroundService.this.updateResult();
-
-               /* Log.d("analizer","Current WORDCOUNT: "+crawler.getCurrentResult().wordCount);
-                System.out.println(crawler..wordCount);*/
-                        }
-                    } , 0, 1000);
-
-            Toast.makeText(this,"Analization succesfully started.",Toast.LENGTH_SHORT).show();
-
-
-
 
             Notification notification = this.createNotification("Analized tweets: 0",true);
             startForeground(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE,
                     notification);
+
+            new Handler(this.getMainLooper()).post(new Runnable() {
+                public void run() {
+
+                    AnalizationHelper.INSTANCE().recreate();
+                    AnalizationHelper.INSTANCE().init(ForegroundService.this);
+
+                    AnalizationHelper.INSTANCE().loadSettings(ForegroundService.this);
+
+                    String keywords = intent.getStringExtra(ForegroundService.SEARCH_CRITERIA);
+                    AnalizationHelper.INSTANCE().setSaved(false);
+                    AnalizationHelper.INSTANCE().startAnalization(keywords,ForegroundService.this);
+
+
+                    ForegroundService.this.updateDataTimer = new Timer();
+                    ForegroundService.this.updateDataTimer .schedule(
+                            new TimerTask() {
+                                public void run() {
+                                    ForegroundService.this.updateResult();
+
+               /* Log.d("analizer","Current WORDCOUNT: "+crawler.getCurrentResult().wordCount);
+                System.out.println(crawler..wordCount);*/
+                                }
+                            } , 0, 1000);
+
+                    Toast.makeText(ForegroundService.this,"Analization succesfully started.",Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
+
+
+
+
+
+
+
         } else if (intent.getAction().equals(ForegroundService.STOP_ANALYSIS_ACTION)) {
             Log.i(LOG_TAG, "Clicked stop analysis");
 

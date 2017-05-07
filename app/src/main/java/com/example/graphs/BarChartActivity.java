@@ -694,7 +694,7 @@ Log.d("test","no permission");
                                 // of the selected item
 
                                 Intent i = new Intent(BarChartActivity.this, DetailGraphActivity.class);
-                                i.putExtra(Constants.DETAIL_GRAPH.EMOTION_NAME, Constants.emotionCommandsAsArray()[which]); //TODO: add a selection popup here
+                                i.putExtra(Constants.DETAIL_GRAPH.EMOTION_NAME, Constants.emotionCommandsAsArray()[which]);
                                 startActivity(i);
                             }
                         });

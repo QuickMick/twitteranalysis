@@ -84,8 +84,8 @@ public class ForegroundService extends Service {
             startForeground(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE,
                     notification);
 
-            new Handler(this.getMainLooper()).post(new Runnable() {
-                public void run() {
+          /*  new Handler(this.getMainLooper()).post(new Runnable() {
+                public void run() {*/
 
                     AnalizationHelper.INSTANCE().recreate();
                     AnalizationHelper.INSTANCE().init(ForegroundService.this);
@@ -109,8 +109,8 @@ public class ForegroundService extends Service {
                             } , 0, 1000);
 
                     Toast.makeText(ForegroundService.this,"Analization succesfully started.",Toast.LENGTH_SHORT).show();
-                }
-            });
+          /*      }
+            });*/
 
 
 

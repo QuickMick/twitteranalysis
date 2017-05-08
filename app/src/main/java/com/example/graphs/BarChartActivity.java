@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -296,6 +297,11 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
         DataPoint[] dataPoints = null;
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+
+
+
+
+
      //   staticLabelsFormatter.setVerticalLabels(new String[] {"0","10","20","30","40","50","60","70","80","90","100"});
         // create the sentiments graph
         if(this.showSentiment){
@@ -389,6 +395,13 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         }
 
         mainHandler = new Handler(this.getMainLooper());
+
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            this.graph.getGridLabelRenderer().setTextSize(35f);
+        }else{
+            //this.graph.getGridLabelRenderer().setHorizontalAxisTitleTextSize(12f);
+            this.graph.getGridLabelRenderer().setTextSize(55f);
+        }
     }
 
 

@@ -6,28 +6,29 @@
 
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
-    <color name="colorPrimaryColorLight">#B2DFDB</color>
+    <color name="colorPrimaryLight">#B2DFDB</color>
     <color name="colorTextIcons">#FFFFFF</color>
     <color name="colorDivider">#BDBDBD</color>
 
 
-
+    <color name="colorButton">@color/colorPrimary</color>
 
     <color name="colorBackground">@color/colorPrimaryDark</color>
 
-    <color name="colorButton">@color/colorAccent</color>
+    <color name="colorBackgroundList">@color/colorPrimaryDark</color>
+
 
 
     <color name="colorBackgroundInfo">@color/colorPrimary</color>
     <color name="colorInfoHeading">#FFFFFF</color>
 
-    <color name="colorTextH1">#B2DFDB</color>
-    <color name="colorTextH2">#FFFFFF</color>
-    <color name="colorTextH3">#BDBDBD</color>
+    <color name="colorTextH1">@color/colorPrimaryLight</color>
+    <color name="colorTextH2">@color/colorSecondaryText</color>
+    <color name="colorTextH3">@color/colorDivider</color>
 
-    <color name="colorSmallText">#757575</color>
+    <color name="colorSmallText">@color/colorDivider</color>
 
-    <color name="colorTextButton">#BDBDBD</color>
+    <color name="colorTextButton">@color/colorPrimaryLight</color>
 
     <color name="colorInputText">#BDBDBD</color>
 
@@ -37,5 +38,10 @@
     <color name="colorInputBG">#FFFFFF</color>
 
 
-    <color name="colorGraphBG">#BDBDBD</color>
+    <color name="colorListItemBG">@color/colorPrimary</color>
+
+    <color name="colorGraphBG">@color/colorDivider</color>
+
+    <color name="circlePositive">#a1e0a9</color>
+    <color name="circleNegative">#1e706b</color>
 </resources>

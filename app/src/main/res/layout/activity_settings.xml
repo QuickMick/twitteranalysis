@@ -18,9 +18,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="Settings"
-        android:textColor="@color/colorTextH1"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textStyle="bold"
+        android:textAppearance="@style/H1"
         android:layout_marginBottom="20dp"
         android:textAlignment="center"/>
 
@@ -41,10 +39,8 @@
             android:layout_weight="1"
             android:background="@color/colorBackgroundInfo"
             android:text="Consumer Key"
-            android:textStyle="bold"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff" />
+            android:textAppearance="@style/info" />
 
         <EditText
             android:id="@+id/consumerkeytxt"
@@ -70,10 +66,8 @@
             android:layout_weight="1"
             android:background="@color/colorBackgroundInfo"
             android:text="Consumer Secret Key"
-            android:textStyle="bold"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff" />
+            android:textAppearance="@style/info" />
 
         <EditText
             android:id="@+id/consumerkeytxtscrt"
@@ -99,10 +93,8 @@
             android:background="@color/colorBackgroundInfo"
 
             android:text="Access Token"
-            android:textStyle="bold"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff" />
+            android:textAppearance="@style/info" />
 
         <EditText
             android:id="@+id/accesstokentxt"
@@ -131,10 +123,8 @@
             android:background="@color/colorBackgroundInfo"
 
             android:text="Access Token Secret Key"
-            android:textStyle="bold"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff" />
+            android:textAppearance="@style/info" />
 
         <EditText
             android:id="@+id/accesstokentxtscrt"
@@ -164,10 +154,8 @@
 
 
             android:text="Output Folder"
-            android:textStyle="bold"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff" />
+            android:textAppearance="@style/info" />
 
         <EditText
             android:id="@+id/foldertext"
@@ -202,25 +190,22 @@
         <Button
             android:id="@+id/savebtn"
             android:layout_width="0dp"
-            android:textColor="@color/colorTextButton"
             android:layout_weight="1"
             android:background="@drawable/roundblue2"
             android:gravity="center"
             android:text="Save"
-            android:textStyle="bold"
+            android:textAppearance="@style/button"
             android:layout_marginRight="10dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/validatebtn"
             android:layout_width="0dp"
-            android:textColor="@color/colorTextButton"
             android:layout_weight="1"
             android:background="@drawable/roundblue2"
             android:gravity="center"
             android:text="Validate Credentials"
-            android:textStyle="bold"
+            android:textAppearance="@style/button"
             android:layout_height="wrap_content" />
 
     </LinearLayout>

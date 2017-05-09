@@ -9,20 +9,20 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:textStyle="bold"
-        android:textSize="@dimen/h1"
+
         android:text="Twitter Emotion and Sentiment Analysis"
         android:gravity="center"
-        android:textColor="@color/colorTextH1"
+
+        android:textAppearance="@style/H1"
+
         android:layout_height="wrap_content" />
 
     <TextView
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:textSize="@dimen/h3"
         android:gravity="center"
         android:text="What would you like to do today?"
-        android:textColor="@color/colorTextH2"
+        android:textAppearance="@style/H2"
         android:layout_height="wrap_content" />
 
 
@@ -47,11 +47,9 @@
                 android:layout_height="0dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
+                android:textAppearance="@style/button"
                 android:background="@drawable/roundblue2"
-
-                android:textStyle="bold"
-                android:text="Show unsaved Analysis"
-                android:textColor="@color/colorTextButton" />
+                android:text="Show unsaved Analysis" />
 
 
 
@@ -63,52 +61,48 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/roundblue2"
-                android:textStyle="bold"
                 android:text="New Analysis"
-                android:textColor="@color/colorTextButton" />
+                android:textAppearance="@style/button" />
 
             <Button
                 android:id="@+id/history"
                 android:background="@drawable/roundblue2"
-                android:textStyle="bold"
+                android:textAppearance="@style/button"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:text="History"
-                android:textColor="@color/colorTextButton"
+
                 android:layout_height="0dp" />
 
             <Button
                 android:id="@+id/settings"
                 android:background="@drawable/roundblue2"
-                android:textStyle="bold"
+                android:textAppearance="@style/button"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:text="Settings"
-                android:textColor="@color/colorTextButton"
                 android:layout_height="0dp" />
             <Button
                 android:id="@+id/help"
                 android:background="@drawable/roundblue2"
-                android:textStyle="bold"
+                android:textAppearance="@style/button"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:text="Help"
-                android:textColor="@color/colorTextButton"
                 android:layout_height="0dp" />
 
             <Button
                 android:id="@+id/imprintbnt"
                 android:background="@drawable/roundblue2"
-                android:textStyle="bold"
+                android:textAppearance="@style/button"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:text="Imprint"
-                android:textColor="@color/colorTextButton"
                 android:layout_height="0dp" />
         </LinearLayout>
 

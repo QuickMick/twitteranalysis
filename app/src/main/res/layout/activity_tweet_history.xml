@@ -29,12 +29,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/reloadtweetsbtn"
             android:background="@drawable/roundblue2"
+            android:textAppearance="@style/H1"
             android:textColor="@color/colorTextButton"
             android:text="&#x21bb;"/>
     </LinearLayout>
     <ListView
         android:id="@+id/tweetlistlv"
-
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

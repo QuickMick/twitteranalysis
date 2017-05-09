@@ -22,11 +22,10 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text="Analization Interval "
-            android:textStyle="bold"
-            android:id="@+id/textViesw21"
+
             android:layout_marginRight="10dp"
 
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="@style/H2"
             android:textColor="@color/colorTextH1"
 
             android:layout_gravity="center_vertical" />
@@ -40,8 +39,7 @@
             android:gravity="left"
             android:layout_weight="1"
 
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorTextH3"
+            android:textAppearance="@style/H2"
 
             android:layout_gravity="center_vertical" />
         <Button
@@ -49,8 +47,7 @@
             android:background="@drawable/roundblue2"
             android:gravity="center"
             android:text="show tweets"
-            android:textColor="@color/colorTextButton"
-            android:textSize="@dimen/p"
+            android:textAppearance="@style/button"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -93,8 +90,9 @@
             android:background="@drawable/roundblue2"
             android:gravity="center"
             android:text="show timeline"
-            android:textColor="@color/colorTextButton"
-            android:textSize="@dimen/p"
+
+            android:textAppearance="@style/button"
+
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_weight="1"
@@ -106,8 +104,7 @@
             android:background="@drawable/roundblue2"
             android:gravity="center"
             android:text="stop analysis"
-            android:textColor="@color/colorTextButton"
-            android:textSize="@dimen/p"
+            android:textAppearance="@style/button"
             android:layout_marginBottom="3dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -136,10 +133,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorTextH3"
+                    android:textAppearance="@style/H3"
                     android:text="Keywords: "
-                    android:id="@+id/textView21"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="2" />
 
@@ -149,8 +144,7 @@
                     android:text="New Text"
                     android:layout_weight="1"
                     android:id="@+id/tweetkeywordslbl"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorTextH3"
+                    android:textAppearance="@style/H3"
                     android:gravity="right"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
@@ -167,8 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorTextH3"
+                    android:textAppearance="@style/H3"
                     android:text="Prohibited Keywords: "
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="2" />
@@ -178,8 +171,7 @@
                     android:layout_height="wrap_content"
                     android:text="New Text"
                     android:layout_weight="1"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorTextH3"
+                    android:textAppearance="@style/H3"
                     android:id="@+id/tweetkeywordsprohibitedlbl"
                     android:gravity="right"
                     android:layout_gravity="center_horizontal" />
@@ -197,10 +189,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorTextH3"
+                    android:textAppearance="@style/H3"
                     android:text="Analized Tweets:"
-                    android:id="@+id/textView2"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="2" />
 
@@ -208,8 +198,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="New Text"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorTextH3"
+                    android:textAppearance="@style/H3"
                     android:id="@+id/tweetcountlbl"
                     android:gravity="right"
                     android:layout_weight="1"
@@ -228,10 +217,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorTextH3"
+                    android:textAppearance="@style/H3"
                     android:text="Analized Sentences:"
-                    android:id="@+id/textView5"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="2" />
 
@@ -239,8 +226,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="New Text"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorTextH3"
+                    android:textAppearance="@style/H3"
                     android:id="@+id/sentencecountlbl"
                     android:gravity="right"
                     android:layout_weight="1"
@@ -259,10 +245,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorTextH3"
+                    android:textAppearance="@style/H3"
                     android:text="Analized Words:"
-                    android:id="@+id/textView4"
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="2" />
 
@@ -270,8 +254,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="New Text"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorTextH3"
+                    android:textAppearance="@style/H3"
                     android:id="@+id/wordcountlbl"
                     android:gravity="right"
                     android:layout_weight="1"
@@ -292,8 +275,7 @@
                 android:background="@drawable/roundblue2"
                 android:gravity="center"
                 android:text="save and export"
-                android:textColor="@color/colorTextButton"
-                android:textSize="@dimen/p"
+                android:textAppearance="@style/button"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
@@ -305,8 +287,7 @@
                 android:background="@drawable/roundblue2"
                 android:gravity="center"
                 android:text="show details"
-                android:textColor="@color/colorTextButton"
-                android:textSize="@dimen/p"
+                android:textAppearance="@style/button"
                 android:layout_marginBottom="3dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"

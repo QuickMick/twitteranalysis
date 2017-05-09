@@ -124,12 +124,12 @@ public class HistoryActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 }
 
-                ArrayAdapter adapter = new ArrayAdapter<File>(HistoryActivity.this, android.R.layout.simple_list_item_2, android.R.id.text1,HistoryActivity.this.getListedFiles()  ) {
+                ArrayAdapter adapter = new ArrayAdapter<File>(HistoryActivity.this, R.layout.simple_list_item_colored /*android.R.layout.simple_list_item_2*/, R.id.text1lbl,HistoryActivity.this.getListedFiles()  ) {
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
                         View view = super.getView(position, convertView, parent);
-                        TextView text1 = (TextView) view.findViewById(android.R.id.text1);
-                        TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+                        TextView text1 = (TextView) view.findViewById(R.id.text1lbl);
+                        TextView text2 = (TextView) view.findViewById(R.id.text2lbl);
 
                         text1.setText(HistoryActivity.this.getListedFiles() [position].getName());
                         text2.setText(HistoryActivity.this.getListedFiles() [position].getAbsolutePath());

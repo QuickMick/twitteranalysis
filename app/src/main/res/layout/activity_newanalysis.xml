@@ -18,8 +18,7 @@
             android:textAlignment="center"
             android:gravity="center"
             android:text="Analyzation Properties"
-            android:textColor="@color/colorTextH1"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="@style/H1"
             />
 
 
@@ -38,10 +37,8 @@
 
 
                     android:text="Keywords"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorInfoHeading" />
+                    android:textAppearance="@style/info"
+                    android:gravity="center" />
 
                 <EditText
                     android:id="@+id/searchcriteria"
@@ -51,13 +48,11 @@
                     android:background="@drawable/roundedwhite"
                     android:hint="Please enter search criteria"
                     android:backgroundTint="@color/colorInputBG"
-                    android:textColor="@color/colorInputText"
-                    android:textColorHint="@color/colorInputTextHint"
 
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="@style/input"
+
                     android:inputType="text"
                     android:textAlignment="center" />
-
 
                 <TextView
                     android:layout_width="match_parent"
@@ -65,11 +60,11 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:background="@color/colorBackgroundInfo"
+
                     android:text="Prohibited words"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/colorInfoHeading" />
+                    android:textAppearance="@style/info"
+                    android:gravity="center" />
+
 
                 <EditText
                     android:id="@+id/searchcriteriaprohibited"
@@ -84,15 +79,14 @@
                     android:textColor="@color/colorInputText"
                     android:textColorHint="@color/colorInputTextHint"
 
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="@style/input"
                     />
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/colorSmallText"
+                    android:textAppearance="@style/H3"
                     android:layout_marginTop="10dp"
                     android:text="keywords should be comma-seperated,\n e.g. twitter analysis,emotion,sentiment"
                     android:gravity="center"
@@ -110,26 +104,24 @@
                     android:id="@+id/go"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorTextButton"
+                    android:textAppearance="@style/button"
                     android:layout_weight="1"
                     android:background="@drawable/roundblue2"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:text="Go"
-                    android:textSize="@dimen/p"
                     android:layout_marginRight="15dp"
                     />
 
                 <Button
                     android:id="@+id/schedulebtn"
                     android:layout_width="wrap_content"
-                    android:textColor="@color/colorTextButton"
+                    android:textAppearance="@style/button"
                     android:layout_weight="1"
                     android:background="@drawable/roundblue2"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:text="Schedule"
-                    android:textSize="@dimen/p"
                     android:layout_height="wrap_content" />
 
             </LinearLayout>

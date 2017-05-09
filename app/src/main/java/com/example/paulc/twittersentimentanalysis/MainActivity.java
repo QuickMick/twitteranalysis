@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(AnalizationHelper.INSTANCE().isRunning()){
             newAnalysis.setText("GO TO ANALYSIS");
         }else{
-            newAnalysis.setText("NEW ANALYSIS");
+            newAnalysis.setText("New Analysis");
 
             if(!AnalizationHelper.INSTANCE().isSaved()){
                 this.unsavedResultBtn.setVisibility(Button.VISIBLE);

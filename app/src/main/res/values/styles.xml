@@ -19,10 +19,60 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
-    <style name="QText" parent="@android:style/TextAppearance.Large">
-        <item name="android:textSize">25sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+    <style name="H1" parent="@android:style/TextAppearance.Large">
+        <item name="android:textSize">@dimen/h1</item>
+        <item name="android:textColor">@color/colorTextH1</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-</resources>
+    <style name="H2" parent="@android:style/TextAppearance.Medium">
+   <!--     <item name="android:textSize">@dimen/h2</item> -->
+        <item name="android:textColor">@color/colorTextH2</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="H3" parent="@android:style/TextAppearance.Small">
+        <!--    <item name="android:textSize">@dimen/h3</item> -->
+          <item name="android:textColor">@color/colorTextH3</item>
+          <item name="android:textStyle">bold</item>
+      </style>
+
+
+  <style name="button" parent="@android:style/TextAppearance.Medium">
+      <!--    <item name="android:textSize">@dimen/h3</item> -->
+        <item name="android:textColor">@color/colorTextButton</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+    <style name="info" parent="@android:style/TextAppearance.Large">
+        <!--    <item name="android:textSize">@dimen/h3</item> -->
+        <item name="android:textColor">@color/colorInfoHeading</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="input" parent="@android:style/TextAppearance.Medium">
+        <!--    <item name="android:textSize">@dimen/h3</item> -->
+        <item name="android:textColor">@color/colorInputText</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColorHint">@color/colorInputTextHint</item>
+    </style>
+
+
+
+
+    <style name="listH1" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/colorTextH1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="listH2" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/colorTextH2</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="listH3" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/colorTextH3</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    </resources>

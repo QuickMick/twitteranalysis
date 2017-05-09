@@ -207,13 +207,14 @@ public class DetailGraphActivity extends AppCompatActivity implements View.OnCli
         }
 
         final TwoLinedListItem[] items = visibleItems.toArray(new TwoLinedListItem[visibleItems.size()]);
-        ArrayAdapter adapter = new ArrayAdapter<TwoLinedListItem>(this, android.R.layout.simple_list_item_2, android.R.id.text1,items ) {
+        ArrayAdapter adapter = new ArrayAdapter<TwoLinedListItem>(this, R.layout.simple_list_item_colored /*android.R.layout.simple_list_item_2*/, R.id.text1lbl,items ) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                TextView text1 = (TextView) view.findViewById(android.R.id.text1);
-                TextView text2 = (TextView) view.findViewById(android.R.id.text2);
-
+               /* TextView text1 = (TextView) view.findViewById(android.R.id.text1);
+                TextView text2 = (TextView) view.findViewById(android.R.id.text2);*/
+                TextView text1 = (TextView) view.findViewById(R.id.text1lbl);
+                TextView text2 = (TextView) view.findViewById(R.id.text2lbl);
                text1.setText(items[position].caption);
                text2.setText("Occurence: "+items[position].subtext+" times");
                 return view;

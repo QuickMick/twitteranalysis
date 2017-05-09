@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.icu.text.NumberFormat;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -69,10 +70,13 @@ public class CircleView extends View {
                 center_x + radius,
                 center_y + radius);
 
-        paint.setColor(Color.rgb(161,224,169));
+
+       // paint.setColor(Color.rgb(161,224,169));
+            paint.setColor(ContextCompat.getColor(this.getContext(), R.color.circlePositive));
         canvas.drawArc(oval, 0, 360, false, paint);
         //paint.setColor(Color.rgb(39,142,136));
-            paint.setColor(Color.rgb(30,112,107));
+          //  paint.setColor(Color.rgb(30,112,107));
+            paint.setColor(ContextCompat.getColor(this.getContext(), R.color.circleNegative));
 
         canvas.drawArc(oval, this.start, this.end, false, paint);
 

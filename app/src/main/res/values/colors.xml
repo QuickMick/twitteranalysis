@@ -19,9 +19,6 @@
     <color name="colorBackground">@color/colorPrimaryLight</color>
 
 
-
-
-
     <color name="colorBackgroundInfo">@color/colorPrimary</color>
     <color name="colorInfoHeading">#FFFFFF</color>
 

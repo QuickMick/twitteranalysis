@@ -103,8 +103,8 @@ public class LineGraphActivity extends AppCompatActivity implements View.OnClick
         graph.getViewport().setMinY(0);
         graph.getViewport().setMaxY(100);
 
-        graph.getViewport().setScalable(true);
-        graph.getViewport().setScrollable(true);
+        graph.getViewport().setScalable(false);
+        graph.getViewport().setScrollable(false);
 
       //  graph.getViewport().setScalableY(false);
 }

@@ -146,6 +146,14 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         graph.getViewport().setScalable(false);
         graph.getViewport().setScalableY(false);
 
+/*
+        graph.getViewport().setMinX(0);
+        graph.getViewport().setMaxX(8);
+        graph.getViewport().setXAxisBoundsManual(true);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(8);*/
+
+
+
 
       /*  graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
@@ -330,27 +338,91 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         }
 
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
-
-        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPoints);
-
-        series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
-            @Override
-            public int get(DataPoint data) {
-                return Color.rgb((int) data.getX()*255/4, 255, 100);
-            }
-        });
-
         graph.removeAllSeries();
-        graph.addSeries(series);
+
+
+
+/*] {"anger", "anticipation", "disgust","fear", "joy","sadness","surprise","trust"});
+     anger_series.setColor(Color.parseColor("#d62032"));
+        anticipation_series.setColor(Color.parseColor("#f46314"));
+        disgust_series.setColor(Color.parseColor("#bf1899"));
+        fear_series.setColor(Color.parseColor("#009661"));
+        joy_series.setColor(Color.parseColor("#f8b313"));
+        sadness_series.setColor(Color.parseColor("#3e7fc7"));
+        surprise_series.setColor(Color.parseColor("#25c0ce"));
+        trust_series.setColor(Color.parseColor("#99bc43"));
+
+        positive_series.setColor(Color.parseColor("#f8b313"));
+        negative_series.setColor(Color.parseColor("#999999"));
+ */
+ /*   int i=0;
+        for(DataPoint dp : dataPoints) {
+
+            DataPoint[] dps =new DataPoint[]{dp};
+
+           // BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPoints);
+            BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dps);
+            series.setColor(colors[i]);
+
+
+            series.setSpacing(0);
+
+// draw values on top
+            series.setDrawValuesOnTop(true);
+            series.setValuesOnTopColor(Color.RED);
+
+
+            graph.addSeries(series);
+            i++;
+        }*/
 
 // styling
+        final int[] colors_emotion= new int[]{
+                Color.parseColor("#d62032"),
+                Color.parseColor("#f46314"),
+                Color.parseColor("#bf1899"),
+                Color.parseColor("#009661"),
+                Color.parseColor("#f8b313"),
+                Color.parseColor("#3e7fc7"),
+                Color.parseColor("#25c0ce"),
+                Color.parseColor("#99bc43"),
+                Color.parseColor("#f8b313"),
+                Color.parseColor("#999999")
+        };
+        final int[] colors_sentiment= new int[]{
+                Color.parseColor("#f8b313"),//ositive_series.setColor(
+                Color.parseColor("#999999") //negative_series.setColor(
+        };
 
 
-        series.setSpacing(10);
+        // BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPoints);
+        BarChartColorSeries series = new BarChartColorSeries(dataPoints);
+            series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+                @Override
+                public int get(DataPoint data) {
+
+                    if(BarChartActivity.this.showSentiment) {
+                        return colors_sentiment[(int) data.getX()];
+                    }else{
+                        return colors_emotion[(int) data.getX()];
+                    }
+                }
+            });
+        series.setSpacing(0);
 
 // draw values on top
         series.setDrawValuesOnTop(true);
         series.setValuesOnTopColor(Color.RED);
+
+
+        graph.addSeries(series);
+
+
+
+
+
+
+
 
 
         this.tweetCountLbl.setText(this.ar.tweetCount+"");

@@ -312,7 +312,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                                         }
 
                                         if(interval < (30*60*1000)){
-                                            Toast.makeText(NewAnalysis.this,"Intervall should be at least half an hour",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(NewAnalysis.this,"Interval should be at least half an hour",Toast.LENGTH_SHORT).show();
                                             return;
                                         }
 
@@ -350,14 +350,14 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                 LayoutInflater inflater = NewAnalysis.this.getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.title, null);
                 TextView texts=(TextView) dialogView.findViewById(R.id.textss);
-                texts.setText("Select intervall in which the Analysis should start");//"Select Interval of the analysis starts");
+                texts.setText("Select interval in which the Analysis should start");//"Select Interval of the analysis starts");
                 tpd.setCustomTitle(dialogView);
 
                 return tpd;
 
             }
         }.show(this.getFragmentManager(),"Interval-Picker");
-       // Toast.makeText(NewAnalysis.this,"Select intervall in which the Analysis should start",Toast.LENGTH_SHORT).show();
+       // Toast.makeText(NewAnalysis.this,"Select interval in which the Analysis should start",Toast.LENGTH_SHORT).show();
 
     }
 }

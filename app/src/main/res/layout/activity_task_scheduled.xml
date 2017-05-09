@@ -43,6 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/H1"
+                android:layout_marginLeft="10dp"
                 android:text="Large Text"
                 android:id="@+id/intervallbl" />
         </LinearLayout>
@@ -64,6 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/H1"
+                android:layout_marginLeft="10dp"
                 android:text="Large Text"
                 android:id="@+id/durationlbl" />
         </LinearLayout>
@@ -84,6 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/H2"
+                android:layout_marginLeft="10dp"
                 android:text="Large Text"
                 android:id="@+id/folderlbl" />
 
@@ -106,6 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/H2"
+                android:layout_marginLeft="10dp"
                 android:text="Large Text"
                 android:id="@+id/starttimelbl" />
 
@@ -128,6 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/H2"
+                android:layout_marginLeft="10dp"
                 android:text="Large Text"
                 android:id="@+id/nextlbl" />
 

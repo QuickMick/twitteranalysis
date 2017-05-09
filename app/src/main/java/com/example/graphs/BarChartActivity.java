@@ -395,12 +395,12 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
         mainHandler = new Handler(this.getMainLooper());
 
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+   /*     if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             this.graph.getGridLabelRenderer().setTextSize(35f);
         }else{
             //this.graph.getGridLabelRenderer().setHorizontalAxisTitleTextSize(12f);
             this.graph.getGridLabelRenderer().setTextSize(55f);
-        }
+        }*/
     }
 
 

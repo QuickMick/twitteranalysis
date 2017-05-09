@@ -17,7 +17,7 @@
             android:layout_gravity="center"
             android:textAlignment="center"
             android:gravity="center"
-            android:text="Analyzation Properties"
+            android:text="Analysis Properties"
             android:textAppearance="@style/H1"
             />
 

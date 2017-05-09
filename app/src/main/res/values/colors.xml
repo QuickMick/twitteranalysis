@@ -48,6 +48,8 @@
     <color name="colorBackgroundGraph">@color/colorTextIcons</color>
 
 
+    <color name="warning">#F44336</color>
+    <color name="running">#FF5722</color>
 
     <color name="circleText">@color/colorPrimaryText</color>
     <color name="circlePositive">@color/colorAccent</color>

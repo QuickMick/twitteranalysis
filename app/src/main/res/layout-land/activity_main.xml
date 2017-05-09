@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/colorBackground">
+
+    <TextView
+        android:layout_width="match_parent"
+
+        android:text="Twitter Emotion and Sentiment Analysis"
+        android:gravity="center"
+
+        android:textAppearance="@style/H1"
+
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:text="What would you like to do today?"
+        android:textAppearance="@style/H2"
+        android:layout_height="wrap_content" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal"
+
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:orientation="horizontal"
+
+            android:layout_margin="25dp"
+            android:layout_weight="7"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginRight="25dp"
+                android:paddingBottom="5dp"
+                android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/unsavedanalysis"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:textAppearance="@style/button"
+                android:backgroundTint="@color/warning"
+                android:background="@drawable/roundblue2"
+                android:text="Show unsaved Analysis" />
+
+            <Button
+                android:id="@+id/newAnalysis"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/roundblue2"
+                android:text="New Analysis"
+                android:textAppearance="@style/button" />
+
+            <Button
+                android:id="@+id/history"
+                android:background="@drawable/roundblue2"
+                android:textAppearance="@style/button"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="History"
+
+                android:layout_height="0dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/settings"
+                android:background="@drawable/roundblue2"
+                android:textAppearance="@style/button"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Settings"
+                android:layout_height="0dp" />
+            <Button
+                android:id="@+id/help"
+                android:background="@drawable/roundblue2"
+                android:textAppearance="@style/button"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Help"
+                android:layout_height="0dp" />
+
+            <Button
+                android:id="@+id/imprintbnt"
+                android:background="@drawable/roundblue2"
+                android:textAppearance="@style/button"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:text="Imprint"
+                android:layout_height="0dp" />
+        </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

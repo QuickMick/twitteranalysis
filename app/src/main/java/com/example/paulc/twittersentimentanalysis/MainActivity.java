@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -106,8 +110,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.unsavedResultBtn.setVisibility(Button.GONE);
         if(AnalizationHelper.INSTANCE().isRunning()){
             newAnalysis.setText("GO TO ANALYSIS");
+
+            final int sdk = android.os.Build.VERSION.SDK_INT;
+            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                newAnalysis.setBackgroundDrawable( getResources().getDrawable(R.drawable.roundorange) );
+            } else {
+                newAnalysis.setBackground( getResources().getDrawable(R.drawable.roundorange));
+            }
+
+           // GradientDrawable bgShape = (GradientDrawable)newAnalysis.getBackground();
+           // bgShape.setColor(ContextCompat.getColor(this, R.color.running));
+
+
         }else{
             newAnalysis.setText("New Analysis");
+            GradientDrawable bgShape = (GradientDrawable)newAnalysis.getBackground();
+
+            final int sdk = android.os.Build.VERSION.SDK_INT;
+            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                newAnalysis.setBackgroundDrawable( getResources().getDrawable(R.drawable.roundblue2) );
+            } else {
+                newAnalysis.setBackground( getResources().getDrawable(R.drawable.roundblue2));
+            }
 
             if(!AnalizationHelper.INSTANCE().isSaved()){
                 this.unsavedResultBtn.setVisibility(Button.VISIBLE);

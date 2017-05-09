@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#278e88"
+    android:background="@color/colorBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/colorTextH1"
+        android:textAppearance="@style/H1"
         android:text="Timeline of stored Analysis"/>
 
     <LinearLayout
@@ -27,14 +26,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorTextH3"
+            android:textAppearance="@style/H3"
             android:text="Current Folder:"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorTextH3"
+            android:textAppearance="@style/H3"
             android:id="@+id/folderlbl"
             android:text="/foldername/"/>
     </LinearLayout>

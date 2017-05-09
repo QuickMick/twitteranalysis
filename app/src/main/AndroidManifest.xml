@@ -35,12 +35,12 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="landscape"
             android:launchMode="singleTask" />
-        <activity android:name="com.example.graphs.DetailGraphActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.example.graphs.DetailGraphActivity"/>
         <activity android:name=".HistoryActivity"/>
         <activity android:name=".ImprintActivity" android:screenOrientation="portrait" />
         <activity android:name="com.example.graphs.HistoryTimelineActivity" android:screenOrientation="landscape" android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".HelpActivity" android:screenOrientation="portrait" />
-        <activity android:name=".TweetHistoryActivity" android:screenOrientation="portrait" />
+        <activity android:name=".TweetHistoryActivity" />
 
         <receiver
             android:name="com.example.mick.service.AnalysisSchedulTask"

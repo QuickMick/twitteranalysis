@@ -15,7 +15,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/colorTextH2"
-            android:layout_marginRight="5dp"
             android:textStyle="bold"
             android:text="Tweet-Text:" />
         <TextView
@@ -24,6 +23,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/colorTextH2"
             android:text="Medium Text"
+            android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:id="@+id/tweettextlbl" />
     </TableRow>
@@ -50,18 +50,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorTextH3"
+            android:textColor="@color/colorTextH2"
             android:textStyle="bold"
             android:text="Tokens:" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_weight="1"
             android:text="Medium Text"
-            android:textColor="@color/colorSmallText"
+            android:textColor="@color/colorTextH2"
             android:id="@+id/tokenslbl" />
     </TableRow>
 
@@ -72,7 +73,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+
             android:textStyle="bold"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/colorTextH3"
@@ -80,8 +81,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@color/colorSmallText"
+            android:textColor="@color/colorTextH2"
             android:text="Medium Text"
             android:id="@+id/sentimentlbl" />
     </TableRow>
@@ -93,7 +95,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+
             android:textStyle="bold"
             android:textColor="@color/colorTextH3"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -101,7 +103,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorSmallText"
+            android:textColor="@color/colorTextH2"
+            android:layout_marginLeft="15dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Medium Text"
             android:id="@+id/emotionlbl" />

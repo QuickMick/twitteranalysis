@@ -39,6 +39,7 @@
     <color name="colorInputTextHint">@color/colorPrimaryText</color>
 
     <color name="colorInputBG">#FFFFFF</color>
+    <color name="colorInputBGShape">#FFFFFF</color>
 
 
     <color name="colorListItemBG">@color/colorBackground</color>

@@ -18,6 +18,7 @@ import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -269,7 +270,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
             public Dialog onCreateDialog(Bundle savedInstanceState) {
                 //Use the current time as the default values for the time picker
                 //Create and return a new instance of TimePickerDialog //android.R.style#Theme_Material_Dialog_Alert
-                return new TimePickerDialog(NewAnalysis.this, AlertDialog.THEME_TRADITIONAL ,new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog tpd= new TimePickerDialog(NewAnalysis.this, AlertDialog.THEME_HOLO_LIGHT ,new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, final int hourOfDay, final int minute) {
 
@@ -284,7 +285,8 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                                 //Use the current time as the default values for the time picker
 
                                 //Create and return a new instance of TimePickerDialog //android.R.style#Theme_Material_Dialog_Alert
-                                return new TimePickerDialog(NewAnalysis.this, AlertDialog.THEME_TRADITIONAL ,new TimePickerDialog.OnTimeSetListener() {
+                                //AlertDialog.THEME_TRADITIONAL
+                                TimePickerDialog tpd2 = new TimePickerDialog(NewAnalysis.this, AlertDialog.THEME_HOLO_LIGHT ,new TimePickerDialog.OnTimeSetListener() {
                                     @Override
                                     public void onTimeSet(TimePicker view, final int hourOfDay_duration, final int minute_duration) {
 
@@ -329,6 +331,15 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                                         NewAnalysis.this.finish();
                                     }
                                 }, 0, 0, true);
+
+                                LayoutInflater inflater = NewAnalysis.this.getLayoutInflater();
+                                View dialogView = inflater.inflate(R.layout.title, null);
+                                TextView texts=(TextView) dialogView.findViewById(R.id.textss);
+                                texts.setText("Select Duration of each analysis");
+                                tpd2.setCustomTitle(dialogView);
+
+                                return tpd2;
+
                             }
                         }.show(NewAnalysis.this.getFragmentManager(),"Duration-Picker");
 
@@ -337,6 +348,14 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
                     }
                 }, 0, 0, true);
+
+                LayoutInflater inflater = NewAnalysis.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.title, null);
+                TextView texts=(TextView) dialogView.findViewById(R.id.textss);
+                texts.setText("Select Interval of the analysis starts");
+                tpd.setCustomTitle(dialogView);
+
+                return tpd;
 
             }
         }.show(this.getFragmentManager(),"Interval-Picker");

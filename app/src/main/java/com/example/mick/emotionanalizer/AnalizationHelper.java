@@ -63,12 +63,6 @@ public class AnalizationHelper {
         this.setConsumerKey(consumerkeytext);
         this.setConsumerSecret(consumerkeytextscrt);
         this.setAnalyzation_folder(folder);
-
-//TODO: REMOVE
-        this.setAccessToken("791421180129476609-bvDzs0VyKn23UrECOVjE0MR2IbW83aC");
-        this.setAccessTokenSecret("Al3EUrnVJJpOorKGxP2gHJ8O29eTrdlbs2qHDRw6AL9bn");
-        this.setConsumerKey("Vy6qnoTYxfrAjlKQXGfAvuVkP");
-        this.setConsumerSecret("eJjDbkaWPK9ShFfswtjJMzI2ipjRusJOLiIBJ1bjvk9BrCJtfQ");
     }
 
     public static AnalizationHelper INSTANCE(){

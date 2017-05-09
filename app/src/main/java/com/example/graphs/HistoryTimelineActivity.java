@@ -410,6 +410,9 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                 String time="Time";
                 String timecode="Millis";
 
+                String keywords="Keyowrds";
+                String keywordsProhibited="Prohibited Keywords";
+
                 String anger="Anger";
                 String anticipation="Anticipation";
                 String disgust="Disgust";
@@ -517,6 +520,9 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                     sentiment_negative_top+=SEPERATOR+dv.sentiment_negative_top;
                     sentiment_positive_top+=SEPERATOR+dv.sentiment_positive_top;
 
+                    keywords+=SEPERATOR+dv.keywords;
+                    keywordsProhibited+=SEPERATOR+dv.keywords_prohibited;
+
 
                 }
 
@@ -524,8 +530,11 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
                 csv +="\n\nPercent\n"+timecode+"\n"+time+"\n"+anger_p+"\n"+anticipation_p+"\n"+disgust_p+"\n"+fear_p+"\n"+joy_p+"\n"+sadness_p+"\n"+surprise_p+"\n"+trust_p+"\n"+sentiment_negative_p+"\n"+sentiment_positive_p;
                 csv +="\n\nStatistic\n"+totalTweets+"\n"+totalSentences+"\n"+totalWords+"\n"+analizedWords+"\n";
                 csv=csv.replace(".",",");*/
-                String totalCaption="TIME\n"+timecode+"\n"+time+"\n\nTotal Emotion Values\n";
-                String totalData =anger+"\n"+anticipation+"\n"+disgust+"\n"+fear+"\n"+joy+"\n"+sadness+"\n"+surprise+"\n"+trust+"\n\nTotal Sentiment Values\n"+sentiment_negative+"\n"+sentiment_positive;
+                String totalCaption="TIME\n"+timecode+"\n"+time;
+
+                String keys="\n\nFilters\n"+keywords+"\n"+keywordsProhibited+"";
+
+                String totalData ="\n\nTotal Emotion Values\n"+anger+"\n"+anticipation+"\n"+disgust+"\n"+fear+"\n"+joy+"\n"+sadness+"\n"+surprise+"\n"+trust+"\n\nTotal Sentiment Values\n"+sentiment_negative+"\n"+sentiment_positive;
                 String percentCaption="\n\nPercent Emotion Values\n";//+timecode+"\n"+time+"\n";
 
                 String percentData =anger_p+"\n"+anticipation_p+"\n"+disgust_p+"\n"+fear_p+"\n"+joy_p+"\n"+sadness_p+"\n"+surprise_p+"\n"+trust_p+"\n\nPercent Sentiment Values\n"+sentiment_negative_p+"\n"+sentiment_positive_p;
@@ -533,7 +542,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
                 String topLists= "\n\nOverall Top-List\n"+overall_top+"\n\nEmotion: Word Top-Lists\n"+anger_top+"\n"+anticipation_top+"\n"+disgust_top+"\n"+fear_top+"\n"+joy_top+"\n"+sadness_top+"\n"+surprise_top+"\n"+trust_top+"\n\nSentiment: Word Top-List\n"+sentiment_negative_top+"\n"+sentiment_positive_top;
 
-                String csv=totalCaption+totalData.replace(".",",")+percentCaption+percentData.replace(".",",")+statistic+topLists;
+                String csv=totalCaption+keys+totalData.replace(".",",")+percentCaption+percentData.replace(".",",")+statistic+topLists;
 
 
                 try {
@@ -577,21 +586,7 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
     }
 
 
-    private String wordListToString(int n, List<Map.Entry<String,Integer>> list, String separator){
-        if(list.size() <=0)return "\"\"";
-        String result = "\"";
-        List<Map.Entry<String,Integer>> subItems = list.subList(0, Math.min(list.size(), n));
 
-        for(Map.Entry<String,Integer> e : subItems){
-            result+=e.getKey()+":"+e.getValue()+"\n";//+separator+" ";  //TODO: wozld it be better to remove the newline and replace it again with seperator+whitespace? but excel works fine with this
-        }
-
-        result = result.substring(0, result.length() - 2);  //remove last separator and newLine
-
-        result+="\"";
-
-        return result;
-    }
 
     private void shareFile(final File myFile,final String msg){
         AlertDialog.Builder builder = new AlertDialog.Builder(HistoryTimelineActivity.this);
@@ -629,6 +624,9 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
         Date startDate;
         int different_words_count=0;
 
+        String keywords="";
+        String keywords_prohibited = "";
+
         String overall_top="";
         String anger_top="";
         String anticipation_top="";
@@ -652,20 +650,58 @@ public class HistoryTimelineActivity extends AppCompatActivity  implements View.
 
             this.different_words_count=ar.wordStatistic_all.size();
 
-            this.overall_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_all),SEPERATOR);
-            this.anger_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_anger),SEPERATOR);
-            this.anticipation_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_anticipation),SEPERATOR);
-            this.disgust_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_disgust),SEPERATOR);
-            this.fear_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_fear),SEPERATOR);
-            this.joy_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_joy),SEPERATOR);
-            this.sadness_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_sadness),SEPERATOR);
-            this.surprise_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_surprise),SEPERATOR);
-            this.trust_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_trust),SEPERATOR);
+            this.overall_top+=this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_all),SEPERATOR);
+            this.anger_top+=this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_anger),SEPERATOR);
+            this.anticipation_top+=this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_anticipation),SEPERATOR);
+            this.disgust_top+=this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_disgust),SEPERATOR);
+            this.fear_top+=this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_fear),SEPERATOR);
+            this.joy_top+=this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_joy),SEPERATOR);
+            this.sadness_top+=this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_sadness),SEPERATOR);
+            this.surprise_top+=this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_surprise),SEPERATOR);
+            this.trust_top+=this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_trust),SEPERATOR);
 
-            this.sentiment_negative_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_sentiment_negative),SEPERATOR);
-            this.sentiment_positive_top+=HistoryTimelineActivity.this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_sentiment_positive),SEPERATOR);
+            this.sentiment_negative_top+=this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_sentiment_negative),SEPERATOR);
+            this.sentiment_positive_top+=this.wordListToString(TOPLIST_ELEMENT_COUNT,AnalizationResult.getTopList(ar.wordStatistic_sentiment_positive),SEPERATOR);
+
+            this.keywords = this.arrayToString(ar.getKeywords());
+            this.keywords_prohibited = this.arrayToString(ar.getKeywordsProhibited());
 
         }
+
+        private String wordListToString(int n, List<Map.Entry<String,Integer>> list, String separator){
+            if(list.size() <=0)return "\"\"";
+            String result = "\"";
+            List<Map.Entry<String,Integer>> subItems = list.subList(0, Math.min(list.size(), n));
+
+            for(Map.Entry<String,Integer> e : subItems){
+                result+=e.getKey()+":"+e.getValue()+"\n";//+separator+" ";  //TODO: wozld it be better to remove the newline and replace it again with seperator+whitespace? but excel works fine with this
+            }
+
+            result = result.substring(0, result.length() - 2);  //remove last separator and newLine
+
+            result+="\"";
+
+            return result;
+        }
+
+        public String arrayToString(String[] keywords){
+            String result = "\"";
+
+            if(keywords==null)return "\"\"";
+
+            for(String e:keywords){
+                result = result.concat(e+", ");
+            }
+
+            if(result.length() >1) {
+                result = result.substring(0, result.length() - 2);
+            }
+
+            result = result.concat("\"");
+
+            return result;
+        }
+
 
 
     }

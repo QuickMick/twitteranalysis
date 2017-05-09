@@ -53,10 +53,10 @@ public class TwitterCrawler {
         this.isRunning = false;
     }
 
-    public void start(String[] keywords) throws InterruptedException {
+    public void start(String[] keywords, final String[] keywordsProhibited) throws InterruptedException {
 
         synchronized (lock) {
-            this.currentResult = new AnalizationResult(keywords);
+            this.currentResult = new AnalizationResult(keywords,keywordsProhibited);
         }
 
         StatusListener listener = new StatusListener(){
@@ -70,6 +70,21 @@ public class TwitterCrawler {
                 for(HashtagEntity s :status.getHashtagEntities()){
                     currentTweet = currentTweet+" #"+s.getText();
                 }
+
+                currentTweet = currentTweet.toLowerCase();
+
+                boolean skip = false;
+
+                if(keywordsProhibited != null && keywordsProhibited.length >0){
+                    for(String xk : keywordsProhibited){
+                        if(currentTweet.contains(xk)){
+                            skip = true;
+                            break;
+                        }
+                    }
+                }
+
+                if(skip) return;
 
                 synchronized (lock) {
                     EmotionAnalizer.INSTANCE.process(currentTweet, TwitterCrawler.this.currentResult);

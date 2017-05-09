@@ -104,7 +104,7 @@
             android:layout_height="match_parent"
             android:layout_width="match_parent"
             android:layout_weight="1"
-            android:weightSum="4"
+            android:weightSum="5"
             android:layout_centerHorizontal="true">
 
             <LinearLayout
@@ -135,6 +135,32 @@
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Prohibited Keywords: "
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:layout_weight="1"
+                    android:id="@+id/tweetkeywordsprohibitedlbl"
+                    android:gravity="right"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"

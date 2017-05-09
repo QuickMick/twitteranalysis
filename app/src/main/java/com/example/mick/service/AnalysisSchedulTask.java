@@ -84,7 +84,8 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
         }
     }
 
-    public static void startAlarm(Activity a, String keywords,int hourOfDay, int minute, int hourOfDay_duration, int minute_duration) {
+    //TDOO: prohibited
+    public static void startAlarm(Activity a, String keywords, final String prohibitedKeywords,int hourOfDay, int minute, int hourOfDay_duration, int minute_duration) {
 /*
         SharedPreferences sharedPref = a.getPreferences(Context.MODE_PRIVATE);
         int defaultValue = a.getResources().getInteger(R.string.saved_high_score_default);
@@ -95,6 +96,8 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
         intent.putExtra("hour",hourOfDay_duration);
         intent.putExtra("minute",minute_duration);
         intent.putExtra("keywords",keywords);
+        intent.putExtra("prohibitedKeywords",prohibitedKeywords);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(a.getApplicationContext(), AnalysisSchedulTask.ID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager alarmManager = (AlarmManager) a.getSystemService(Context.ALARM_SERVICE);
@@ -175,6 +178,8 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
         int hour = intent.getIntExtra("hour",-1);
         int min = intent.getIntExtra("minute",-1);
         String keywords = intent.getStringExtra("keywords");
+        String prohibitedKeywords = intent.getStringExtra("prohibitedKeywords");
+
 
         if(hour == -1 || min == -1){
             Toast.makeText(context, "Unable to start twitter analysis - maleformed information", Toast.LENGTH_SHORT).show();
@@ -185,7 +190,7 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
         LocalBroadcastManager.getInstance(context).registerReceiver(this,new IntentFilter(Constants.ACTION.ANALIZATION));
 
         Log.d("analysis_schedule","start scheduled task");
-        this.start(context,keywords);
+        this.start(context,keywords,prohibitedKeywords);
         safeFromService = true;
 
         //schedule the stopping of the analysis
@@ -202,14 +207,15 @@ public class AnalysisSchedulTask extends BroadcastReceiver {
     }
 
 
-    private void start(Context context, String kw){
+    private void start(Context context, String kw, String kwP){
 
         isAnalizing =true;
       //  AnalizationHelper.INSTANCE().loadSettings(context);
         Intent startIntent = new Intent(context, ForegroundService.class);
         startIntent.setAction(ForegroundService.STARTFOREGROUND_ACTION);
-        Log.d("AppD","Start scheduled task at: "+new Date()+" with keyowrds: "+kw);
+        Log.d("AppD","Start scheduled task at: "+new Date()+" with keyowrds: "+kw+" prohibited: "+kwP);
         startIntent.putExtra(ForegroundService.SEARCH_CRITERIA,kw);
+        startIntent.putExtra(ForegroundService.SEARCH_CRITERIA_PROHIBITED,kwP);
         context.startService(startIntent);
     }
 

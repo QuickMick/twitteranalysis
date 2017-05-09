@@ -33,6 +33,7 @@ public class ForegroundService extends Service {
     private static final String LOG_TAG = "ForegroundService";
     private static final int NOTIF_ID=101;
     public static final String SEARCH_CRITERIA = "SEARCH_CRITERIA";
+    public static final String SEARCH_CRITERIA_PROHIBITED = "SEARCH_CRITERIA_PROHIBITED";
     public static String STARTFOREGROUND_ACTION = "FS_STARTFOREGROUND_ACTION";
     public static String STOP_ANALYSIS_ACTION = "FS_STOP_ANALYSIS_ACTION";
     public static String STOPFOREGROUND_ACTION = "FS_STOPFOREGROUND_ACTION";
@@ -93,8 +94,10 @@ public class ForegroundService extends Service {
                     AnalizationHelper.INSTANCE().loadSettings(ForegroundService.this);
 
                     String keywords = intent.getStringExtra(ForegroundService.SEARCH_CRITERIA);
+                    String keywordsProhibited = intent.getStringExtra(ForegroundService.SEARCH_CRITERIA_PROHIBITED);
+
                     AnalizationHelper.INSTANCE().setSaved(false);
-                    AnalizationHelper.INSTANCE().startAnalization(keywords,ForegroundService.this);
+                    AnalizationHelper.INSTANCE().startAnalization(keywords,keywordsProhibited,ForegroundService.this);
 
 
                     ForegroundService.this.updateDataTimer = new Timer();

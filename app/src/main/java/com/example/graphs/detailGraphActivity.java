@@ -1,8 +1,5 @@
 package com.example.graphs;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +16,6 @@ import com.example.mick.emotionanalizer.AnalizationResult;
 import com.example.mick.emotionanalizer.EmotionWeighting;
 import com.example.mick.service.Constants;
 import com.example.paulc.twittersentimentanalysis.CircleView;
-import com.example.paulc.twittersentimentanalysis.HistoryActivity;
 import com.example.paulc.twittersentimentanalysis.R;
 
 import java.util.ArrayList;
@@ -30,8 +25,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  *
@@ -177,7 +170,7 @@ public class DetailGraphActivity extends AppCompatActivity implements View.OnCli
         );
 
      /*   ArrayList<String> visibleItems = new ArrayList<String>();
-        ArrayList<String> keyWords = new ArrayList<String>(Arrays.asList(ar.getKewords()));
+        ArrayList<String> keyWords = new ArrayList<String>(Arrays.asList(ar.getKeywords()));
 
         int i=0;
         for (Map.Entry<String,Integer> e : entries) {
@@ -197,7 +190,7 @@ public class DetailGraphActivity extends AppCompatActivity implements View.OnCli
 
 
         final ArrayList<TwoLinedListItem> visibleItems = new ArrayList<TwoLinedListItem>();
-        ArrayList<String> keyWords = new ArrayList<String>(Arrays.asList(ar.getKewords()));
+        ArrayList<String> keyWords = new ArrayList<String>(Arrays.asList(ar.getKeywords()));
 
         int i=0;
         for (Map.Entry<String,Integer> e : entries) {

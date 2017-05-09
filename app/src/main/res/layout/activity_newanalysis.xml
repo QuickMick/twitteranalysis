@@ -65,7 +65,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.22"
-                    android:layout_marginTop="10dp"
                     android:background="@drawable/roundedwhite"
                     android:hint="Please enter search criteria"
                     android:inputType="text"
@@ -74,20 +73,60 @@
                     android:textColor="#6b6b6b"
                     android:textColorHint="#806b6b6b" />
 
+
+                <Button
+                    android:id="@+id/trackProhibited"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="0.52"
+                    android:background="#a1e0a9"
+                    android:text="Prohibited words"
+                    android:textColor="#ffffff" />
+
+                <EditText
+                    android:id="@+id/searchcriteriaprohibited"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.22"
+                    android:background="@drawable/roundedwhite"
+                    android:hint="skip tweets containing this words"
+                    android:inputType="text"
+                    android:paddingLeft="10dp"
+                    android:textAlignment="center"
+                    android:textColor="#6b6b6b"
+                    android:textColorHint="#806b6b6b" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_marginTop="10dp"
+                    android:text="keywords should be comma-seperated,\n e.g. twitter analysis,emotion,sentiment"
+                    android:gravity="center"
+                    android:textColor="#FFFFFF"
+                    android:layout_gravity="center_horizontal" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
                 <Button
                     android:id="@+id/go"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="#ffffff"
                     android:layout_weight="0.60"
                     android:background="@drawable/roundblue2"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:text="Go"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_marginTop="8dp"
                     android:textSize="@dimen/p"
-                    android:layout_height="0dp" />
+                     />
 
                 <Button
                     android:id="@+id/schedulebtn"
@@ -98,13 +137,10 @@
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:text="Schedule"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:layout_marginTop="8dp"
                     android:textSize="@dimen/p"
-                    android:layout_height="0dp" />
+                    android:layout_height="wrap_content" />
 
-
+                </LinearLayout>
             </LinearLayout>
 
 

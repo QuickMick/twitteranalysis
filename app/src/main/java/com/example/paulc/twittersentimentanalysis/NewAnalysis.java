@@ -50,7 +50,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
     FontManager FM;
     TextView backicon;
     Button go;
-    EditText searchcriteria;
+    EditText searchcriteria, searchcriteriaProhibited;
 
     private Button scheduleBtn;
 
@@ -78,11 +78,12 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
         scheduleBtn.setOnClickListener(this);
         //EditText
         searchcriteria = (EditText)findViewById(R.id.searchcriteria);
+        this.searchcriteriaProhibited = (EditText)findViewById(R.id.searchcriteriaprohibited);
 
         FM.setAppRegular(backicon);
         FM.setAppMedium(go);
         FM.setAppMedium(searchcriteria);
-
+        FM.setAppMedium(searchcriteriaProhibited);
     }
 
     /**
@@ -135,7 +136,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
             backicon.setEnabled(false);
             go.setEnabled(false);
             searchcriteria.setEnabled(false);
-
+            searchcriteriaProhibited.setEnabled(false);
 
 
             // you have to check the credentials in a thread, otherwise android will drop an exepction,
@@ -153,14 +154,18 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                         backicon.setEnabled(true);
                         go.setEnabled(true);
                         searchcriteria.setEnabled(true);
-
+                    searchcriteriaProhibited.setEnabled(true);
                         if (result) {
+                            String kw = searchcriteria.getText().toString().trim().toLowerCase();
+                            String kwP = searchcriteriaProhibited.getText().toString().trim().toLowerCase();
+
                             if(view == NewAnalysis.this.go) {
                                 Intent startIntent = new Intent(NewAnalysis.this, ForegroundService.class);
                                 startIntent.setAction(ForegroundService.STARTFOREGROUND_ACTION);
-                                String kw = searchcriteria.getText().toString();
-                                Log.d("AppD", "Start analysis with kewords: " + kw);
+
+                                Log.d("AppD", "Start analysis with kewords: " + kw+" prohibited: "+kwP);
                                 startIntent.putExtra(ForegroundService.SEARCH_CRITERIA, kw);
+                                startIntent.putExtra(ForegroundService.SEARCH_CRITERIA_PROHIBITED, kwP);
                                 finish();   // i thought it would be a good idea to close the newAnalisis activity so,
                                 // if you hit back from the graph activity
                                 // you are not able to start a new analisis, if the other one is still running
@@ -170,7 +175,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                                 ac.putExtra(Constants.ANALIZATION.DIAGRAM_MODE, Constants.ANALIZATION.MODE_ANALIZATION_RUNNING);
                                 startActivity(ac);
                             }else if(view == NewAnalysis.this.scheduleBtn){
-                                NewAnalysis.this.scheduleTask(searchcriteria.getText().toString());
+                                NewAnalysis.this.scheduleTask(kw,kwP);
                             }
 
                         } else {
@@ -187,7 +192,8 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
 
 
-    private void scheduleTask(final String keywords){
+    //TODO: add prohibited
+    private void scheduleTask(final String keywords, final String prohibitedKeywords){
 
      /*   boolean alarmUp = (PendingIntent.getBroadcast(this.getApplicationContext(), AnalysisSchedulTask.ID,
                 new Intent(AnalysisSchedulTask.ACTION),
@@ -203,7 +209,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                 public void onClick(DialogInterface dialog, int id) {
                     //delete
                     AnalysisSchedulTask.stopAlarm(NewAnalysis.this);
-                    NewAnalysis.this.scheduleTaskX(keywords);
+                    NewAnalysis.this.scheduleTaskX(keywords,prohibitedKeywords);
                     dialog.dismiss();
                 }
             });
@@ -219,26 +225,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
             return;
         }
-
-
-        /**
-         * Intent intent = new Intent();
-         String packageName = context.getPackageName();
-         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-         if (pm.isIgnoringBatteryOptimizations(packageName))
-         intent.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-         else {
-         intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-         intent.setData(Uri.parse("package:" + packageName));
-         }
-         context.startActivity(intent);
-         */
-
-
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-
-
             final String packageName = this.getPackageName();
             PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
             if (!pm.isIgnoringBatteryOptimizations(packageName)) {
@@ -256,24 +243,24 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                        // }
                         NewAnalysis.this.startActivity(intent);
 
-                        NewAnalysis.this.scheduleTaskX(keywords);
+                        NewAnalysis.this.scheduleTaskX(keywords,prohibitedKeywords);
                         dialog.dismiss();
                     }
                 });
 
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        NewAnalysis.this.scheduleTaskX(keywords);
+                        NewAnalysis.this.scheduleTaskX(keywords,prohibitedKeywords);
 
                         dialog.dismiss();
                     }
                 });
                 builder.create().show();
             }else{
-                NewAnalysis.this.scheduleTaskX(keywords);
+                NewAnalysis.this.scheduleTaskX(keywords,prohibitedKeywords);
             }
         }else{
-            NewAnalysis.this.scheduleTaskX(keywords);
+            NewAnalysis.this.scheduleTaskX(keywords,prohibitedKeywords);
         }
 
 
@@ -281,7 +268,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    private void scheduleTaskX(final String keywords){
+    private void scheduleTaskX(final String keywords, final String prohibitedKeywords){
         new DialogFragment() {
 
             @Override
@@ -340,7 +327,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                                             return;
                                         }
 
-                                        AnalysisSchedulTask.startAlarm(NewAnalysis.this,keywords,hourOfDay,minute,hourOfDay_duration,minute_duration);
+                                        AnalysisSchedulTask.startAlarm(NewAnalysis.this,keywords,prohibitedKeywords,hourOfDay,minute,hourOfDay_duration,minute_duration);
 
                                         Log.d("analysis_schedule","Analysis scheduled each "+String.format("%02d",hourOfDay)+":"+String.format("%02d",minute)+" with the duration of "+String.format("%02d",hourOfDay_duration)+":"+String.format("%02d",minute_duration));
 

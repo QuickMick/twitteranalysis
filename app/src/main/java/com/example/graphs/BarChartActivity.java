@@ -1,6 +1,5 @@
 package com.example.graphs;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -21,7 +20,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -34,11 +32,8 @@ import com.example.mick.emotionanalizer.AnalizationResult;
 import com.example.mick.emotionanalizer.EmotionWeighting;
 import com.example.mick.service.Constants;
 import com.example.mick.service.ForegroundService;
-import com.example.paulc.twittersentimentanalysis.NewAnalysis;
 import com.example.paulc.twittersentimentanalysis.R;
-import com.example.paulc.twittersentimentanalysis.Settings;
 import com.example.paulc.twittersentimentanalysis.TweetHistoryActivity;
-import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
@@ -81,7 +76,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
     private AnalizationResult ar = new AnalizationResult();
 
-    private TextView tweetCountLbl, wordCountLbl,sentenceCountLbl, usedKeywordsLbl, analizationIntervalLbl;
+    private TextView tweetCountLbl, wordCountLbl,sentenceCountLbl, usedKeywordsLbl, analizationIntervalLbl, prohibitedKeywords;
 
     private LinearLayout titledate;
 
@@ -121,6 +116,7 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
         this.wordCountLbl = (TextView)findViewById(R.id.wordcountlbl);
         this.sentenceCountLbl = (TextView)findViewById(R.id.sentencecountlbl);
         this.usedKeywordsLbl = (TextView)findViewById(R.id.tweetkeywordslbl);
+        this.prohibitedKeywords = (TextView)findViewById(R.id.tweetkeywordsprohibitedlbl);
         this.analizationIntervalLbl = (TextView)findViewById(R.id.analizationintervallbl);
         this.titledate = (LinearLayout) findViewById(R.id.titledate);
 
@@ -188,7 +184,8 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
         switch(mode){
             case Constants.ANALIZATION.MODE_ANALIZATION_RUNNING:
-                this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
+                this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKeywords()));
+                this.prohibitedKeywords.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKeywordsProhibited()));
                 this.startRunningMode();
                 this.stopAnalysisBtn.setVisibility(Button.VISIBLE);
                 this.changeViewBtn.setVisibility(Button.VISIBLE);
@@ -203,7 +200,8 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
 
                 break;
             case Constants.ANALIZATION.MODE_ANALIZATION_STOPPED:
-                this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
+                this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKeywords()));
+                this.prohibitedKeywords.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKeywordsProhibited()));
                 this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
                 this.ar = AnalizationHelper.INSTANCE().getFinalResult();
 
@@ -229,7 +227,8 @@ public class BarChartActivity extends AppCompatActivity implements View.OnClickL
                 String date = i.getStringExtra(Constants.ANALIZATION.MODE_HISTORY_DATE);
                 this.changeViewBtn.setVisibility(Button.INVISIBLE);
                 this.showRecentTweetsbtn.setVisibility(Button.GONE);
-                this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKewords()));
+                this.usedKeywordsLbl.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKeywords()));
+                this.prohibitedKeywords.setText(Arrays.toString(AnalizationHelper.INSTANCE().getFinalResult().getKeywordsProhibited()));
                 this.currentData = AnalizationHelper.INSTANCE().getFinalResult().weigthing;
                 this.ar = AnalizationHelper.INSTANCE().getFinalResult();
                 this.titledate.setVisibility(LinearLayout.VISIBLE);

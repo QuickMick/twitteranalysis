@@ -63,6 +63,12 @@ public class AnalizationHelper {
         this.setConsumerKey(consumerkeytext);
         this.setConsumerSecret(consumerkeytextscrt);
         this.setAnalyzation_folder(folder);
+
+//TODO: REMOVE
+        this.setAccessToken("791421180129476609-bvDzs0VyKn23UrECOVjE0MR2IbW83aC");
+        this.setAccessTokenSecret("Al3EUrnVJJpOorKGxP2gHJ8O29eTrdlbs2qHDRw6AL9bn");
+        this.setConsumerKey("Vy6qnoTYxfrAjlKQXGfAvuVkP");
+        this.setConsumerSecret("eJjDbkaWPK9ShFfswtjJMzI2ipjRusJOLiIBJ1bjvk9BrCJtfQ");
     }
 
     public static AnalizationHelper INSTANCE(){
@@ -225,7 +231,8 @@ public class AnalizationHelper {
 
     private AnalizationResult currentResult = null;
 
-    public  void startAnalization(String keywords, Context c){
+
+    public  void startAnalization(String keywords,String keywordsProhibited, Context c){
         Log.d("analizer","start analizer!");
 
         EmotionAnalizer.INSTANCE.init(c);
@@ -239,15 +246,29 @@ public class AnalizationHelper {
             for (int i = 0; i < kw.length; i++) {
                // kw[i] = kw[i].trim();
                 String cur = kw[i].trim();
-                if(cur != null && cur.length() > 0) {
+                if(cur != null && cur.length() > 0 && !processKewords.contains(cur)) {
                     processKewords.add(cur);
                 }
             }
             kw = processKewords.toArray(new String[processKewords.size()]);
         }
 
+        String[] kwP = null;
+        if(keywordsProhibited != null && keywordsProhibited.length()>0) {
+            ArrayList<String> processProhibitedKewords = new ArrayList<String>();
+            kwP = keywordsProhibited.toLowerCase().split(",");
+            for (int i = 0; i < kwP.length; i++) {
+                // kw[i] = kw[i].trim();
+                String cur = kwP[i].trim();
+                if(cur != null && cur.length() > 0 && !processProhibitedKewords.contains(cur)) {
+                    processProhibitedKewords.add(cur);
+                }
+            }
+            kwP = processProhibitedKewords.toArray(new String[processProhibitedKewords.size()]);
+        }
+
         synchronized (lock) {
-            this.finalResult = new AnalizationResult(kw);
+            this.finalResult = new AnalizationResult(kw,kwP);
         }
         synchronized (lock2) {
             this.result_steps = new LinkedList<AnalizationResult>();
@@ -256,7 +277,7 @@ public class AnalizationHelper {
 
         this.isRunning = true;
         try {
-            this.twitterCrawler.start(kw);
+            this.twitterCrawler.start(kw,kwP);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

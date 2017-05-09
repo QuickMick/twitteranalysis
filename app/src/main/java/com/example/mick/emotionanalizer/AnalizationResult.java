@@ -8,7 +8,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -30,7 +29,9 @@ public class AnalizationResult{
 
 	public EmotionWeighting weigthing = new EmotionWeighting(0,0,0,0,0,0,0,0,0,0);
 
-	private String[] kewords = new String[0];
+	private String[] keywords = new String[0];
+
+	private String[] keywordsProhibited = new String[0];
 
 	/*private boolean isSaved = false;
 
@@ -78,16 +79,19 @@ public class AnalizationResult{
 
 	}
 
-	public AnalizationResult(String[] keywords){
+	public AnalizationResult(String[] keywords,String[] keywordsProhibited){
 
-		this.kewords = keywords;
+		this.keywords = keywords;
+		this.keywordsProhibited = keywordsProhibited;
 
-		if(this.kewords == null) this.kewords= new String[0];
+		if(this.keywords == null) this.keywords = new String[0];
 
-		/*this.kewords = keywords.toLowerCase().split(",");
+		if(this.keywordsProhibited == null) this.keywordsProhibited= new String[0];
 
-		for(int i =0; i<this.kewords.length;i++){
-			this.kewords[i] = this.kewords[i].trim();
+		/*this.keywords = keywords.toLowerCase().split(",");
+
+		for(int i =0; i<this.keywords.length;i++){
+			this.keywords[i] = this.keywords[i].trim();
 		}*/
 	}
 
@@ -99,8 +103,11 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 	 */
 
 	public String keywordsToJSON(){
+
+		if(this.keywords==null || this.keywords.length <=0) return "[]";
+
 		String result = "[";
-		for(String e:this.kewords){
+		for(String e:this.keywords){
 			result = result.concat("\""+e+"\", ");
 		}
 
@@ -113,6 +120,26 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 		return result;
 	}
 
+
+	public String keywordsProhibitedToJSON(){
+
+		if(this.keywordsProhibited==null || this.keywordsProhibited.length <=0) return "[]";
+
+		String result = "[";
+		for(String e:this.keywordsProhibited){
+			result = result.concat("\""+e+"\", ");
+		}
+
+		if(result.length() >1) {
+			result = result.substring(0, result.length() - 2);
+		}
+
+		result = result.concat("]");
+
+		return result;
+	}
+
+
 	public String toJSON(){
 
 		DateFormat format = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);
@@ -120,6 +147,7 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 		return "{\"startDate\":\""+format.format(this.startDate)+"\", "
 				+"\"endDate\":\""+format.format(this.endDate)+"\", "
 				+"\"keywords\":"+ this.keywordsToJSON()+", "
+				+"\"prohibitedKeywords\":"+ this.keywordsProhibitedToJSON()+", "
 				+"\"wordCount\":"+this.wordCount+", "
 				+"\"tweetCount\":"+this.tweetCount+", "
 				+"\"sentenceCount\":"+this.sentenceCount+", "
@@ -144,7 +172,19 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 		JSONObject jsonObject = new JSONObject(json);
 		DateFormat format = new SimpleDateFormat(AnalizationResult.DATE_FORMAT);
 
-		AnalizationResult result = new AnalizationResult(AnalizationResult.jsonArrayToStringArray(jsonObject.getJSONArray("keywords")));
+		String[] kWords = new String[0];
+		String[] kWordsProhibited = new String[0];
+
+		try {
+			kWords = AnalizationResult.jsonArrayToStringArray2(jsonObject.getJSONArray("keywords"));
+		}catch(Exception e){}
+		try {
+			kWordsProhibited = AnalizationResult.jsonArrayToStringArray2(jsonObject.getJSONArray("prohibitedKeywords"));
+		}catch(Exception e){}
+		AnalizationResult result = new AnalizationResult(
+				kWords,
+				kWordsProhibited
+		);
 		result.weigthing = EmotionWeighting.fromJSON(jsonObject.getJSONObject("emotionWeighting").toString());
 		result.wordCount = jsonObject.getInt("wordCount");
 		result.tweetCount = jsonObject.getInt("tweetCount");
@@ -198,6 +238,21 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 			try {
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
 				stringArray.add(jsonObject.toString());
+			}
+			catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return stringArray.toArray(new String[stringArray.size()]);
+	}
+
+	private static String[] jsonArrayToStringArray2(JSONArray jsonArray){
+		ArrayList<String> stringArray = new ArrayList<String>();
+		for(int i = 0, count = jsonArray.length(); i< count; i++)
+		{
+			try {
+				stringArray.add(jsonArray.getString(i));
 			}
 			catch (JSONException e) {
 				e.printStackTrace();
@@ -311,8 +366,12 @@ System.out.println(date); // Sat Jan 02 00:00:00 GMT 2010
 		}
 	}
 
-	public String[] getKewords() {
-		return kewords;
+	public String[] getKeywords() {
+		return keywords;
+	}
+
+	public String[] getKeywordsProhibited() {
+		return this.keywordsProhibited;
 	}
 
 	private LinkedList<TweetCache> tweetSteps = new LinkedList<>();

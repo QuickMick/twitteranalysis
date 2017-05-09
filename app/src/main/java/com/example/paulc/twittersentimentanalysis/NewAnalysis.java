@@ -335,7 +335,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                                 LayoutInflater inflater = NewAnalysis.this.getLayoutInflater();
                                 View dialogView = inflater.inflate(R.layout.title, null);
                                 TextView texts=(TextView) dialogView.findViewById(R.id.textss);
-                                texts.setText("Select Duration of each analysis");
+                                texts.setText("Select duration of each Analysis (cannot be greater than the half of your interval of "+String.format("%02d",hourOfDay)+":"+String.format("%02d",minute)+")"); //"Select Duration of each analysis");
                                 tpd2.setCustomTitle(dialogView);
 
                                 return tpd2;
@@ -344,7 +344,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                         }.show(NewAnalysis.this.getFragmentManager(),"Duration-Picker");
 
 
-                        Toast.makeText(NewAnalysis.this,"Select duration of each Analysis (cannot be greater than your interval of "+String.format("%02d",hourOfDay)+":"+String.format("%02d",minute)+")",Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(NewAnalysis.this,"Select duration of each Analysis (cannot be greater than your interval of "+String.format("%02d",hourOfDay)+":"+String.format("%02d",minute)+")",Toast.LENGTH_SHORT).show();
 
                     }
                 }, 0, 0, true);
@@ -352,14 +352,14 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                 LayoutInflater inflater = NewAnalysis.this.getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.title, null);
                 TextView texts=(TextView) dialogView.findViewById(R.id.textss);
-                texts.setText("Select Interval of the analysis starts");
+                texts.setText("Select intervall in which the Analysis should start");//"Select Interval of the analysis starts");
                 tpd.setCustomTitle(dialogView);
 
                 return tpd;
 
             }
         }.show(this.getFragmentManager(),"Interval-Picker");
-        Toast.makeText(NewAnalysis.this,"Select intervall in which the Analysis should be started",Toast.LENGTH_SHORT).show();
+       // Toast.makeText(NewAnalysis.this,"Select intervall in which the Analysis should start",Toast.LENGTH_SHORT).show();
 
     }
 }

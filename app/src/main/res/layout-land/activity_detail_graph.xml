@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
+    tools:context="com.example.graphs.DetailGraphActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/emotiontitlelbl"
+        android:layout_width="wrap_content"
+        android:paddingLeft="10dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/H1"
+
+        android:text="Large Text"
+        android:layout_below="@+id/emotionpercent"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/reloaddetailsbtn"
+        android:background="@drawable/roundblue2"
+        android:textAppearance="@style/H1"
+        android:textColor="@color/colorTextButton"
+        android:text="&#x21bb;"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2"
+        android:orientation="horizontal">
+
+        <com.example.paulc.twittersentimentanalysis.CircleView
+            android:id="@+id/emotionpercent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+ />
+
+
+        <ListView
+            android:id="@+id/wordlistlv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/colorBackgroundList"
+             />
+
+
+
+    </LinearLayout>
+</LinearLayout>

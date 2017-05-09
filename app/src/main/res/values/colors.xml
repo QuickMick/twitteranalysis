@@ -50,6 +50,6 @@
 
 
     <color name="circleText">@color/colorPrimaryText</color>
-    <color name="circlePositive">@color/colorPrimary</color>
+    <color name="circlePositive">@color/colorAccent</color>
     <color name="circleNegative">@color/colorPrimaryDark</color>
 </resources>

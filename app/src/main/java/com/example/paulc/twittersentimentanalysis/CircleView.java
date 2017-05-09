@@ -72,18 +72,18 @@ public class CircleView extends View {
 
 
        // paint.setColor(Color.rgb(161,224,169));
-            paint.setColor(ContextCompat.getColor(this.getContext(), R.color.circlePositive));
+            paint.setColor(ContextCompat.getColor(this.getContext(), R.color.circleNegative));
         canvas.drawArc(oval, 0, 360, false, paint);
         //paint.setColor(Color.rgb(39,142,136));
           //  paint.setColor(Color.rgb(30,112,107));
-            paint.setColor(ContextCompat.getColor(this.getContext(), R.color.circleNegative));
+            paint.setColor(ContextCompat.getColor(this.getContext(), R.color.circlePositive));
 
         canvas.drawArc(oval, this.start, this.end, false, paint);
 
 
             Paint paintText = new Paint();
             paintText.setTypeface(Typeface.DEFAULT);// your preference here
-
+            paintText.setColor(ContextCompat.getColor(this.getContext(), R.color.circleText));
             paintText.setTextSize(radius);// have this the same as your text size
 
 

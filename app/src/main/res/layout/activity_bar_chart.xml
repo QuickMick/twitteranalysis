@@ -5,9 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="6"
-    android:padding="5dp"
+    android:padding="10dp"
 
-    android:background="#278e88"
+    android:background="@color/colorBackground"
     tools:context="com.example.graphs.BarChartActivity">
 
     <LinearLayout
@@ -40,6 +40,7 @@
             android:layout_weight="1"
 
             android:textAppearance="@style/H2"
+            android:textStyle="normal"
 
             android:layout_gravity="center_vertical" />
         <Button
@@ -62,7 +63,7 @@
 
     <com.jjoe64.graphview.GraphView
 
-        android:background="@color/colorGraphBG"
+        android:background="@color/colorBackgroundGraph"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_below="@+id/titledate"

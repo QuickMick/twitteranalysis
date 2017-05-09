@@ -34,14 +34,14 @@
     <style name="H3" parent="@android:style/TextAppearance.Small">
         <!--    <item name="android:textSize">@dimen/h3</item> -->
           <item name="android:textColor">@color/colorTextH3</item>
-          <item name="android:textStyle">bold</item>
+          <item name="android:textStyle">normal</item>
       </style>
 
 
   <style name="button" parent="@android:style/TextAppearance.Medium">
       <!--    <item name="android:textSize">@dimen/h3</item> -->
         <item name="android:textColor">@color/colorTextButton</item>
-        <item name="android:textStyle">normal</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 

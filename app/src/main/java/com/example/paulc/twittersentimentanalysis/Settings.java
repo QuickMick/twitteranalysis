@@ -43,7 +43,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     // declaration of views
     FontManager FM;
     TextView backicon;
-    Button consumerkeybtn,consumerkeybtnscrt,accesstokenbtn,accesstokenbtnscrt,savebtn,validatebtn;
+    Button savebtn,validatebtn;
     EditText consumerkeytxt,consumerkeytxtscrt,accesstokentxt,accesstokentxtscrt,foldertext;
 
     private ProgressDialog progressDialog;
@@ -95,10 +95,10 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
         backicon = (TextView)findViewById(R.id.backicon);
         //Buttons
-        consumerkeybtn = (Button) findViewById(R.id.consumerkeybtn);
+     /*   consumerkeybtn = (Button) findViewById(R.id.consumerkeybtn);
         consumerkeybtnscrt = (Button) findViewById(R.id.consumerkeybtnscrt);
         accesstokenbtn = (Button) findViewById(R.id.accesstokenbtn);
-        accesstokenbtnscrt = (Button) findViewById(R.id.accesstokenbtnscrt);
+        accesstokenbtnscrt = (Button) findViewById(R.id.accesstokenbtnscrt);*/
         savebtn = (Button) findViewById(R.id.savebtn) ;
         validatebtn = (Button) findViewById(R.id.validatebtn) ;
 
@@ -112,10 +112,10 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
 
         FM.setAppRegular(backicon);
-        FM.setAppMedium(consumerkeybtn);
+     /*   FM.setAppMedium(consumerkeybtn);
         FM.setAppMedium(consumerkeybtnscrt);
         FM.setAppMedium(accesstokenbtn);
-        FM.setAppMedium(accesstokenbtnscrt);
+        FM.setAppMedium(accesstokenbtnscrt);*/
         FM.setAppMedium(savebtn);
         FM.setAppMedium(consumerkeytxt);
         FM.setAppMedium(consumerkeytxtscrt);
@@ -230,10 +230,10 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
         }else if( view == validatebtn){
             backicon.setEnabled(false);
-            consumerkeybtn.setEnabled(false);
+          /*  consumerkeybtn.setEnabled(false);
             consumerkeybtnscrt.setEnabled(false);
             accesstokenbtn.setEnabled(false);
-            accesstokenbtnscrt.setEnabled(false);
+            accesstokenbtnscrt.setEnabled(false);*/
             savebtn.setEnabled(false);
             validatebtn.setEnabled(false);
             //EditText
@@ -252,10 +252,10 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
                 }
                 protected void onPostExecute(Boolean result) {
                     backicon.setEnabled(true);
-                    consumerkeybtn.setEnabled(true);
+                 /*   consumerkeybtn.setEnabled(true);
                     consumerkeybtnscrt.setEnabled(true);
                     accesstokenbtn.setEnabled(true);
-                    accesstokenbtnscrt.setEnabled(true);
+                    accesstokenbtnscrt.setEnabled(true);*/
                     savebtn.setEnabled(true);
                     validatebtn.setEnabled(true);
                     //EditText

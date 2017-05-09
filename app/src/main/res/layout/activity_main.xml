@@ -4,152 +4,113 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="10"
-    >
+    android:padding="20dp"
+    android:background="#278e88">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:textSize="@dimen/h1"
+        android:text="Twitter Emotion and Sentiment Analysis"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:textSize="@dimen/h3"
+        android:gravity="center"
+        android:text="What would you like to do today?"
+        android:textColor="#ffffff"
+        android:layout_height="wrap_content" />
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_weight="8"
-        android:background="#278e88"
-        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="25dp"
         android:layout_height="0dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/backicon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginLeft="120dp"
-                android:gravity="center"
-                android:text="Welcome Back"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/h1" />
-
-        </RelativeLayout>
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp">
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:layout_weight="7"
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/userdisplay"
+            <Button
+                android:id="@+id/unsavedanalysis"
                 android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/roundblue2"
                 android:textStyle="bold"
-                android:textSize="@dimen/h3"
-                android:gravity="center"
-                android:textColor="#ffffff"
-                android:layout_height="match_parent" />
+                android:text="Show unsaved Analysis"
+                android:textColor="#ffffff" />
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="0dp">
 
-            <TextView
-                android:id="@+id/informativeText"
+
+            <Button
+                android:id="@+id/newAnalysis"
                 android:layout_width="match_parent"
-                android:textSize="@dimen/h3"
-                android:gravity="center"
-                android:text="What would you like to do today?"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/roundblue2"
+                android:textStyle="bold"
+                android:text="New Analysis"
+                android:textColor="#ffffff" />
+
+            <Button
+                android:id="@+id/history"
+                android:background="@drawable/roundblue2"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="History"
                 android:textColor="#ffffff"
-                android:layout_height="match_parent" />
+                android:layout_height="0dp" />
 
-        </LinearLayout>
+            <Button
+                android:id="@+id/settings"
+                android:background="@drawable/roundblue2"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Settings"
+                android:textColor="#ffffff"
+                android:layout_height="0dp" />
+            <Button
+                android:id="@+id/help"
+                android:background="@drawable/roundblue2"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Help"
+                android:textColor="#ffffff"
+                android:layout_height="0dp" />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_weight="5"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_height="0dp">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:orientation="vertical"
-                android:weightSum="5"
-                android:layout_weight="7"
-                android:layout_height="match_parent">
-
-                <Button
-                    android:id="@+id/unsavedanalysis"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="0.95"
-                    android:background="#a1e0a9"
-                    android:text="Show unsaved Analysis"
-                    android:textColor="#ffffff" />
-
-                <Button
-                    android:id="@+id/newAnalysis"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="0.95"
-                    android:background="#a1e0a9"
-                    android:text="New Analysis"
-                    android:textColor="#ffffff" />
-
-                <Button
-                    android:id="@+id/history"
-                    android:background="#a1e0a9"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="0.95"
-                    android:text="History"
-                    android:textColor="#ffffff"
-                    android:layout_height="0dp" />
-
-                <Button
-                    android:id="@+id/settings"
-                    android:background="#a1e0a9"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="0.95"
-                    android:text="Settings"
-                    android:textColor="#ffffff"
-                    android:layout_height="0dp" />
-                <Button
-                    android:id="@+id/help"
-                    android:background="#a1e0a9"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="0.95"
-                    android:text="Help"
-                    android:textColor="#ffffff"
-                    android:layout_height="0dp" />
-
-
-            </LinearLayout>
-
-
+            <Button
+                android:id="@+id/imprintbnt"
+                android:background="@drawable/roundblue2"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="Imprint"
+                android:textColor="#ffffff"
+                android:layout_height="0dp" />
         </LinearLayout>
 
 
     </LinearLayout>
-
-
-    <Button
-        android:id="@+id/imprintbnt"
-        android:layout_width="match_parent"
-        android:textColor="#278e88"
-        android:layout_weight="0.8"
-        android:gravity="center"
-        android:text="Imprint"
-        android:textSize="@dimen/h4"
-        android:layout_height="0dp" />
 
 </LinearLayout>

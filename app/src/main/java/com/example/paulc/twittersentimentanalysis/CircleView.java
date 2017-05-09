@@ -71,8 +71,8 @@ public class CircleView extends View {
 
         paint.setColor(Color.rgb(161,224,169));
         canvas.drawArc(oval, 0, 360, false, paint);
-        paint.setColor(Color.rgb(39,142,136));
-
+        //paint.setColor(Color.rgb(39,142,136));
+            paint.setColor(Color.rgb(30,112,107));
 
         canvas.drawArc(oval, this.start, this.end, false, paint);
 

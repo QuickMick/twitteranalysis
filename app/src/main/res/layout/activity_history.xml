@@ -8,6 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:background="#278e88"
     tools:context="com.example.paulc.twittersentimentanalysis.HistoryActivity">
 
     <LinearLayout
@@ -20,6 +21,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Archived Analyses"
 
+            android:textColor="#ffffff"
             android:id="@+id/textView"/>
 
         <LinearLayout
@@ -41,6 +43,7 @@
     </LinearLayout>
 
     <ListView
+        android:background="#1e706b"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:id="@+id/fileslv"
@@ -53,6 +56,11 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"
+
+        android:textColor="#ffffff"
+        android:background="@drawable/roundblue2"
+        android:textStyle="bold"
+        android:layout_marginTop="15dp"
         android:text="Show all in Timeline"
         android:id="@+id/showhistorytimelinebtn" />
 

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // declaration of views
     FontManager FM;
-    TextView userdisplay,informativeText,backicon;
+  //  TextView userdisplay,informativeText,backicon;
     Button newAnalysis,history,settings,imprintBtn,helpBtn,unsavedResultBtn;
     ProgressDialog progressDialog;
 
@@ -61,25 +61,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         FM=new FontManager(getApplicationContext());
         InitUI();
-        TextView backicon = (TextView)findViewById(R.id.backicon);
-        backicon.setTextColor(Color.parseColor("#1cb189"));
-        FM.setBackIcon(backicon);
+     //   TextView backicon = (TextView)findViewById(R.id.backicon);
+      //  backicon.setTextColor(Color.parseColor("#1cb189"));
+     //   FM.setBackIcon(backicon);
 
         //Database Connection to display the username in the GUI
 
-        String email = "test@test.com";
+    //    String email = "test@test.com";
 
 
-        userdisplay.setText(email);
+     //   userdisplay.setText(email);
 
 
-        backicon.setOnClickListener(new View.OnClickListener() {
+      /*  backicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 finish();
             }
-        });
+        });*/
 
         progressDialog = new ProgressDialog(this);
 
@@ -154,27 +154,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void InitUI(){
 
-        backicon = (TextView)findViewById(R.id.backicon);
-        userdisplay = (TextView)findViewById(R.id.userdisplay);
+    //    backicon = (TextView)findViewById(R.id.backicon);
+    //    userdisplay = (TextView)findViewById(R.id.userdisplay);
        // logout = (TextView)findViewById(R.id.logout);
        // logouttv = (Button)findViewById(R.id.logouttv);
         newAnalysis = (Button)findViewById(R.id.newAnalysis);
         history = (Button)findViewById(R.id.history);
         settings = (Button)findViewById(R.id.settings);
         helpBtn = (Button) findViewById(R.id.help);
-        informativeText = (TextView) findViewById(R.id.informativeText);
+    //    informativeText = (TextView) findViewById(R.id.informativeText);
         unsavedResultBtn = (Button) findViewById(R.id.unsavedanalysis);
         this.imprintBtn = (Button)findViewById(R.id.imprintbnt);
 
 
-        FM.setAppRegular(backicon);
-        FM.setAppRegular(userdisplay);
+     //   FM.setAppRegular(backicon);
+    //    FM.setAppRegular(userdisplay);
        // FM.setAppRegular(logout);
      //   FM.setAppMedium(logouttv);
         FM.setAppMedium(newAnalysis);
         FM.setAppMedium(history);
         FM.setAppMedium(settings);
-        FM.setAppRegular(informativeText);
+    //    FM.setAppRegular(informativeText);
 
     }
 

@@ -5,96 +5,83 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="10"
+    android:gravity="center"
+    android:background="#278e88"
+    android:padding="20dp"
     >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_weight="8"
-        android:background="#278e88"
-        android:orientation="vertical"
-        android:layout_height="520dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_gravity="center">
-
-            <TextView
-                android:id="@+id/backicon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:text="Analyzation Properties"
-                android:textColor="#ffffff"
-                android:textSize="@dimen/h1"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
+        <TextView
+            android:id="@+id/backicon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
             android:gravity="center"
-            android:orientation="horizontal"
-            android:weightSum="10">
+            android:text="Analyzation Properties"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/h1"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="7"
-                android:orientation="vertical"
-                android:weightSum="5">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/track"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="0.52"
+                    android:layout_weight="1"
                     android:background="#a1e0a9"
-                    android:text="Track"
+                    android:text="Prohibited words"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:gravity="center"
+                    android:textStyle="bold"
                     android:textColor="#ffffff" />
 
                 <EditText
                     android:id="@+id/searchcriteria"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.22"
+                    android:layout_weight="2"
                     android:background="@drawable/roundedwhite"
                     android:hint="Please enter search criteria"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:inputType="text"
-                    android:paddingLeft="10dp"
                     android:textAlignment="center"
+
+
                     android:textColor="#6b6b6b"
                     android:textColorHint="#806b6b6b" />
 
 
-                <Button
-                    android:id="@+id/trackProhibited"
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="0.52"
+                    android:layout_weight="1"
                     android:background="#a1e0a9"
                     android:text="Prohibited words"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="#ffffff" />
 
                 <EditText
                     android:id="@+id/searchcriteriaprohibited"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.22"
+                    android:layout_weight="2"
                     android:background="@drawable/roundedwhite"
                     android:hint="skip tweets containing this words"
                     android:inputType="text"
-                    android:paddingLeft="10dp"
                     android:textAlignment="center"
                     android:textColor="#6b6b6b"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColorHint="#806b6b6b" />
 
 
@@ -107,32 +94,34 @@
                     android:gravity="center"
                     android:textColor="#FFFFFF"
                     android:layout_gravity="center_horizontal" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal">
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/go"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#ffffff"
-                    android:layout_weight="0.60"
+                    android:layout_weight="1"
                     android:background="@drawable/roundblue2"
                     android:gravity="center"
                     android:layout_gravity="center"
                     android:text="Go"
                     android:textSize="@dimen/p"
-                     />
+                    android:layout_marginRight="15dp"
+                    />
 
                 <Button
                     android:id="@+id/schedulebtn"
                     android:layout_width="wrap_content"
                     android:textColor="#ffffff"
-                    android:layout_weight="0.60"
+                    android:layout_weight="1"
                     android:background="@drawable/roundblue2"
                     android:gravity="center"
                     android:layout_gravity="center"
@@ -140,12 +129,7 @@
                     android:textSize="@dimen/p"
                     android:layout_height="wrap_content" />
 
-                </LinearLayout>
             </LinearLayout>
 
 
-        </LinearLayout>
-
-
-    </LinearLayout>
 </LinearLayout>

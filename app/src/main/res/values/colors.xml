@@ -7,6 +7,9 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
     <color name="colorPrimaryLight">#B2DFDB</color>
+
+    <color name="colorPrimaryLightDark">#8bafac</color>
+
     <color name="colorTextIcons">#FFFFFF</color>
     <color name="colorDivider">#BDBDBD</color>
 
@@ -33,7 +36,7 @@
     <color name="colorInputText">#BDBDBD</color>
 
 
-    <color name="colorInputTextHint">#806b6b6b</color>
+    <color name="colorInputTextHint">@color/colorPrimaryText</color>
 
     <color name="colorInputBG">#FFFFFF</color>
 

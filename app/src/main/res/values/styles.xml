@@ -53,9 +53,17 @@
 
     <style name="input" parent="@android:style/TextAppearance.Medium">
         <!--    <item name="android:textSize">@dimen/h3</item> -->
-        <item name="android:textColor">@color/colorInputText</item>
-        <item name="android:textStyle">normal</item>
+       <item name="android:textColor">@color/colorInputText</item>
         <item name="android:textColorHint">@color/colorInputTextHint</item>
+        <item name="android:textStyle">normal</item>
+
+
+        <!--
+        android:backgroundTint="@color/colorInputBG"
+        android:textColor="@color/colorInputText"
+        android:textColorHint="@color/colorInputTextHint"
+
+-->
     </style>
 
 

@@ -76,9 +76,6 @@
                     android:inputType="text"
                     android:textAlignment="center"
                     android:backgroundTint="@color/colorInputBG"
-                    android:textColor="@color/colorInputText"
-                    android:textColorHint="@color/colorInputTextHint"
-
                     android:textAppearance="@style/input"
                     />
 

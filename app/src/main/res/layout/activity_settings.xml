@@ -52,9 +52,9 @@
             android:inputType="text"
             android:textAlignment="center"
             android:backgroundTint="@color/colorInputBG"
-            android:textColor="@color/colorInputText"
-            android:textColorHint="@color/colorInputTextHint"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+
+
+            android:textAppearance="@style/input"
            />
 
 
@@ -79,9 +79,7 @@
             android:inputType="text"
             android:textAlignment="center"
             android:backgroundTint="@color/colorInputBG"
-            android:textColor="@color/colorInputText"
-            android:textColorHint="@color/colorInputTextHint"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="@style/input"
     />
 
 
@@ -107,9 +105,7 @@
             android:inputType="text"
             android:textAlignment="center"
             android:backgroundTint="@color/colorInputBG"
-            android:textColor="@color/colorInputText"
-            android:textColorHint="@color/colorInputTextHint"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="@style/input"
              />
 
 
@@ -137,9 +133,7 @@
             android:inputType="text"
             android:textAlignment="center"
             android:backgroundTint="@color/colorInputBG"
-            android:textColor="@color/colorInputText"
-            android:textColorHint="@color/colorInputTextHint"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="@style/input"
              />
 
 
@@ -169,9 +163,10 @@
             android:inputType="text"
             android:textAlignment="center"
             android:backgroundTint="@color/colorInputBG"
-            android:textColor="@color/colorInputText"
-            android:textColorHint="@color/colorInputTextHint"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+
+            android:textAppearance="@style/input"
+
+
              />
 
     </LinearLayout>

@@ -33,13 +33,22 @@
         android:layout_below="@+id/emotionpercent"
         android:layout_centerHorizontal="true" />
 
+    <View
+        android:id="@+id/seperator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:padding="10dp"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/emotiontitlelbl"
+        android:background="@android:color/darker_gray"
+        />
     <ListView
         android:id="@+id/wordlistlv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:background="@color/colorBackgroundList"
-        android:layout_below="@+id/emotiontitlelbl"
+        android:layout_below="@+id/seperator"
         android:layout_centerHorizontal="true" />
 
 

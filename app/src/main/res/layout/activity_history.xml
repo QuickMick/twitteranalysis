@@ -39,6 +39,14 @@
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:padding="10dp"
+        android:layout_margin="5dp"
+        android:background="@android:color/darker_gray"
+        />
+
     <ListView
         android:background="@color/colorBackgroundList"
         android:layout_width="match_parent"

@@ -60,8 +60,6 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
 
         InitUI();
-        TextView backicon = (TextView)findViewById(R.id.backicon);
-
 
         go.setOnClickListener(this);
     }

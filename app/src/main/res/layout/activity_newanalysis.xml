@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/H3"
                     android:layout_marginTop="10dp"
-                    android:text="keywords should be comma-seperated,\n e.g. twitter analysis,emotion,sentiment"
+                    android:text="keywords should be comma-seperated,\n e.g.: twitter analysis,emotion,sentiment"
                     android:gravity="center"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>

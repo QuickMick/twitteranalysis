@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#00796B</color>
+    <color name="colorAccent">#009688</color>
+
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondaryText">#757575</color>
+    <color name="colorPrimaryColorLight">#B2DFDB</color>
+    <color name="colorTextIcons">#FFFFFF</color>
+    <color name="colorDivider">#BDBDBD</color>
+
+
+
+
+    <color name="colorBackground">@color/colorPrimaryDark</color>
+
+    <color name="colorButton">@color/colorAccent</color>
+
+
+    <color name="colorBackgroundInfo">@color/colorPrimary</color>
+    <color name="colorInfoHeading">#FFFFFF</color>
+
+    <color name="colorTextH1">#B2DFDB</color>
+    <color name="colorTextH2">#FFFFFF</color>
+    <color name="colorTextH3">#BDBDBD</color>
+
+    <color name="colorSmallText">#757575</color>
+
+    <color name="colorTextButton">#BDBDBD</color>
+
+    <color name="colorInputText">#BDBDBD</color>
+
+
+    <color name="colorInputTextHint">#806b6b6b</color>
+
+    <color name="colorInputBG">#FFFFFF</color>
+
+
+    <color name="colorGraphBG">#BDBDBD</color>
 </resources>

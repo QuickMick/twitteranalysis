@@ -8,24 +8,21 @@
     android:padding="25dp"
     android:layout_gravity="center"
     android:gravity="center"
-    android:background="#278e88"
+    android:background="@color/colorBackground"
     >
 
     <TextView
-        android:id="@+id/backicon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="Settings"
-        android:textColor="#ffffff"
-        android:textSize="@dimen/h1"
+        android:textColor="@color/colorTextH1"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold"
         android:layout_marginBottom="20dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:textAlignment="center"/>
 
 
 
@@ -42,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:background="#a1e0a9"
+            android:background="@color/colorBackgroundInfo"
             android:text="Consumer Key"
             android:textStyle="bold"
             android:gravity="center"
@@ -58,9 +55,11 @@
             android:hint="Please enter the Consumer Key"
             android:inputType="text"
             android:textAlignment="center"
-            android:textColor="#6b6b6b"
+            android:backgroundTint="@color/colorInputBG"
+            android:textColor="@color/colorInputText"
+            android:textColorHint="@color/colorInputTextHint"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColorHint="#806b6b6b" />
+           />
 
 
 
@@ -69,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:background="#a1e0a9"
+            android:background="@color/colorBackgroundInfo"
             android:text="Consumer Secret Key"
             android:textStyle="bold"
             android:gravity="center"
@@ -85,9 +84,11 @@
             android:hint="Please enter the Secret  Key"
             android:inputType="text"
             android:textAlignment="center"
-            android:textColor="#6b6b6b"
+            android:backgroundTint="@color/colorInputBG"
+            android:textColor="@color/colorInputText"
+            android:textColorHint="@color/colorInputTextHint"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColorHint="#806b6b6b" />
+    />
 
 
         <TextView
@@ -95,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:background="#a1e0a9"
+            android:background="@color/colorBackgroundInfo"
 
             android:text="Access Token"
             android:textStyle="bold"
@@ -113,9 +114,11 @@
             android:hint="Please enter the Access Token"
             android:inputType="text"
             android:textAlignment="center"
-            android:textColor="#6b6b6b"
+            android:backgroundTint="@color/colorInputBG"
+            android:textColor="@color/colorInputText"
+            android:textColorHint="@color/colorInputTextHint"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColorHint="#806b6b6b" />
+             />
 
 
 
@@ -125,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:background="#a1e0a9"
+            android:background="@color/colorBackgroundInfo"
 
             android:text="Access Token Secret Key"
             android:textStyle="bold"
@@ -143,9 +146,11 @@
             android:hint="Please enter the Secret Token Key"
             android:inputType="text"
             android:textAlignment="center"
-            android:textColor="#6b6b6b"
+            android:backgroundTint="@color/colorInputBG"
+            android:textColor="@color/colorInputText"
+            android:textColorHint="@color/colorInputTextHint"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColorHint="#806b6b6b" />
+             />
 
 
 
@@ -155,7 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:background="#a1e0a9"
+            android:background="@color/colorBackgroundInfo"
 
 
             android:text="Output Folder"
@@ -175,9 +180,11 @@
             android:hint="Please enter output folder name"
             android:inputType="text"
             android:textAlignment="center"
-            android:textColor="#6b6b6b"
+            android:backgroundTint="@color/colorInputBG"
+            android:textColor="@color/colorInputText"
+            android:textColorHint="@color/colorInputTextHint"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColorHint="#806b6b6b" />
+             />
 
     </LinearLayout>
 
@@ -195,7 +202,7 @@
         <Button
             android:id="@+id/savebtn"
             android:layout_width="0dp"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorTextButton"
             android:layout_weight="1"
             android:background="@drawable/roundblue2"
             android:gravity="center"
@@ -208,7 +215,7 @@
         <Button
             android:id="@+id/validatebtn"
             android:layout_width="0dp"
-            android:textColor="#ffffff"
+            android:textColor="@color/colorTextButton"
             android:layout_weight="1"
             android:background="@drawable/roundblue2"
             android:gravity="center"

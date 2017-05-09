@@ -24,21 +24,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Settings" />
+        <activity android:name=".Settings" android:screenOrientation="portrait" />
         <activity android:name=".NewAnalysis" />
 
         <service android:name="com.example.mick.service.ForegroundService" />
 
-        <activity android:name="com.example.graphs.LineGraphActivity" />
+        <activity android:name="com.example.graphs.LineGraphActivity" android:screenOrientation="landscape" android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.example.graphs.BarChartActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"
             android:launchMode="singleTask" />
-        <activity android:name="com.example.graphs.DetailGraphActivity" />
-        <activity android:name=".HistoryActivity" />
-        <activity android:name=".ImprintActivity" />
-        <activity android:name="com.example.graphs.HistoryTimelineActivity" />
-        <activity android:name=".HelpActivity" />
-        <activity android:name=".TweetHistoryActivity" />
+        <activity android:name="com.example.graphs.DetailGraphActivity" android:screenOrientation="portrait" />
+        <activity android:name=".HistoryActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ImprintActivity" android:screenOrientation="portrait" />
+        <activity android:name="com.example.graphs.HistoryTimelineActivity" android:screenOrientation="landscape" android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".HelpActivity" android:screenOrientation="portrait" />
+        <activity android:name=".TweetHistoryActivity" android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.example.mick.service.AnalysisSchedulTask"
@@ -49,7 +51,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".TaskScheduledActivity"></activity>
+        <activity android:name=".TaskScheduledActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

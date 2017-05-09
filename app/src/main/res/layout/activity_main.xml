@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
-    android:background="#278e88">
+    android:background="@color/colorBackground">
 
     <TextView
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:textSize="@dimen/h1"
         android:text="Twitter Emotion and Sentiment Analysis"
         android:gravity="center"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorTextH1"
         android:layout_height="wrap_content" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:textSize="@dimen/h3"
         android:gravity="center"
         android:text="What would you like to do today?"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorTextH2"
         android:layout_height="wrap_content" />
 
 
@@ -48,9 +48,10 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/roundblue2"
+
                 android:textStyle="bold"
                 android:text="Show unsaved Analysis"
-                android:textColor="#ffffff" />
+                android:textColor="@color/colorTextButton" />
 
 
 
@@ -64,7 +65,7 @@
                 android:background="@drawable/roundblue2"
                 android:textStyle="bold"
                 android:text="New Analysis"
-                android:textColor="#ffffff" />
+                android:textColor="@color/colorTextButton" />
 
             <Button
                 android:id="@+id/history"
@@ -74,7 +75,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:text="History"
-                android:textColor="#ffffff"
+                android:textColor="@color/colorTextButton"
                 android:layout_height="0dp" />
 
             <Button
@@ -85,7 +86,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:text="Settings"
-                android:textColor="#ffffff"
+                android:textColor="@color/colorTextButton"
                 android:layout_height="0dp" />
             <Button
                 android:id="@+id/help"
@@ -95,7 +96,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:text="Help"
-                android:textColor="#ffffff"
+                android:textColor="@color/colorTextButton"
                 android:layout_height="0dp" />
 
             <Button
@@ -104,9 +105,10 @@
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
                 android:text="Imprint"
-                android:textColor="#ffffff"
+                android:textColor="@color/colorTextButton"
                 android:layout_height="0dp" />
         </LinearLayout>
 

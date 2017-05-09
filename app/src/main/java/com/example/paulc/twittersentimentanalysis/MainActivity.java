@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static boolean ASKED_FOR_WLAN = false;
 
     // declaration of views
-    FontManager FM;
+
   //  TextView userdisplay,informativeText,backicon;
     Button newAnalysis,history,settings,imprintBtn,helpBtn,unsavedResultBtn;
     ProgressDialog progressDialog;
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setContentView(R.layout.activity_main);
 
-        FM=new FontManager(getApplicationContext());
         InitUI();
      //   TextView backicon = (TextView)findViewById(R.id.backicon);
       //  backicon.setTextColor(Color.parseColor("#1cb189"));
@@ -171,9 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //    FM.setAppRegular(userdisplay);
        // FM.setAppRegular(logout);
      //   FM.setAppMedium(logouttv);
-        FM.setAppMedium(newAnalysis);
-        FM.setAppMedium(history);
-        FM.setAppMedium(settings);
+
     //    FM.setAppRegular(informativeText);
 
     }

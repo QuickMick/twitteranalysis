@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#278e88"
+    android:background="@color/colorBackground"
     android:orientation="vertical"
     tools:context="com.example.paulc.twittersentimentanalysis.TweetHistoryActivity">
 
@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textColor="@color/colorTextH1"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Recent 50 Tweets"
             android:layout_weight="1"
@@ -27,6 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/reloadtweetsbtn"
+            android:background="@drawable/roundblue2"
+            android:textColor="@color/colorTextButton"
             android:text="&#x21bb;"/>
     </LinearLayout>
     <ListView

@@ -27,6 +27,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
+
+        android:textColor="@color/colorTextH3"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+
         android:text="Large Text"
         android:layout_below="@+id/emotionpercent"
         android:layout_centerHorizontal="true" />

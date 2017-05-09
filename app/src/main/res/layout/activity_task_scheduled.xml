@@ -7,6 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorBackground"
     tools:context="com.example.paulc.twittersentimentanalysis.TaskScheduledActivity">
 
     <TextView
@@ -14,6 +15,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Task Scheduled"
+        android:textColor="@color/colorTextH1"
         android:id="@+id/textView9"
         android:layout_above="@+id/linearLayout"
         android:layout_centerHorizontal="true" />
@@ -36,11 +38,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorTextH1"
                 android:text="Interval:" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorTextH1"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Large Text"
                 android:id="@+id/intervallbl" />
@@ -56,12 +60,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorTextH1"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Duration:" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorTextH1"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Large Text"
                 android:id="@+id/durationlbl" />
@@ -76,12 +82,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorTextH2"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Project folder:" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorTextH2"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Large Text"
                 android:id="@+id/folderlbl" />
@@ -98,12 +106,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorTextH2"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Start time:" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorTextH2"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Large Text"
                 android:id="@+id/starttimelbl" />
@@ -120,12 +130,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorTextH2"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Next Analysis:" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorTextH2"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Large Text"
                 android:id="@+id/nextlbl" />
@@ -141,6 +153,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/colorTextH3"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Large Text"
                 android:id="@+id/analysescountlbl" />
@@ -157,7 +170,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="dismiss"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorTextButton"
         android:layout_below="@+id/textView10"
         android:layout_centerHorizontal="true" />
 
@@ -165,6 +178,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/colorSmallText"
         android:text="Scheduled Tasks block the app for further use. Dismiss them first"
         android:gravity="center"
         android:id="@+id/textView10"

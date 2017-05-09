@@ -6,23 +6,21 @@
     android:orientation="vertical"
     android:weightSum="10"
     android:gravity="center"
-    android:background="#278e88"
+    android:background="@color/colorBackground"
     android:padding="20dp"
     >
 
 
         <TextView
-            android:id="@+id/backicon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAlignment="center"
             android:gravity="center"
             android:text="Analyzation Properties"
-            android:textColor="#ffffff"
-            android:textSize="@dimen/h1"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
+            android:textColor="@color/colorTextH1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
 
 
             <LinearLayout
@@ -36,12 +34,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:background="#a1e0a9"
-                    android:text="Prohibited words"
+                    android:background="@color/colorBackgroundInfo"
+
+
+                    android:text="Keywords"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:gravity="center"
                     android:textStyle="bold"
-                    android:textColor="#ffffff" />
+                    android:textColor="@color/colorInfoHeading" />
 
                 <EditText
                     android:id="@+id/searchcriteria"
@@ -50,13 +50,13 @@
                     android:layout_weight="2"
                     android:background="@drawable/roundedwhite"
                     android:hint="Please enter search criteria"
+                    android:backgroundTint="@color/colorInputBG"
+                    android:textColor="@color/colorInputText"
+                    android:textColorHint="@color/colorInputTextHint"
+
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:inputType="text"
-                    android:textAlignment="center"
-
-
-                    android:textColor="#6b6b6b"
-                    android:textColorHint="#806b6b6b" />
+                    android:textAlignment="center" />
 
 
                 <TextView
@@ -64,12 +64,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:background="#a1e0a9"
+                    android:background="@color/colorBackgroundInfo"
                     android:text="Prohibited words"
                     android:textStyle="bold"
                     android:gravity="center"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="#ffffff" />
+                    android:textColor="@color/colorInfoHeading" />
 
                 <EditText
                     android:id="@+id/searchcriteriaprohibited"
@@ -80,19 +80,22 @@
                     android:hint="skip tweets containing this words"
                     android:inputType="text"
                     android:textAlignment="center"
-                    android:textColor="#6b6b6b"
+                    android:backgroundTint="@color/colorInputBG"
+                    android:textColor="@color/colorInputText"
+                    android:textColorHint="@color/colorInputTextHint"
+
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColorHint="#806b6b6b" />
+                    />
 
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorSmallText"
                     android:layout_marginTop="10dp"
                     android:text="keywords should be comma-seperated,\n e.g. twitter analysis,emotion,sentiment"
                     android:gravity="center"
-                    android:textColor="#FFFFFF"
                     android:layout_gravity="center_horizontal" />
             </LinearLayout>
 
@@ -107,7 +110,7 @@
                     android:id="@+id/go"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/colorTextButton"
                     android:layout_weight="1"
                     android:background="@drawable/roundblue2"
                     android:gravity="center"
@@ -120,7 +123,7 @@
                 <Button
                     android:id="@+id/schedulebtn"
                     android:layout_width="wrap_content"
-                    android:textColor="#ffffff"
+                    android:textColor="@color/colorTextButton"
                     android:layout_weight="1"
                     android:background="@drawable/roundblue2"
                     android:gravity="center"

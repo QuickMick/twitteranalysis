@@ -41,8 +41,7 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     public static final String SHARED_PREFERENCES_KEY = "TWITTER_ANALYSIS_PREFERENCES";
 
     // declaration of views
-    FontManager FM;
-    TextView backicon;
+
     Button savebtn,validatebtn;
     EditText consumerkeytxt,consumerkeytxtscrt,accesstokentxt,accesstokentxtscrt,foldertext;
 
@@ -53,11 +52,8 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        FM=new FontManager(getApplicationContext());
         InitUI();
-        TextView backicon = (TextView)findViewById(R.id.backicon);
-        backicon.setTextColor(Color.parseColor("#1cb189"));
-        FM.setBackIcon(backicon);
+
 
         savebtn.setOnClickListener(this);
         validatebtn.setOnClickListener(this);
@@ -93,7 +89,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
     public void InitUI(){
 
-        backicon = (TextView)findViewById(R.id.backicon);
         //Buttons
      /*   consumerkeybtn = (Button) findViewById(R.id.consumerkeybtn);
         consumerkeybtnscrt = (Button) findViewById(R.id.consumerkeybtnscrt);
@@ -111,16 +106,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         accesstokentxtscrt = (EditText)findViewById(R.id.accesstokentxtscrt);
 
 
-        FM.setAppRegular(backicon);
-     /*   FM.setAppMedium(consumerkeybtn);
-        FM.setAppMedium(consumerkeybtnscrt);
-        FM.setAppMedium(accesstokenbtn);
-        FM.setAppMedium(accesstokenbtnscrt);*/
-        FM.setAppMedium(savebtn);
-        FM.setAppMedium(consumerkeytxt);
-        FM.setAppMedium(consumerkeytxtscrt);
-        FM.setAppMedium(accesstokentxt);
-        FM.setAppMedium(accesstokentxtscrt);
 
     }
 
@@ -229,7 +214,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
 
 
         }else if( view == validatebtn){
-            backicon.setEnabled(false);
           /*  consumerkeybtn.setEnabled(false);
             consumerkeybtnscrt.setEnabled(false);
             accesstokenbtn.setEnabled(false);
@@ -251,7 +235,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
                     return Settings.this.vertifyTwitterCredentials();
                 }
                 protected void onPostExecute(Boolean result) {
-                    backicon.setEnabled(true);
                  /*   consumerkeybtn.setEnabled(true);
                     consumerkeybtnscrt.setEnabled(true);
                     accesstokenbtn.setEnabled(true);

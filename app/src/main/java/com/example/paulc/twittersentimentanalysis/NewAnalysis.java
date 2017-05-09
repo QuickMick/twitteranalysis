@@ -47,8 +47,6 @@ import twitter4j.conf.ConfigurationBuilder;
 public class NewAnalysis extends AppCompatActivity implements View.OnClickListener {
 
     // declaration of views
-    FontManager FM;
-    TextView backicon;
     Button go;
     EditText searchcriteria, searchcriteriaProhibited;
 
@@ -59,11 +57,10 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newanalysis);
 
-        FM=new FontManager(getApplicationContext());
+
         InitUI();
         TextView backicon = (TextView)findViewById(R.id.backicon);
-        backicon.setTextColor(Color.parseColor("#1cb189"));
-        FM.setBackIcon(backicon);
+
 
         go.setOnClickListener(this);
     }
@@ -71,7 +68,6 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
     public void InitUI(){
 
-        backicon = (TextView)findViewById(R.id.backicon);
         //Buttons
         go = (Button) findViewById(R.id.go);
         scheduleBtn = (Button) findViewById(R.id.schedulebtn);
@@ -80,10 +76,9 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
         searchcriteria = (EditText)findViewById(R.id.searchcriteria);
         this.searchcriteriaProhibited = (EditText)findViewById(R.id.searchcriteriaprohibited);
 
-        FM.setAppRegular(backicon);
-        FM.setAppMedium(go);
-        FM.setAppMedium(searchcriteria);
-        FM.setAppMedium(searchcriteriaProhibited);
+       // FM.setAppMedium(go);
+       // FM.setAppMedium(searchcriteria);
+      //  FM.setAppMedium(searchcriteriaProhibited);
     }
 
     /**
@@ -133,7 +128,6 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
 
             Log.d("AppD","start analization clicked");
 
-            backicon.setEnabled(false);
             go.setEnabled(false);
             searchcriteria.setEnabled(false);
             searchcriteriaProhibited.setEnabled(false);
@@ -151,7 +145,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                     return NewAnalysis.this.vertifyTwitterCredentials();
                 }
                 protected void onPostExecute(Boolean result) {
-                        backicon.setEnabled(true);
+
                         go.setEnabled(true);
                         searchcriteria.setEnabled(true);
                     searchcriteriaProhibited.setEnabled(true);

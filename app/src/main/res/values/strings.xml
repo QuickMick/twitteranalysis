@@ -553,6 +553,177 @@
     <string name="fa_youtube">&#xf167;</string>
     <string name="fa_youtube_play">&#xf16a;</string>
     <string name="fa_youtube_square">&#xf166;</string>
-    <string name="help_description"><![CDATA[Use this App to create basic emotion and sentiment analysis of twitter. You are able to create a analysis for all tweets (leave the keyword field empty) or just for a certein topic (keywords seperated with a comma). After the analyzation is done, you are able to save it as a json file. the files are saved in the folder specified in the settings option. all files of this folder are shown in the history tab. You are able to change this folder in the settings. the files also can be shared. You are able to view all of your analizes by clicking "show timeline". There you are able to export and share a summary *.csv-file. The Historyfiles themselves are JSON files based on following structure: { \'startDate\':<start_of_the_Analysis_in_format> \'DD.MM.YYYY HH:mm:ss\', \'endDate\': <end_of_the_Analysis_in_format> \'DD.MM.YYYY HH:mm:ss\', \'keywords\':[<keywords_as_array>], \'wordCount\':<count_of_all_words_as_int>, \'tweetCount\':<count_of_collected_tweets_as_int>, \'sentenceCount\':<count_of_analized_senctences_as_int>, \'wordCountAnalized\':<count_of_analized_words_as_int>, \'emotionWeighting\':{ \'anger\':<score_as_int>, \'anticipation\':<score_as_int>, \'disgust\':<score_as_int>, \'fear\':<score_as_int>, \'joy\':<score_as_int>, \'sadness\':<score_as_int>, \'surprise\':<score_as_int>, \'trust\':<score_as_int>, \'positive\':<score_as_int>, \'negative\':<score_as_int> }, \'wordStatistic_all\':{ \'word\':<count_as_int> ... }, \'wordStatistic_anger\':{ \'word\':<count_as_int> ... }, \'wordStatistic_anticipation\':{ \'word\':<count_as_int> ... }, \'wordStatistic_disgust\':{ \'word\':<count_as_int> ... }, \'wordStatistic_fear\':{ \'word\':<count_as_int> ... }, \'wordStatistic_joy\':{ \'word\':<count_as_int> ... }, \'wordStatistic_sadness\':{ \'word\':<count_as_int> ... }, \'wordStatistic_surprise\':{ \'word\':<count_as_int> ... }, \'wordStatistic_trust\':{ \'word\':<count_as_int> ... }, \'wordStatistic_sentiment_negative\':{ \'word\':<count_as_int> ... }, \'wordStatistic_sentiment_positive\':{ \'word\':<count_as_int> ... } }]]></string>
+    <string name="help_description"><![CDATA[Use this App to create basic emotion and sentiment analysis of twitter. You are able to create a analysis for all tweets (leave the keyword field empty) or just for a certein topic (keywords seperated with a comma). After the analyzation is done, you are able to save it as a json file. the files are saved in the folder specified in the settings option. all files of this folder are shown in the history tab. You are able to change this folder in the settings. the files also can be shared. You are able to view all of your analizes by clicking "show timeline". There you are able to export and share a summary *.csv-file. The Historyfiles themselves are JSON files based on following structure: { \"startDate\":<start_of_the_Analysis_in_format> \"DD.MM.YYYY HH:mm:ss\", \"endDate\": <end_of_the_Analysis_in_format> \"DD.MM.YYYY HH:mm:ss\", \"keywords\":[<keywords_as_array>], \"wordCount\":<count_of_all_words_as_int>, \"tweetCount\":<count_of_collected_tweets_as_int>, \"sentenceCount\":<count_of_analized_senctences_as_int>, \"wordCountAnalized\":<count_of_analized_words_as_int>, \"emotionWeighting\":{ \"anger\":<score_as_int>, \"anticipation\":<score_as_int>, \"disgust\":<score_as_int>, \"fear\":<score_as_int>, \"joy\":<score_as_int>, \"sadness\":<score_as_int>, \"surprise\":<score_as_int>, \"trust\":<score_as_int>, \"positive\":<score_as_int>, \"negative\":<score_as_int> }, \"wordStatistic_all\":{ \"word\":<count_as_int> ... }, \"wordStatistic_anger\":{ \"word\":<count_as_int> ... }, \"wordStatistic_anticipation\":{ \"word\":<count_as_int> ... }, \"wordStatistic_disgust\":{ \"word\":<count_as_int> ... }, \"wordStatistic_fear\":{ \"word\":<count_as_int> ... }, \"wordStatistic_joy\":{ \"word\":<count_as_int> ... }, \"wordStatistic_sadness\":{ \"word\":<count_as_int> ... }, \"wordStatistic_surprise\":{ \"word\":<count_as_int> ... }, \"wordStatistic_trust\":{ \"word\":<count_as_int> ... }, \"wordStatistic_sentiment_negative\":{ \"word\":<count_as_int> ... }, \"wordStatistic_sentiment_positive\":{ \"word\":<count_as_int> ... } }]]></string>
+
+    <string name="imprint_html">
+        <![CDATA[
+<html>
+    <head>
+        <style>
+            *{
+                font-family: Arial;
+            }
+            h1{
+                color:#color_H1;
+                font-size:#size_H1;
+                text-align:center;
+                padding-top:1vh;
+            }
+            h2{
+                color:#color_H2;
+                font-size:#size_H2;
+                text-align:center;
+            }
+            blockquote,p{
+                color:#color_p;
+                font-size:#size_p;
+            }
+
+            html{
+               margin: 0;
+               padding:1vh;
+            }
+
+            body{
+                background-color: #bgColor;
+                margin: 0;
+                padding-top: 0;
+                padding-right: 2vw;
+                padding-bottom: 2vw;
+                padding-left: 2vw;
+            }
+            span{
+                padding-left:15%;
+            }
+
+
+        </style>
+
+    </head>
+    <body>
+        <h2>Developed for the course "Remote Collaboration" for HHN</h2>
+        <p style="text-align:center;">this app uses</p>
+
+        <h1>Twitter</h1>
+        <p>Twitter is a social plattform, which is used by many people. In this application, Twitter or especially the Twitter Streaming API, is used as the primary data source.<br/>
+           <span>see: <a href="https://twitter.com/">twitter.com</a></span>
+        </p>
+
+        <h1>Android-GraphView</h1>
+        <p>which was published by Jonas Gehring. It is a library which is used in this project for displaying the live and historic results.<br/>
+           <span>see: <a href="http://www.android-graphview.org/">android-graphview.org</a> </span>
+        </p>
+
+        <h1>en-inflectors</h1>
+        <p>Alex Corvi He has developed the npm package "en-inflectors" for javascript, which is used also in this project. It was translated from JavaScript to Java by us.<br/>
+            <span>see: <a href="https://www.npmjs.com/package/en-inflectors">en-inflectors npm page</a></span>
+        </p>
+
+        <h1>Twitter4j</h1>
+        <p>which was used to establish the connection to Twitter and to collect the Tweets from the Twitter Streaming API.<br/>
+            <span>see: <a href="http://twitter4j.org">twitter4j.org</a></span>
+        </p>
+
+        <h1>NRC Word-Emotion Association Lexicon</h1>
+        <p>is a lexicon which maps emotions to words and is used for the analysis process in this software.<br/>
+            <span>see: <a href="http://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm">saifmohammad.com</a></span>
+        </p>
+
+    </body>
+</html>
+        ]]>
+    </string>
+
+    <string name="help_html">
+        <![CDATA[
+        <html>
+            <head>
+                <style>
+                    *{
+                        font-family: Arial;
+                    }
+                    h1{
+                        color:#color_H1;
+                        font-size:#size_H1;
+                        padding-top:1vh
+                    }
+                    h2{
+                        color:#color_H2;
+                        font-size:#size_H2;
+                    }
+                    blockquote,p{
+                        color:#color_p;
+                        font-size:#size_p;
+                    }
+                    body{
+                        text-align: justify;
+                    }
+
+                    html{
+                       margin: 0;
+                       padding:1vh;
+                    }
+
+                    body{
+                        background-color: #bgColor;
+                        margin: 0;
+                        padding-top: 0;
+                        padding-right: 2vw;
+                        padding-bottom: 2vw;
+                        padding-left: 2vw;
+                    }
+
+                </style>
+
+            </head>
+            <body>
+                <h1>Introduction</h1>
+                <p>This app is basically used to create real-time analysis of the Twitter. Real-time means, that when somebody tweets something, you will get his tweet instantly. You will not receive past tweets.<br/>
+                In order to use this application, you need a twitter account, and you need to register a twitter app in the developers section (<a href="https://apps.twitter.com/">click</a>). Twitter will you provide 4 tokens. You will need to put this tokens in the inputfilds in the settings section and click save, before you are able to start an analysis.</p>
+
+                <h1>Simple Analysis</h1>
+                <p>To start a simple real-time analysis, just click the "New Analysis" button on the homescreen, afterwards type in the keywords for which you want to analize related tweets, or leave it empty (then you will receive "all" tweets). The keywords have to be comma seperated. Commas are like logical ORs. Spaces are used as logical ANDs.<br/> e.g. "sentiment analysis" searches for tweets, which mention "sentiment analysis", while "sentiment, analysis" delivers tweets in which wheather "sentiment" OR "analysis" appears.<br/>The Prohibited words work with the same principle. But, if a term of this list appears in a tweet, then the tweet will not be considered.<br/>After the keywords and Prohibited words fit your requirements, hit the "Go" button. You will get redirected to the Analysis screen after a short period of loading.</p>
+
+                <h1>Scheduled Analysis</h1>
+                <p>The scheduled analyses function is used to start analyses automatically after a certain period of time has passed. Also they will stop automatically after a certain period of time. The scheduled analyses work basicly like the simple analyses. Except for you do not click on the "Go" button, but on the "Schedule" button. After you have clicked the "Schedule" button. You have to first put in an interval and afterwards a duration.</p>
+                <p><i><b>Note</b>: this will block the application for further use. If you want to see historic results or export results, you first need to dismiss the current scheduled analysis.</i></p>
+
+                <blockquote><b>Interval</b> This is the period of time between two analysis. In other words, when an analysis starts, this is the period of time which passes, until the next analysis starts.<br/>
+                    <b>Duration</b> The duration is the period of time, which defines how long the analysis process will perform.</blockquote>
+
+                <p><i><b>Note</b>: In the current verison, the duration cannot be longer than the half of the interval.</i></p>
+
+                <h1>The Analysis</h1>
+                <p>While the analysis is active, you will see a notification. The notification shows the current number of received and analized tweets. Clicking on the notification will you redirect to the "Analysis screen", where you will see the current results. Also a click on the "stop" symbol will finish the current analysis.</p>
+                <p><i><b>Note</b>: the saving is not done automatically. You have to save it by using the "save and export" button of the "Analysis sceen".</p>
+                <p><b>Note</b>: the application is just able to perform one analysis at time. Analyses in parallel are not supported.</i></p>
+
+                <h1>Analysis Screen</h1>
+                <p>This screen shows you the current real-time or history results. The bar chart shows the emotion distribution in percent, click on it to toggle to the sentiment chart. Below the chart, there are statistics about the current analysis written. You see the current keywords and prohibited words, as also the total number of tweets and sentences which they consist of and the total count of words from these sentences. "Analyzed words" describes the number of words which got actually considerd in the analysis result. E.g. Most of the words you use are stop words and do not transfer any sentiment or emotion data.</p>
+
+                <blockquote><b>"show details"</b> opens a selection dialog, where you have to choose an emotion, sentiment or "all words", afterwards it redirects you to a new screen which shows more details about the current analysis. this function is available all the time. The screen which opens gives you information about the top 50 most mentioned words in relation to the selected emotion since the analysis began and also the exact percentage value of the emotion or sentiment. "all words" will show you the top words of every emotion, the chart will show you, how much words actually got taken into consideration for the analysis.</blockquote>
+
+                <h2>Just during real-time analysis:</h2>
+                <p>while performing a real-time analysis, the screen shows more buttons than while using histroy mode.</p>
+
+                <blockquote>
+                <b>"show timeline"</b> shows the real-time analysis results in a time-line-graph. you can also toggle here between sentiments and emotions by clicking the graph. each datapoint represents one second.<br/>
+                <b>"stop analysis"</b> stops the analysis, after you have confirmed the prompt.<br/>
+                <b>"save and export"</b> this button is just available, after you have stoped the real-time analysis either by using the "stop analysis" button or using the notification. it will save and export the analysis-data to a json-file. the output folder is the folder which is written in the settings view. the default folder is "twitter_results".<br/>
+                <b>"show tweets"</b> clicking this button will open a new view with a list of the maximum 50 recent tweets. You will see the cleaned tokens of the tweet (which got actually analyzed) and also the sentiment and emotion score.<br/>
+                </blockquote>
+
+                <h1>History Screen</h1>
+                <p>This screen is reachable by clicking the "History" screen in the main menu. You will see a list of saved analysis, which are stored in the the current folder. You can change the folder by using the "Settings screen". Clicking one element will open a dialog. You have the options to share the file, delete it or open it again. Opening it will redirect you to the Analysis screen.</p>
+                <p>At the bottom you will see the "show in timeline" button. Clicking it will redirect you to a screen, which shows the emotion or sentiment (click the graph to toggle) evolution of all your past analyses inside the selected folder. The export button on the bottom will export a *.csv-file to the "twitter_exports" folder of your SD card. The file will contain the most necessary data - you can use it to create graphs on your own by for example using Libre Office or Microsoft Excel.</p>
+
+                <h1>Settings Screen</h1>
+                <p>You need this screen to put in your twitter app tokens and to change the current folder. a folder is like an "analysis project".<br/>
+                Vist <a href="https://apps.twitter.com/">Twitter for Developers</a> and create an app there to get your tokens.<br/>
+                Once you are finished click the save button. the "validate credentials" button will check, if you twitter-tokens are correct.</p>
+            </body>
+        </html>
+        ]]>
+    </string>
 
 </resources>

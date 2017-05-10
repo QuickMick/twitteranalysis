@@ -256,11 +256,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if(view == this.imprintBtn){
-            startActivity(new Intent(MainActivity.this, ImprintActivity.class));
+            //Intent ii=new Intent(MainActivity.this, ImprintActivity.class);
+            Intent ii=new Intent(MainActivity.this, HelpActivity.class);
+            ii.putExtra(HelpActivity.VIEW_MODE,HelpActivity.IMPRINT);
+            startActivity(ii);
         }
 
         if(view == this.helpBtn){
-            startActivity(new Intent(MainActivity.this, HelpActivity.class));
+            Intent hi=new Intent(MainActivity.this, HelpActivity.class);
+            hi.putExtra(HelpActivity.VIEW_MODE,HelpActivity.HELP);
+            startActivity(hi);
         }
 
         if(view == this.unsavedResultBtn){

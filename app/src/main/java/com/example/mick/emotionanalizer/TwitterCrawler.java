@@ -75,6 +75,7 @@ public class TwitterCrawler {
 
                 boolean skip = false;
 
+                //check if there are prohibited words in the tweet, if yes, then skip it
                 if(keywordsProhibited != null && keywordsProhibited.length >0){
                     for(String xk : keywordsProhibited){
                         if(currentTweet.contains(xk)){

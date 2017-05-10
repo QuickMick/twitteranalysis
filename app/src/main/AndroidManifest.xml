@@ -39,7 +39,7 @@
         <activity android:name=".HistoryActivity"/>
         <activity android:name=".ImprintActivity"  />
         <activity android:name="com.example.graphs.HistoryTimelineActivity" android:screenOrientation="landscape" android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".HelpActivity" android:screenOrientation="portrait" />
+        <activity android:name=".HelpActivity" />
         <activity android:name=".TweetHistoryActivity" />
 
         <receiver

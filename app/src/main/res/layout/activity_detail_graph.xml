@@ -8,10 +8,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/colorBackground"
-    tools:context="com.example.graphs.DetailGraphActivity">
+    tools:context="com.hhn.graphs.DetailGraphActivity">
 
 
-    <com.example.paulc.twittersentimentanalysis.CircleView
+    <com.hhn.paulc.twittersentimentanalysis.CircleView
         android:id="@+id/emotionpercent"
         android:layout_width="161dp"
         android:layout_height="161dp"

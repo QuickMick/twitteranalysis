@@ -6,7 +6,7 @@
 
     android:orientation="vertical"
     android:background="@color/colorBackground"
-    tools:context="com.example.paulc.twittersentimentanalysis.ImprintActivity">
+    tools:context="com.hhn.paulc.twittersentimentanalysis.ImprintActivity">
 
     <TextView
         android:layout_width="match_parent"

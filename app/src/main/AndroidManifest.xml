@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.paulc.twittersentimentanalysis">
+    package="com.hhn.paulc.twittersentimentanalysis">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -13,36 +13,36 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Emotion and Sentiment Twitter-Analyzer"
+        android:label="Tweet Analyzer"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.hhn.paulc.twittersentimentanalysis.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Settings" android:screenOrientation="portrait" />
-        <activity android:name=".NewAnalysis" />
+        <activity android:name="com.hhn.paulc.twittersentimentanalysis.Settings" android:screenOrientation="portrait" />
+        <activity android:name="com.hhn.paulc.twittersentimentanalysis.NewAnalysis" />
 
-        <service android:name="com.example.mick.service.ForegroundService" />
+        <service android:name="com.hhn.mick.service.ForegroundService" />
 
-        <activity android:name="com.example.graphs.LineGraphActivity" android:screenOrientation="landscape" android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.hhn.graphs.LineGraphActivity" android:screenOrientation="landscape" android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.graphs.BarChartActivity"
+            android:name="com.hhn.graphs.BarChartActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="landscape"
             android:launchMode="singleTask" />
-        <activity android:name="com.example.graphs.DetailGraphActivity"/>
-        <activity android:name=".HistoryActivity"/>
-        <activity android:name="com.example.graphs.HistoryTimelineActivity" android:screenOrientation="landscape" android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".HelpActivity" />
-        <activity android:name=".TweetHistoryActivity" />
+        <activity android:name="com.hhn.graphs.DetailGraphActivity"/>
+        <activity android:name="com.hhn.paulc.twittersentimentanalysis.HistoryActivity"/>
+        <activity android:name="com.hhn.graphs.HistoryTimelineActivity" android:screenOrientation="landscape" android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.hhn.paulc.twittersentimentanalysis.HelpActivity" />
+        <activity android:name="com.hhn.paulc.twittersentimentanalysis.TweetHistoryActivity" />
 
         <receiver
-            android:name="com.example.mick.service.AnalysisSchedulTask"
+            android:name="com.hhn.mick.service.AnalysisSchedulTask"
             android:exported="true">
             <intent-filter>
                 <action android:name="ANALYSIS_SCHEDULE_TASK" />
@@ -50,7 +50,7 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".TaskScheduledActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.hhn.paulc.twittersentimentanalysis.TaskScheduledActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

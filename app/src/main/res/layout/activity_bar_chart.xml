@@ -8,7 +8,7 @@
     android:padding="10dp"
 
     android:background="@color/colorBackground"
-    tools:context="com.example.graphs.BarChartActivity">
+    tools:context="com.hhn.graphs.BarChartActivity">
 
     <LinearLayout
         android:orientation="horizontal"

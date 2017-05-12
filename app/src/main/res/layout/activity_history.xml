@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:background="@color/colorBackground"
-    tools:context="com.example.paulc.twittersentimentanalysis.HistoryActivity">
+    tools:context="com.hhn.paulc.twittersentimentanalysis.HistoryActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"

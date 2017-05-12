@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
 
-        android:text="Emotion and Sentiment Twitter-Analyzer"
+        android:text="Tweet Analyzer"
         android:gravity="center"
 
         android:textAppearance="@style/H1"

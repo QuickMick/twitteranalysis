@@ -59,11 +59,6 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         validatebtn.setOnClickListener(this);
         progressDialog = new ProgressDialog(this);
 
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
 
         SharedPreferences sharedPref = this.getSharedPreferences(Settings.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
 
@@ -84,6 +79,14 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
         accesstokentxt.setText(AnalizationHelper.INSTANCE().getAccessToken());
         accesstokentxtscrt.setText(AnalizationHelper.INSTANCE().getAccessTokenSecret());
         foldertext.setText(AnalizationHelper.INSTANCE().getAnalyzation_folder());
+
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+
     }
 
 

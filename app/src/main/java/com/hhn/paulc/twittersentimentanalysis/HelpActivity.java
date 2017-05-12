@@ -1,10 +1,17 @@
 package com.hhn.paulc.twittersentimentanalysis;
 
+import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.http.SslError;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
@@ -70,15 +77,73 @@ public class HelpActivity extends AppCompatActivity {
 
         webView.loadData(html, "text/html; charset=utf-8", "utf-8");
 
-        webView.setWebViewClient(new WebViewClient(){
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url != null /* && (url.startsWith("http://") || url.startsWith("https://"))*/) {
-                    view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-                    return true;
-                } else {
-                    return false;
-                }
+        webView.setWebViewClient(new SSLTolerentWebViewClient());
+    }
+
+    private class SSLTolerentWebViewClient extends WebViewClient {
+
+        @SuppressWarnings("deprecation")
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (url != null /* && (url.startsWith("http://") || url.startsWith("https://"))*/) {
+                view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                return true;
+            } else {
+                return false;
             }
-        });
+        }
+
+        @TargetApi(Build.VERSION_CODES.N)
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest wrr) {
+            Uri url = wrr.getUrl();
+            if (url != null /* && (url.startsWith("http://") || url.startsWith("https://"))*/) {
+                view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, url));
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(HelpActivity.this);
+            AlertDialog alertDialog = builder.create();
+            String message = "SSL Certificate error.";
+            switch (error.getPrimaryError()) {
+                case SslError.SSL_UNTRUSTED:
+                    message = "The certificate authority is not trusted.";
+                    break;
+                case SslError.SSL_EXPIRED:
+                    message = "The certificate has expired.";
+                    break;
+                case SslError.SSL_IDMISMATCH:
+                    message = "The certificate Hostname mismatch.";
+                    break;
+                case SslError.SSL_NOTYETVALID:
+                    message = "The certificate is not yet valid.";
+                    break;
+            }
+
+            message += " Do you want to continue anyway?";
+            alertDialog.setTitle("SSL Certificate Error");
+            alertDialog.setMessage(message);
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Ignore SSL certificate errors
+                    handler.proceed();
+                }
+            });
+
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    handler.cancel();
+                }
+            });
+            alertDialog.show();
+        }
     }
 }

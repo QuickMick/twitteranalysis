@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.PowerManager;
+//import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -213,7 +213,7 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
         }
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final String packageName = this.getPackageName();
-            PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+          /*  PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
             if (!pm.isIgnoringBatteryOptimizations(packageName)) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -242,9 +242,9 @@ public class NewAnalysis extends AppCompatActivity implements View.OnClickListen
                     }
                 });
                 builder.create().show();
-            }else{
+            }else{*/
                 NewAnalysis.this.scheduleTaskX(keywords,prohibitedKeywords);
-            }
+         //   }
         }else{
             NewAnalysis.this.scheduleTaskX(keywords,prohibitedKeywords);
         }

@@ -20,6 +20,8 @@ public class HelpActivity extends AppCompatActivity {
 
     public static final String VIEW_MODE = "HelpActivity.VIEW_MODE";
 
+    public static final String THANKS_TO ="Oliver Ruoff for helping in relation to android related questions.";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

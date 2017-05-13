@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAppearance="@style/H1"
-        android:text="Timeline of stored Analysis"/>
+        android:text="Timeline of stored Analyses"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
